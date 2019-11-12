@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>
+  Convidar Usuário
+</h2>
+<mat-dialog-content class="border-top border-bottom">
+  <div class="container-fluid px-0 py-3">
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group col-6 p-0">
+          <label>Tipo do Usuário *</label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-users-cog"></i>
+              </span>
+            </div>
+            <select class="custom-select" disabled>
+              <option value="1">Contador</option>
+              <option value="2">Cliente</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>E-mail *</label>
+          <div class="input-group w-100">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-envelope"></i>
+              </span>
+              <!-- <button class="btn bg-light border fa fa-envelope">
+            </button> -->
+            </div>
+            <input class="form-control" [(ngModel)]="email" placeholder="exemplo@dominio.com">
+          </div>
+          <small class="form-text text-muted">
+            E-mail para envio do convite. <span class="text-dark">(Este também será o e-mail de login).</span>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <div class="container-fluid px-0 py-3 justify-content-between">
+    <button mat-button mat-dialog-close color="warn" class="mx-2">Cancelar</button>
+    <button class="btn btn-primary text-light mx-2" [mat-dialog-close]="true" cdkFocusInitial>Convidar</button>
+  </div>
+
+</mat-dialog-actions>
