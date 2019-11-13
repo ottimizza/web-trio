@@ -6,6 +6,8 @@ import { AuthSession } from '@shared/models/AuthSession';
 import { finalize } from 'rxjs/operators';
 import { StorageService } from '@app/services/storage.service';
 
+import { environment } from '@env';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,26 +22,6 @@ export class AuthenticationService {
   public redirectURI = `${window.location.origin}/auth/callback`;
 
   constructor(@Inject(DOCUMENT) private document: Document, private http: HttpClient, public storageService: StorageService) { }
-
-  public ENV = 0;
-
-  public environments = {
-    0: {
-      url: 'https://development-oauth-server.herokuapp.com',
-      clientId: '76179baad962d1b8ce4d',
-      redirectURI: `${window.location.origin}/auth/callback`
-    },
-    2: {
-      url: 'https://staging-oauth-server.herokuapp.com',
-      clientId: 'f749f0eed32f9ddb8138',
-      redirectURI: `${window.location.origin}/login`
-    },
-    3: {
-      url: 'https://ottimizza-oauth-server.herokuapp.com',
-      clientId: '',
-      redirectURI: `${window.location.origin}/login`
-    }
-  };
 
   public store(authSession: AuthSession): Promise<{}> {
     return new Promise<boolean>((resolve, reject) => {
@@ -69,7 +51,7 @@ export class AuthenticationService {
   public async storeUserInfo(): Promise<void> {
     const headers = this.getAuthorizationHeaders();
     return new Promise<void>((resolve, reject) => {
-      return this.http.get(`${this.environments[this.ENV].url}/oauth/userinfo`, { headers })
+      return this.http.get(`${environment.oauthBaseUrl}/oauth/userinfo`, { headers })
         .pipe(
           finalize(() => {
             resolve();
@@ -83,7 +65,7 @@ export class AuthenticationService {
   public async storeTokenInfo(): Promise<void> {
     const headers = this.getAuthorizationHeaders();
     return new Promise<void>((resolve, reject) => {
-      return this.http.get(`${this.environments[this.ENV].url}/oauth/tokeninfo`, { headers })
+      return this.http.get(`${environment.oauthBaseUrl}/oauth/tokeninfo`, { headers })
         .pipe(
           finalize(() => {
             resolve();
@@ -104,25 +86,25 @@ export class AuthenticationService {
 
   public authorize(responseType: string = 'code'): void {
     const that = this;
-    const baseUrl = `${that.environments[this.ENV].url}/oauth/authorize`;
-    const clientId = `${that.environments[this.ENV].clientId}`;
+    const baseUrl = `${environment.oauthBaseUrl}/oauth/authorize`;
+    const clientId = `${environment.oauthClientId}`;
     const url = `${baseUrl}?response_type=${responseType}&prompt=login&client_id=${clientId}&redirect_uri=${this.redirectURI}`;
     this.document.location.href = url;
   }
 
   public exchange(code: string) {
-    const url = `${this.environments[this.ENV].url}/auth/callback?code=${code}&redirect_uri=${this.redirectURI}`;
+    const url = `${environment.oauthBaseUrl}/auth/callback?code=${code}&redirect_uri=${this.redirectURI}`;
     return this.http.post(url, {}, {});
   }
 
   public refresh(refreshToken: string) {
-    const clientId = `${this.environments[this.ENV].clientId}`;
-    const url = `${this.environments[this.ENV].url}/auth/refresh?refresh_token=${refreshToken}&client_id=${clientId}`;
+    const clientId = `${environment.oauthClientId}`;
+    const url = `${environment.oauthBaseUrl}/auth/refresh?refresh_token=${refreshToken}&client_id=${clientId}`;
     return this.http.post(url, {}, {});
   }
 
   public logout() {
-    const url = `${this.environments[this.ENV].url}/oauth/revoke_token`;
+    const url = `${environment.oauthBaseUrl}/oauth/revoke_token`;
     const headers = this.getAuthorizationHeaders();
     return this.http.delete(url, { headers });
   }
