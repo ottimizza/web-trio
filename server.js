@@ -21,7 +21,7 @@ require('dotenv').config();
 function getEnvironmentVariable(key, _default = '') { return process.env[key] || _default; }
 
 function createEnvironementFile() {
-	return `
+  return `
   export const environment = {
     production: true,
     oauthBaseUrl: '${getEnvironmentVariable('OAUTH2_BASE_URL')}',
@@ -34,10 +34,16 @@ function createEnvironementFile() {
 const environment = getEnvironmentVariable('ENVIRONMENT');
 const environmentFile = createEnvironementFile();
 
+console.log(`
+  ENVIRONMENT -> ${environment}
+  ---
+  ${environmentFile}
+`);
+
 fs.writeFile(`./src/environments/environment.prod.ts`, environmentFile, (err) => {
-	if (err) {
-		console.log(err);
-	}
+  if (err) {
+    console.log(err);
+  }
 });
 
 app.use(express.static(__dirname + '/dist/ng-accounts'));
@@ -50,5 +56,5 @@ app.listen(process.env.PORT || 4200);
 
 // redirect traffic to index.html
 app.get('*', function (req, res) {
-	res.sendFile(path.join(__dirname + '/dist/ng-accounts/index.html'));
+  res.sendFile(path.join(__dirname + '/dist/ng-accounts/index.html'));
 });
