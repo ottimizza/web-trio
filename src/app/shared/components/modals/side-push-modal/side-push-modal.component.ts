@@ -8,7 +8,7 @@ import { Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core'
 })
 export class SidePushModalComponent implements OnInit {
 
-  @ViewChild('overlay')
+  @ViewChild('overlay', { static: true })
   public overlay: ElementRef;
 
   constructor(private el: ElementRef) { }
