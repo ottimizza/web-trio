@@ -1,0 +1,81 @@
+<h2 mat-dialog-title>
+  Criar Empresa
+</h2>
+<mat-dialog-content class="border-top border-bottom">
+  <div class="container-fluid px-0 py-3">
+    <div class="row">
+      <div class="container-fluid pb-0">
+        <div *ngIf="currentUser.type === 0" class="form-group col-6 p-0">
+          <label>Tipo da Empresa *</label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fa fa-users-cog"></i>
+              </span>
+            </div>
+            <select class="custom-select" [(ngModel)]="type" required>
+              <option value="1" selected>Contador</option>
+              <option value="2">Cliente</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group col-sm-12 col-md-6 col-lg-4 p-0">
+          <label>CPF ou CNPJ *</label>
+          <div class="input-group w-100">
+            <input class="form-control" [(ngModel)]="organization.cnpj" placeholder="99.999.999/0001-99" required>
+          </div>
+          <small class="d-none form-text text-muted">
+            E-mail para envio do convite. <span class="text-dark">(Este também será o e-mail de login).</span>
+          </small>
+        </div>
+        <div class="row align-items-end">
+          <div class="form-group col-sm-12 col-md-8">
+            <label>Nome *</label>
+            <div class="input-group w-100">
+              <input class="form-control" [(ngModel)]="organization.name" placeholder="Nome da Empresa" required>
+            </div>
+            <small class="d-none form-text text-muted">
+              E-mail para envio do convite. <span class="text-dark">(Este também será o e-mail de login).</span>
+            </small>
+          </div>
+          <div class="form-group col-sm-12 col-md-4">
+            <label>Código no Sistema Contábil</label>
+            <div class="input-group w-100">
+              <input class="form-control" [(ngModel)]="organization.codigoERP" placeholder="999" required>
+            </div>
+            <small class="d-none form-text text-muted">
+              E-mail para envio do convite. <span class="text-dark">(Este também será o e-mail de login).</span>
+            </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <div *ngIf="alertFeedback.visible" [class]="alertFeedback.classes" role="alert">
+            <strong>{{alertFeedback.title}}</strong> {{alertFeedback.message}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <div class="container-fluid px-0 py-3 ">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-10 col-lg-6">
+        <div class="container-fluid p-0">
+          <div class="row">
+            <div class="col-6 px-1">
+              <button class="btn btn-light text-danger w-100 m-0" mat-dialog-close>
+                <i aria-hidden="true" class="fad fa-times-square"></i>&nbsp;&nbsp;<span>Cancelar</span>
+              </button>
+            </div>
+            <div class="col-6 px-1">
+              <button class="btn btn-raised btn-primary w-100 m-0" (click)="create()">
+                <i aria-hidden="true" class="fad fa-save"></i>&nbsp;&nbsp;<span>Salvar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

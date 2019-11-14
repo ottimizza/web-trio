@@ -10,6 +10,7 @@ const zlib = require('zlib');
 
 
 
+
 const fs = require('fs');
 // This is good for local dev environments, when it's better to
 // store a projects environment variables in a .gitignore'd file
@@ -24,6 +25,11 @@ function createEnvironementFile() {
   oauthClientId: '${getEnvironmentVariable('OAUTH2_CLIENT_ID')}'
 };`;
 }
+
+
+const PACKAGE_NAME = getEnvironmentVariable('npm_package_name');
+
+console.log(PACKAGE_NAME);
 
 const environment = getEnvironmentVariable('ENVIRONMENT');
 const environmentFile = createEnvironementFile();
@@ -49,6 +55,8 @@ app.use(compression(zlib.Z_BEST_COMPRESSION));
 app.listen(process.env.PORT || 4200);
 
 // redirect traffic to index.html
+
 app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname + '/dist/ng-accounts/index.html'));
+  const index = __dirname + '/dist/ng-accounts/index.html';
+  res.sendFile(path.join(index));
 });

@@ -12,6 +12,7 @@ export class Organization {
   type: number;
 
   name: string;
+  codigoERP: string;
   avatar: string;
   email: string;
 

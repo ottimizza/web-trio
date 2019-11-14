@@ -4,7 +4,8 @@
     <div class="container">
       <ul class="nav nav-pills flex-row-reverse">
         <li class="nav-item notification-sidebar-toggle">
-          <button class="btn btn-primary nav-link py-1 px-2 active">
+          <button *ngIf="canCreateOrganization()" class="btn btn-primary nav-link py-1 px-2 active"
+            (click)="openDialog()">
             <i aria-hidden="true" class="fad fa-plus-square"></i>
             <span class="ml-2"> Nova Empresa </span>
           </button>

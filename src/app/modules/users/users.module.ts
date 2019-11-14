@@ -33,7 +33,6 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     CommonModule,
     // SharedModule,
-    MatButtonModule,
     MatFormFieldModule,
     MatMenuModule,
     MatIconModule,

@@ -3,7 +3,6 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticationService } from '@app/authentication/authentication.service';
 import { Observable } from 'rxjs';
-import { User } from '@shared/models/User';
 import { GenericPageableResponse } from '@shared/models/GenericPageableResponse';
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { Organization } from '@shared/models/Organization';
@@ -26,6 +25,12 @@ export class OrganizationService {
     const url = `${environment.oauthBaseUrl}/api/v1/organizations/${id}`;
     const headers = this.authorizationService.getAuthorizationHeaders();
     return this.http.get<GenericResponse<Organization>>(url, { headers });
+  }
+
+  public create(organization: Organization): Observable<GenericResponse<Organization>> {
+    const url = `${environment.oauthBaseUrl}/api/v1/organizations`;
+    const headers = this.authorizationService.getAuthorizationHeaders();
+    return this.http.post<GenericResponse<Organization>>(url, organization, { headers });
   }
 
 }

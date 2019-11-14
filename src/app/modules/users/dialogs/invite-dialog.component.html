@@ -13,8 +13,8 @@
                 <i class="fa fa-users-cog"></i>
               </span>
             </div>
-            <select class="custom-select" disabled>
-              <option value="1">Contador</option>
+            <select class="custom-select" [(ngModel)]="type" required>
+              <option value="1" selected>Contador</option>
               <option value="2">Cliente</option>
             </select>
           </div>
@@ -29,11 +29,16 @@
               <!-- <button class="btn bg-light border fa fa-envelope">
             </button> -->
             </div>
-            <input class="form-control" [(ngModel)]="email" placeholder="exemplo@dominio.com">
+            <input #emailInput class="form-control" [(ngModel)]="email" placeholder="exemplo@dominio.com" required>
           </div>
           <small class="form-text text-muted">
             E-mail para envio do convite. <span class="text-dark">(Este também será o e-mail de login).</span>
           </small>
+        </div>
+        <div class="form-group">
+          <div *ngIf="alertFeedback.visible" [class]="alertFeedback.classes" role="alert">
+            <strong>{{alertFeedback.title}}</strong> {{alertFeedback.message}}
+          </div>
         </div>
       </div>
     </div>
@@ -41,8 +46,8 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <div class="container-fluid px-0 py-3 justify-content-between">
-    <button mat-button mat-dialog-close color="warn" class="mx-2">Cancelar</button>
-    <button class="btn btn-primary text-light mx-2" [mat-dialog-close]="true" cdkFocusInitial>Convidar</button>
+    <!-- cdkFocusInitial -->
+    <button class="btn btn-light text-danger mx-2" mat-dialog-close>Cancelar</button>
+    <button class="btn btn-primary text-light mx-2" (click)="invite()">Convidar</button>
   </div>
-
 </mat-dialog-actions>
