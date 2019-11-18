@@ -33,4 +33,10 @@ export class OrganizationService {
     return this.http.post<GenericResponse<Organization>>(url, organization, { headers });
   }
 
+  public patch(id: number, organization: Organization): Observable<GenericResponse<Organization>> {
+    const url = `${environment.oauthBaseUrl}/api/v1/organizations/${id}`;
+    const headers = this.authorizationService.getAuthorizationHeaders();
+    return this.http.patch<GenericResponse<Organization>>(url, organization, { headers });
+  }
+
 }

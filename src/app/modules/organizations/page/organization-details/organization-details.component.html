@@ -1,0 +1,95 @@
+<div class="page-wrapper bg-white">
+  <app-breadcrumb [append]="breadcrumb"></app-breadcrumb>
+  <div class="container pt-4">
+    <div class="row">
+      <div class="col">
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-body pt-4">
+          <div *ngIf="organization.type === 1" class="form-group row pb-2">
+            <div class="col-md-3">
+              <h5 class="m-0"><i class="ft-user"></i> Avatar</h5>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-6 text-center">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12">
+                    <a class="position-relative p-0">
+                      <img [src]="organization.avatar || './assets/images/Portrait_Placeholder.png'" width="150"
+                        class="img-thumbnail rounded-circle" [alt]="organization.name"
+                        onError="this.src='./assets/images/Portrait_Placeholder.png';">
+                    </a>
+                  </div>
+                </div>
+                <div class="d-none row justify-content-center mt-2"><button type="button" data-toggle="modal"
+                    data-target="#modal-image-cropper" class="btn btn-link"><i aria-hidden="true"
+                      class="fad fa-pencil-alt"></i><span>&nbsp;&nbsp;Editar</span></button> <button type="button"
+                    class="btn btn-link"><i aria-hidden="true"
+                      class="fas fa-times"></i><span>&nbsp;&nbsp;Remover</span></button></div>
+              </div>
+            </div>
+          </div>
+          <!-- ************************************************************************************************** -->
+          <!-- **********************              Informações Básicas                *************************** -->
+          <!-- ************************************************************************************************** -->
+          <div class="form-group row">
+            <div class="col-md-3">
+              <h5 class="m-0"><i class="ft-user"></i> Informações Básicas</h5>
+            </div>
+            <label for="name" class="col-md-3 label-control text-right"><span class="align-middle">Nome:</span></label>
+            <div class="input-group col-md-6">
+              <input id="name" class="form-control" [(ngModel)]="organization.name" [disabled]="!isEditing('name')">
+              <div *ngIf="canEditOrganization()" class=" input-group-append">
+                <button class="btn border fa fa-pencil" *ngIf="!isEditing('name')" (click)="edit('name')">
+                </button>
+                <button class="btn border fa fa-save text-success" *ngIf="isEditing('name')"
+                  (click)="patch(organization.id, {'name': organization.name})">
+                </button>
+                <button class="btn border fa fa-times text-danger" *ngIf="isEditing('name')" (click)="edit()">
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"> </div>
+            <label for="cnpj" class="col-md-3 label-control text-right">CNPJ: </label>
+            <div class="input-group col-md-6">
+              <input id="cnpj" class="form-control" [(ngModel)]="organization.cnpj" [disabled]="!isEditing('cnpj')">
+              <div *ngIf="canEditOrganization()" class=" input-group-append">
+                <button class="btn border fa fa-pencil" *ngIf="!isEditing('cnpj')" (click)="edit('cnpj')">
+                </button>
+                <button class="btn border fa fa-save text-success" *ngIf="isEditing('cnpj')"
+                  (click)="patch(organization.id, {'cnpj': organization.cnpj})">
+                </button>
+                <button class="btn border fa fa-times text-danger" *ngIf="isEditing('cnpj')" (click)="edit()">
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"> </div>
+            <label for="codigoERP" class="col-md-3 label-control text-right">Código ERP: </label>
+            <div class="input-group col-md-6">
+              <input id="codigoERP" class="form-control" [(ngModel)]="organization.codigoERP"
+                [disabled]="!isEditing('codigoERP')">
+              <div *ngIf="canEditOrganization()" class=" input-group-append">
+                <button class="btn border fa fa-pencil" *ngIf="!isEditing('codigoERP')" (click)="edit('codigoERP')">
+                </button>
+                <button class="btn border fa fa-save text-success" *ngIf="isEditing('codigoERP')"
+                  (click)="patch(organization.id, {'codigoERP': organization.codigoERP})">
+                </button>
+                <button class="btn border fa fa-times text-danger" *ngIf="isEditing('codigoERP')" (click)="edit()">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer d-none"> © 2017 Material Pro Admin by wrappixel.com </footer>
+</div>

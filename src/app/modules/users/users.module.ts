@@ -22,6 +22,8 @@ import { ModalModule } from '@shared/components/modals/modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { InviteDialogComponent } from './dialogs/invite-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,13 @@ import { MatButtonModule } from '@angular/material/button';
     MatMenuModule,
     MatIconModule,
     MatInputModule,
+
+    // Table
     MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+
+    // Modals
     MatDialogModule,
 
     AvatarModule,

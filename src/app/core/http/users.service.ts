@@ -15,8 +15,9 @@ export class UserService {
 
   constructor(private http: HttpClient, private authorizationService: AuthenticationService) { }
 
-  public fetch(filters = {}, pageIndex = 0, pageSize = 10): Observable<GenericPageableResponse<User>> {
-    const url = `${environment.oauthBaseUrl}/api/v1/users`;
+  public fetch(searchCriteria: any): Observable<GenericPageableResponse<User>> {
+    const params = this.encode(searchCriteria);
+    const url = `${environment.oauthBaseUrl}/api/v1/users?${params}`;
     const headers = this.authorizationService.getAuthorizationHeaders();
     return this.http.get<GenericPageableResponse<User>>(url, { headers });
   }
@@ -31,6 +32,12 @@ export class UserService {
     const url = `${environment.oauthBaseUrl}/api/v1/users/${id}`;
     const headers = this.authorizationService.getAuthorizationHeaders();
     return this.http.patch<GenericResponse<User>>(url, data, { headers });
+  }
+
+  encode(params: any): string {
+    return Object.keys(params).map((key) => {
+      return [key, params[key]].map(encodeURIComponent).join('=');
+    }).join('&');
   }
 
 }

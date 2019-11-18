@@ -3,8 +3,15 @@ import { User } from '@shared/models/User';
 import { OrganizationService } from '@app/http/organizations.service';
 import { Organization } from '@shared/models/Organization';
 import { GenericResponse } from '@shared/models/GenericResponse';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
+
+interface BreadCrumb {
+  label: string;
+  params?: Params;
+  url: string;
+}
 
 @Component({
   selector: 'app-organization-details',
@@ -15,19 +22,49 @@ export class OrganizationDetaisComponent implements OnInit {
 
   public currentUser: User;
 
-  public organization: Organization;
+  public organization: Organization = new Organization();
+
+  public editingId: string;
+
+  public breadcrumb: BreadCrumb;
 
   constructor(private activatedRoute: ActivatedRoute, public router: Router, public organizationService: OrganizationService) {
   }
 
+  public edit = (id: string = null) => this.editingId = id;
+  public isEditing = (id: string) => this.editingId === id;
+
   public fetchById(id: number) {
-    this.organizationService.fetchById(id)
-      .subscribe((response: GenericResponse<Organization>) => {
-        this.organization = response.record;
-      });
+    this.organizationService.fetchById(id).pipe(
+      finalize(() => {
+        this.breadcrumb = {
+          label: `${this.organization.name}`,
+          params: {},
+          url: this.router.url
+        };
+        this.edit();
+      })
+    ).subscribe((response: GenericResponse<Organization>) => {
+      this.organization = response.record;
+    });
   }
 
-  canCreateOrganization = () => [User.Type.ADMINISTRATOR, User.Type.ACCOUNTANT].includes(this.currentUser.type);
+  public patch(id: number, data: any): void {
+    this.organizationService.patch(id, data).pipe(
+      finalize(() => {
+        this.breadcrumb = {
+          label: `${this.organization.name}`,
+          params: {},
+          url: this.router.url
+        };
+        this.edit();
+      })
+    ).subscribe((response: GenericResponse<Organization>) => {
+      this.organization = response.record;
+    });
+  }
+
+  canEditOrganization = () => [User.Type.ADMINISTRATOR, User.Type.ACCOUNTANT].includes(this.currentUser.type);
 
   public ngOnInit() {
     this.currentUser = User.fromLocalStorage();
