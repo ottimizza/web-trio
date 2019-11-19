@@ -44,7 +44,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openDialog(): void {
+  openDialog(): void { 
     const dialogRef = this.dialog.open(InviteDialogComponent, {
       data: { name: '' }
     });
