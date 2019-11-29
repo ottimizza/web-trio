@@ -8,14 +8,13 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'ng-accounts';
 
-  public updateAvailable: boolean;
+  public updateAvailable = false;
 
   constructor(@Inject(DOCUMENT) public document: Document, private events: RxEvent) {
   }
 
-  subscribeToSidebarToggleEvents() {
+  public subscribeToSidebarToggleEvents() {
     this.events.subscribe('sidebar::toggle', () => {
       const body = this.document.getElementsByTagName('body')[0];
 
