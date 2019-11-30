@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve --host 0.0.0.0 --port 4200",
+    "dev-build": "npm run config -- && ng build",
     "prod-build": "npm run config -- && ng build --prod --aot",
     "build": "ng build --prod --aot",
     "config": "node ./config-env.js",

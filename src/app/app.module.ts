@@ -21,13 +21,14 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpErrorInterceptor, ErrorInterceptorProvider } from '@app/interceptor/http.interceptor';
 import { NavbarLayoutModule } from './layout/navbar-layout/navbar-layout.module';
+import { DragDropDirective } from '@shared/directives/drag-drop.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthLayoutComponent,
     ContentLayoutComponent,
-    SidebarLayoutComponent,
+    SidebarLayoutComponent
     // NavbarLayoutComponent
   ],
   imports: [
