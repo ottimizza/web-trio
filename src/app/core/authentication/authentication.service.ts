@@ -113,6 +113,10 @@ export class AuthenticationService {
     return new HttpHeaders().set('Authorization', `Bearer ${this.getAccessToken().trim()}`);
   }
 
+  public getNoBearerAuthorizationHeaders(): HttpHeaders {
+    return new HttpHeaders().set('Authorization', `${this.getAccessToken().trim()}`);
+  }
+
   public getAccessToken(): string {
     return this.getAuthSession().authenticated.accessToken || null;
   }

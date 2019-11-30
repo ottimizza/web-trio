@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>
+  Alterar Foto de Perfil
+</h2>
+<mat-dialog-content class="border-top border-bottom">
+  <div class="container-fluid px-0 py-3">
+    <div class="row">
+      <div class="col-12">
+        <!-- *ngIf="!showCropper" -->
+        <div  class="drag-box text-center px-5 py-4 mb-3" (click)="fileInput.click()"
+          appDragDrop (fileDropped)="fileChangeEvent($event)">
+          <input hidden type="file" #fileInput (change)="fileChangeEvent($event)">
+          <h4><strong class="cursor-pointer">Clique</strong> ou arraste sua foto para cá.</h4>
+        </div>
+        <!-- <input type="file" (change)="fileChangeEvent($event)" /> -->
+        <div class="d-none container-fluid align-content-between">
+          <button class="btn btn-light p-2 mx-1" (click)="rotateLeft()">
+            <i class="fas fa-undo" data-fa-transform=""></i>
+          </button>
+          <button class=" btn btn-light p-2 mx-1" (click)="flipHorizontal()">
+            <span class="fa-layers fa-lg fa-fw">
+              <i class="fas fa-caret-right" data-fa-transform="left-6"></i>
+              <i class="fas fa-horizontal-rule" data-fa-transform="rotate--90"></i>
+              <i class="fas fa-caret-left" data-fa-transform="right-6"></i>
+            </span>
+          </button>
+          <button class="btn btn-light p-2 mx-1" (click)="flipVertical()">
+            <span class="fa-layers fa-lg fa-fw">
+              <i class="fas fa-caret-down" data-fa-transform="up-6"></i>
+              <i class="fas fa-horizontal-rule" data-fa-transform=""></i>
+              <i class="fas fa-caret-up" data-fa-transform="down-5"></i>
+            </span>
+          </button>
+          <button class="btn btn-light p-2 mx-1" (click)="rotateRight()">
+            <i class="fas fa-undo" data-fa-transform="flip-h"></i>
+          </button>
+        </div>
+        <div>
+          <image-cropper appDragDrop (onFileDropped)="fileChangeEvent($event)" [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true" [aspectRatio]="1 / 1" [resizeToWidth]="450" [cropperMinWidth]="128"
+            [onlyScaleDown]="true" [roundCropper]="true" format="jpg " outputType="base64"
+            (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()" [style.display]="showCropper ? null : 'none'" [alignImage]="'left'">
+          </image-cropper>
+        </div>
+        <!-- <img [src]="croppedImage" /> -->
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <div class="container-fluid px-0 py-3 justify-content-between">
+    <!-- cdkFocusInitial -->
+    <button class="btn btn-light text-danger mx-2" mat-dialog-close>Cancelar</button>
+    <button class="btn btn-primary text-light mx-2" [disabled]="croppedImage == ''" (click)="crop()">Salvar</button>
+  </div>
+</mat-dialog-actions>

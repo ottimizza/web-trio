@@ -24,12 +24,17 @@ import { InviteDialogComponent } from './dialogs/invite-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { ImageCropperModule } from '@shared/components/image-cropper/image-cropper.module';
+import { AvatarDialogComponent } from './dialogs/avatar-dialog/avatar-dialog.component';
+import { DragDropDirective } from '@shared/directives/drag-drop.directive';
 
 @NgModule({
   declarations: [
     UserListComponent,
     UserDetailsComponent,
-    InviteDialogComponent
+    AvatarDialogComponent,
+    InviteDialogComponent,
+    DragDropDirective
   ],
   imports: [
     FormsModule,
@@ -51,11 +56,13 @@ import { MatSortModule } from '@angular/material/sort';
     AvatarModule,
     BreadcrumbModule,
     ModalModule,
+    ImageCropperModule,
 
     UsersRoutingModule
   ],
   exports: [],
   entryComponents: [
+    AvatarDialogComponent,
     InviteDialogComponent
   ]
 })

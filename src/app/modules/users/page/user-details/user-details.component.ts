@@ -6,6 +6,11 @@ import { GenericPageableResponse } from '@shared/models/GenericPageableResponse'
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { AvatarDialogComponent } from '@modules/users/dialogs/avatar-dialog/avatar-dialog.component';
+import { FileStorageService } from '@app/http/file-storage.service';
+import { ImageUtils } from '@shared/utils/image.utils';
+import { ImageCompressorService } from '@app/services/image-compression.service';
 
 
 interface BreadCrumb {
@@ -32,7 +37,34 @@ export class UserDetailsComponent implements OnInit {
   public canEdit: boolean;
 
 
-  constructor(private activatedRoute: ActivatedRoute, public router: Router, public userService: UserService) {
+  constructor(private activatedRoute: ActivatedRoute,
+    public router: Router,
+    public userService: UserService,
+    public fileStorageService: FileStorageService,
+    public imageCompressorService: ImageCompressorService,
+    public dialog: MatDialog) {
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AvatarDialogComponent, {
+      data: { name: '' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.croppedImage) {
+        this.imageCompressorService.compress(ImageUtils.dataURLtoFile(result.croppedImage, result.croppedName))
+          .subscribe((compressed) => {
+            this.fileStorageService.store(compressed)
+              .subscribe((response) => {
+                if (response.record && response.record.id) {
+                  this.patch(this.user.id, {
+                    avatar: this.fileStorageService.getResourceURL(response.record.id)
+                  });
+                }
+              });
+          });
+      }
+    });
   }
 
   public edit = (id: string = null) => this.editingId = id;
