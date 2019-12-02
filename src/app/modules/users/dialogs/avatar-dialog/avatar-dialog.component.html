@@ -36,8 +36,8 @@
         </div>
         <div>
           <image-cropper appDragDrop (onFileDropped)="fileChangeEvent($event)" [imageChangedEvent]="imageChangedEvent"
-            [maintainAspectRatio]="true" [aspectRatio]="1 / 1" [resizeToWidth]="450" [cropperMinWidth]="128"
-            [onlyScaleDown]="true" [roundCropper]="true" format="jpg " outputType="base64"
+            [maintainAspectRatio]="true" [aspectRatio]="4 / 1" [resizeToWidth]="450" [cropperMinWidth]="128"
+            [onlyScaleDown]="true" [roundCropper]="false" format="jpg " outputType="base64"
             (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
             (loadImageFailed)="loadImageFailed()" [style.display]="showCropper ? null : 'none'" [alignImage]="'left'">
           </image-cropper>

@@ -1,0 +1,62 @@
+<div class="row pt-4 pb-2">
+  <div class="col-12">
+    <form [formGroup]="changePasswordForm" class="form-body">
+      <!-- ************************************************************************************************** -->
+      <!-- **********************              Alteração de Senha                 *************************** -->
+      <!-- ************************************************************************************************** -->
+      <div class="form-group row">
+        <div class="col-md-3">
+          <h5 class="m-0"><i class="ft-user"></i> Alterar Senha</h5>
+        </div>
+        <label for="firstName" class="col-md-3 label-control text-right">
+          <span class="align-middle">Senha Atual:</span></label>
+        <div class="input-group col-md-6">
+          <!-- [(ngModel)]="oldPassword" -->
+          <input formControlName="oldPassword" class="form-control" placeholder="********" type="password"
+            autocomplete="new-password">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3"></div>
+        <label for="firstName" class="col-md-3 label-control text-right">
+          <span class="align-middle">Nova Senha:</span></label>
+        <div class="form-group col-md-6">
+          <div class="input-group">
+            <input class="form-control" formControlName="newPassword" placeholder="********" (keyup.enter)="submit()"
+              [type]="showPassword ? 'text': 'password'" autocomplete="new-password" required>
+            <div class="input-group-append">
+              <button class="btn border" (click)="showPassword = !showPassword">
+                <i class="fa" [ngClass]="{ 'fa-eye': showPassword, 'fa-eye-slash': !showPassword }"></i>
+              </button>
+            </div>
+          </div>
+          <small *ngIf="f.newPassword.invalid && (f.newPassword.dirty || f.newPassword.touched)"
+            class="form-text text-muted ">
+            <span class="text-danger">A nova senha deve ter no mínimo 6 caracteres.</span>
+          </small>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-3"></div>
+        <label for="firstName" class="col-md-3 label-control text-right">
+          <span class="align-middle"></span></label>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-6">
+              <button class="btn btn-light text-danger  shadow-sm w-100">
+                <i class="fad fa-save"></i>
+                <span>&nbsp;&nbsp;Cancelar</span>
+              </button>
+            </div>
+            <div class="col-6">
+              <button class="btn btn-primary shadow-sm w-100" (click)="submit()">
+                <i class="fad fa-save"></i>
+                <span>&nbsp;&nbsp;Salvar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
