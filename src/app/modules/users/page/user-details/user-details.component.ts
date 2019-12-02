@@ -28,14 +28,11 @@ export class UserDetailsComponent implements OnInit {
 
   private currentUser: User;
 
-  public user: User = new User();
-
-  public editingId: string;
-
   public breadcrumb: BreadCrumb;
 
-  public canEdit: boolean;
+  public currentTab: 'general' | 'security' = 'general';
 
+  public user: User = new User();
 
   constructor(private activatedRoute: ActivatedRoute,
     public router: Router,
@@ -45,59 +42,28 @@ export class UserDetailsComponent implements OnInit {
     public dialog: MatDialog) {
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AvatarDialogComponent, {
-      data: { name: '' }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.croppedImage) {
-        this.imageCompressorService.compress(ImageUtils.dataURLtoFile(result.croppedImage, result.croppedName))
-          .subscribe((compressed) => {
-            this.fileStorageService.store(compressed)
-              .subscribe((response) => {
-                if (response.record && response.record.id) {
-                  this.patch(this.user.id, {
-                    avatar: this.fileStorageService.getResourceURL(response.record.id)
-                  });
-                }
-              });
-          });
-      }
-    });
-  }
-
-  public edit = (id: string = null) => this.editingId = id;
-  public isEditing = (id: string) => this.editingId === id;
-
   public fetchById(id: number): void {
     this.userService.fetchById(id).pipe(
       finalize(() => {
-        this.canEdit = this.currentUser.username === this.user.username;
-        this.breadcrumb = {
-          label: `${this.user.firstName} ${this.user.lastName}`,
-          params: {},
-          url: this.router.url
-        };
+        // this.canEdit = this.currentUser.username === this.user.username;
+        this.buildBreadcrumb(this.user);
       })
     ).subscribe((response: GenericResponse<User>) => {
       this.user = response.record;
     });
   }
 
-  public patch(id: number, data: any): void {
-    this.userService.patch(id, data).pipe(
-      finalize(() => {
-        this.breadcrumb = {
-          label: `${this.user.firstName} ${this.user.lastName}`,
-          params: {},
-          url: this.router.url
-        };
-        this.edit();
-      })
-    ).subscribe((response: GenericResponse<User>) => {
-      this.user = response.record;
-    });
+  onUserUpdate(event: any): void {
+    this.user = event;
+    this.buildBreadcrumb(this.user);
+  }
+
+  buildBreadcrumb(user: User) {
+    this.breadcrumb = {
+      label: `${user.firstName} ${user.lastName}`,
+      params: {},
+      url: this.router.url
+    };
   }
 
   ngOnInit() {

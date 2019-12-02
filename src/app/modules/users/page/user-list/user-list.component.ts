@@ -23,6 +23,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   public users: Array<User>;
   public pageInfo: PageInfo = new PageInfo();
+  public sortInfo: any = null;
 
   displayedColumns: string[] = ['avatar', 'fullname', 'username', 'type'];
   dataSource = this.users;
@@ -32,10 +33,11 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   public fetch(pageIndex: number = 0, pageSize: number = 10, sort: Sort = null) {
 
-    let searchCriteria = { pageIndex, pageSize };
     if (sort && sort.active && sort.direction) {
-      searchCriteria = Object.assign(searchCriteria, { 'sort.order': sort.direction, 'sort.attribute': sort.active });
+      this.sortInfo = { 'sort.order': sort.direction, 'sort.attribute': sort.active };
     }
+
+    const searchCriteria = Object.assign({ pageIndex, pageSize }, this.sortInfo);
 
     this.userService.fetch(searchCriteria).subscribe((response: GenericPageableResponse<User>) => {
       this.users = response.records;
@@ -66,6 +68,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   onPageChange(event): void {
     const pageEvent = event;
+    console.log(pageEvent);
     this.fetch(pageEvent.pageIndex, pageEvent.pageSize);
   }
 
