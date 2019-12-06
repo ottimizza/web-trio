@@ -8,12 +8,11 @@ const compression = require('compression');
 
 const zlib = require('zlib');
 
-
-
-
 const fs = require('fs');
+
 // This is good for local dev environments, when it's better to
 // store a projects environment variables in a .gitignore'd file
+
 require('dotenv').config();
 
 function getEnvironmentVariable(key, _default = '') { return process.env[key] || _default; }
@@ -25,25 +24,13 @@ function createEnvironementFile() {
   oauthClientId: '${getEnvironmentVariable('OAUTH2_CLIENT_ID')}'
 };`;
 }
-
-
 const PACKAGE_NAME = getEnvironmentVariable('npm_package_name');
-
 console.log(PACKAGE_NAME);
 
 const environment = getEnvironmentVariable('ENVIRONMENT');
 const environmentFile = createEnvironementFile();
-
-console.log(`
-  ENVIRONMENT -> ${environment}
-  ---
-  ${environmentFile}
-`);
-
 fs.writeFile(`./src/environments/environment.ts`, environmentFile, (err) => {
-  if (err) {
-    console.log(err);
-  }
+  if (err) { console.log(err); }
 });
 
 app.use(express.static(__dirname + '/dist/ng-accounts'));
@@ -51,6 +38,20 @@ app.use(express.static(__dirname + '/dist/ng-accounts'));
 app.disable('etag');
 
 app.use(compression(zlib.Z_BEST_COMPRESSION));
+
+app.use(function (req, res, next) {
+  if (req.secure) {
+    // request was via https, so do no special handling
+    next();
+  } else {
+    if (environment) {
+      // request was via http, so redirect to https
+      res.redirect('https://' + req.headers.host + req.url);
+    } else {
+      next();
+    }
+  }
+});
 
 app.listen(process.env.PORT || 4200);
 
