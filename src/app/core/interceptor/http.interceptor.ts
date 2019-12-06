@@ -63,6 +63,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               })
             );
           } else {
+            if (this.requestMatchesRefreshTokenURL(request)) {
+              this.authenticationService.clearStorage();
+              this.requestAuthorization();
+            }
             return throwError(error);
           }
         }
