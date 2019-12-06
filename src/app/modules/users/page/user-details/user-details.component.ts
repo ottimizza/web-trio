@@ -42,6 +42,11 @@ export class UserDetailsComponent implements OnInit {
     public dialog: MatDialog) {
   }
 
+  canSeeTabs(): boolean {
+    return (this.currentUser && this.user) ? this.currentUser.id === this.user.id : false;
+  }
+
+
   public fetchById(id: number): void {
     this.userService.fetchById(id).pipe(
       finalize(() => {

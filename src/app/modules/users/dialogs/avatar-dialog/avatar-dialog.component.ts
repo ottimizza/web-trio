@@ -1,85 +1,47 @@
 
 import { Component, OnInit, Inject, Input, ViewChild, ElementRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AuthenticationService } from '@app/authentication/authentication.service';
-import { Organization } from '@shared/models/Organization';
-import { User } from '@shared/models/User';
-import { InvitationService } from '@app/http/invites.service';
-import { UserService } from '@app/http/users.service';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ImageCropperComponent } from '@shared/components/image-cropper/component/image-cropper.component';
 import { ImageCroppedEvent } from '@shared/components/image-cropper/interfaces';
-
-export interface AlertFeedback {
-  visible: boolean;
-  classes?: string;
-  title?: string;
-  message?: string;
-}
 
 @Component({
   selector: 'app-user-avatar-dialog',
   templateUrl: './avatar-dialog.component.html',
   styleUrls: ['./avatar-dialog.component.scss']
 })
-export class AvatarDialogComponent implements OnInit {
+export class AvatarDialogComponent {
 
-  public currentUser: User;
+  public imageChangedEvent: any = '';
 
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
-  showCropper = false;
+  public croppedImage: any = '';
+  public showCropper = false;
 
   @ViewChild(ImageCropperComponent, { static: false })
   imageCropper: ImageCropperComponent;
 
-  constructor(public userService: UserService,
-    public dialogRef: MatDialogRef<AvatarDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public dialogRef: MatDialogRef<AvatarDialogComponent>) { }
 
-  fileChangeEvent(event: any): void {
+  // User Uploads an Image.
+  public fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
-    // console.log(event);
-  }
-  imageLoaded() {
-    this.showCropper = true;
-    // console.log('Image loaded');
-  }
-  cropperReady() {
-    // console.log('Cropper ready');
-  }
-  loadImageFailed() {
-    // console.log('Load failed');
-  }
-  rotateLeft() {
-    this.imageCropper.rotateLeft();
-  }
-  rotateRight() {
-    this.imageCropper.rotateRight();
-  }
-  flipHorizontal() {
-    this.imageCropper.flipHorizontal();
-  }
-  flipVertical() {
-    this.imageCropper.flipVertical();
-  }
 
-  crop() {
-    this.dialogRef.close({ croppedImage: this.croppedImage, croppedName: this.imageChangedEvent.target.files[0].name });
-  }
+  // Cropper Events
+  onImageCropped(event: ImageCroppedEvent): void { this.croppedImage = event.base64; }
+  onImageLoaded(): void { this.showCropper = true; }
+  onCropperReady(): void { }
+  loadImageFailed(): void { }
 
-  onNoClick(): void {
-    this.close();
+  // User Clicks Save Button
+  crop(): void {
+    this.dialogRef.close({
+      croppedImage: this.croppedImage,
+      croppedName: this.imageChangedEvent.target.files[0].name
+    });
   }
 
   public close() {
     this.dialogRef.close();
-  }
-
-  ngOnInit() {
-    this.currentUser = User.fromLocalStorage();
   }
 
 }

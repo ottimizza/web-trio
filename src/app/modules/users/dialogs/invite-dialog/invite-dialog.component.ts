@@ -5,6 +5,7 @@ import { AuthenticationService } from '@app/authentication/authentication.servic
 import { Organization } from '@shared/models/Organization';
 import { User } from '@shared/models/User';
 import { InvitationService } from '@app/http/invites.service';
+import { finalize } from 'rxjs/operators';
 
 export interface AlertFeedback {
   visible: boolean;
@@ -32,44 +33,40 @@ export class InviteDialogComponent implements OnInit {
 
   public organization: Organization;
 
-  constructor(public invitationService: InvitationService,
-              public dialogRef: MatDialogRef<InviteDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(
+    public invitationService: InvitationService,
+    public dialogRef: MatDialogRef<InviteDialogComponent>
+  ) { }
 
   public invite(): void {
     if (this.email !== '') {
       this.invitationService.invite({
-        type: +this.type,
-        email: this.email
-      }).subscribe((response) => {
+        type: +this.type, email: this.email
+      }).pipe(
+        finalize(() => this.initFields())
+      ).subscribe((response) => {
         if (response.record) {
           this.alertFeedback = {
             visible: true, classes: 'alert alert-success',
             message: `Convite enviado para ${this.email}!`
           };
-          this.email = '';
         }
       });
     }
-  }
-
-
-
-  onNoClick(): void {
-    this.close();
   }
 
   public close() {
     this.dialogRef.close();
   }
 
-  ngOnInit() {
-    this.currentUser = User.fromLocalStorage();
-
+  private initFields(): void {
     this.email = '';
     this.type = User.Type.ACCOUNTANT;
   }
 
-
+  ngOnInit() {
+    this.currentUser = User.fromLocalStorage();
+    this.initFields();
+  }
 
 }

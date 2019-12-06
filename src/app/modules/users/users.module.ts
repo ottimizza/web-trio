@@ -20,7 +20,7 @@ import { AvatarModule } from '@shared/components/avatar/avatar.module';
 import { CommonModule } from '@angular/common';
 import { ModalModule } from '@shared/components/modals/modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
-import { InviteDialogComponent } from './dialogs/invite-dialog.component';
+import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';

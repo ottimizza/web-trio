@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>
-  Convidar Usuário
+  <i class="fad fa-envelope"></i>&nbsp;&nbsp;Convidar Usuário
 </h2>
 <mat-dialog-content class="border-top border-bottom">
   <div class="container-fluid px-0 py-3">
@@ -26,8 +26,6 @@
               <span class="input-group-text">
                 <i class="fa fa-envelope"></i>
               </span>
-              <!-- <button class="btn bg-light border fa fa-envelope">
-            </button> -->
             </div>
             <input #emailInput class="form-control" [(ngModel)]="email" placeholder="exemplo@dominio.com" required>
           </div>
@@ -35,8 +33,8 @@
             E-mail para envio do convite. <span class="text-dark">(Este também será o e-mail de login).</span>
           </small>
         </div>
-        <div class="form-group">
-          <div *ngIf="alertFeedback.visible" [class]="alertFeedback.classes" role="alert">
+        <div *ngIf="alertFeedback.visible" class="form-group">
+          <div [class]="alertFeedback.classes" role="alert">
             <strong>{{alertFeedback.title}}</strong> {{alertFeedback.message}}
           </div>
         </div>
@@ -46,7 +44,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <div class="container-fluid px-0 py-3 justify-content-between">
-    <!-- cdkFocusInitial -->
     <button class="btn btn-light text-danger mx-2" mat-dialog-close>Cancelar</button>
     <button class="btn btn-primary text-light mx-2" (click)="invite()">Convidar</button>
   </div>
