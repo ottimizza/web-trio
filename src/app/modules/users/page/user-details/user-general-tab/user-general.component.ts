@@ -13,7 +13,6 @@ import { ImageUtils } from '@shared/utils/image.utils';
 import { ImageCompressorService } from '@app/services/image-compression.service';
 
 // Forms
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-user-general',
@@ -28,29 +27,21 @@ export class UserGeneralComponent implements OnInit {
   public user: User = null;
 
   @Output()
-  userUpdate: EventEmitter<any> = new EventEmitter();
-
-  public changePasswordForm: FormGroup;
-
-  showPassword: boolean;
+  public userUpdate: EventEmitter<any> = new EventEmitter();
 
   public editingId: string;
 
-
+  constructor(
+    public userService: UserService,
+    public fileStorageService: FileStorageService,
+    public imageCompressorService: ImageCompressorService,
+    public dialog: MatDialog
+  ) { }
   public canEdit() {
     if (this.currentUser != null && this.user != null) {
       return this.currentUser.id === this.user.id;
     }
     return false;
-  }
-
-
-  constructor(private activatedRoute: ActivatedRoute, public formBuilder: FormBuilder,
-    public router: Router,
-    public userService: UserService,
-    public fileStorageService: FileStorageService,
-    public imageCompressorService: ImageCompressorService,
-    public dialog: MatDialog) {
   }
 
   openDialog(): void {
@@ -81,12 +72,6 @@ export class UserGeneralComponent implements OnInit {
     return new Promise<any>((resolve, reject) => {
       this.userService.patch(id, data).pipe(
         finalize(() => {
-          // this.breadcrumb = {
-          //   label: `${this.user.firstName} ${this.user.lastName}`,
-          //   params: {},
-          //   url: this.router.url
-          // };
-
           resolve();
         })
       ).subscribe((response: GenericResponse<User>) => {

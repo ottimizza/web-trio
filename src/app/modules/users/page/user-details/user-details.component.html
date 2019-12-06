@@ -1,6 +1,6 @@
 <div class="page-wrapper bg-white">
   <app-breadcrumb [append]="breadcrumb"></app-breadcrumb>
-  <div *ngIf="currentUser.id === user.id" class="content-wrapper full-width-nav-tabs pt-2 border-bottom-0">
+  <div *ngIf="canSeeTabs()" class="content-wrapper full-width-nav-tabs pt-2 border-bottom-0">
     <div class="container">
       <ul id="nav-tab" role="tablist" class="nav nav-tabs nav-justified-not">
         <li class="nav-item ">

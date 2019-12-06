@@ -6,7 +6,7 @@ import { GenericPageableResponse, PageInfo } from '@shared/models/GenericPageabl
 import { StorageService } from '@app/services/storage.service';
 import { ModalComponent } from '@shared/components/modals/modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { InviteDialogComponent } from '@modules/users/dialogs/invite-dialog.component';
+import { InviteDialogComponent } from '@modules/users/dialogs/invite-dialog/invite-dialog.component';
 import { Sort, MatSort } from '@angular/material/sort';
 
 
