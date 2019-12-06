@@ -5,7 +5,7 @@
     "ng": "ng",
     "serve": "ng serve --host 0.0.0.0 --port 4200",
     "dev-build": "npm run config -- && ng build",
-    "prod-build": "npm run config -- && ng build --prod --aot --vendor-chunk --common-chunk --delete-output-path --buildOptimizer && gulp compress",
+    "prod-build": "npm run config -- && ng build --prod --aot --vendor-chunk --common-chunk --delete-output-path --buildOptimizer",
     "build": "ng build --prod --aot",
     "config": "node ./config-env.js",
     "start": "node server.js",
