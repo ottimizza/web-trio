@@ -5,7 +5,6 @@ const app = express();
 const path = require('path');
 
 const compression = require('compression');
-
 const zlib = require('zlib');
 
 const fs = require('fs');
@@ -24,8 +23,6 @@ function createEnvironementFile() {
   oauthClientId: '${getEnvironmentVariable('OAUTH2_CLIENT_ID')}'
 };`;
 }
-const PACKAGE_NAME = getEnvironmentVariable('npm_package_name');
-console.log(PACKAGE_NAME);
 
 const environment = getEnvironmentVariable('ENVIRONMENT');
 const environmentFile = createEnvironementFile();
@@ -33,31 +30,35 @@ fs.writeFile(`./src/environments/environment.ts`, environmentFile, (err) => {
   if (err) { console.log(err); }
 });
 
-app.use(express.static(__dirname + '/dist/ng-accounts'));
 
-app.disable('etag');
 
-app.use(compression(zlib.Z_BEST_COMPRESSION));
 
-app.use(function (req, res, next) {
-  if (req.secure) {
-    // request was via https, so do no special handling
-    next();
-  } else {
-    if (environment) {
-      // request was via http, so redirect to https
-      res.redirect('https://' + req.headers.host + req.url);
-    } else {
-      next();
-    }
-  }
-});
+//
+const PACKAGE_NAME = getEnvironmentVariable('npm_package_name');
+
+const forceSSL = function () {
+  return function (req, res, next) {
+    if (!req.secure) res.redirect('https://' + req.headers.host + req.url);
+  };
+};
+
+//
+//
+//
+//
+//
+
+// app.disable('etag'); // Not sure.
+
+app.use(forceSSL()); // enforces SSL connection.
+
+app.use(compression()); // Uses GZIP compression. 'zlib.Z_BEST_COMPRESSION'
+
+app.use(express.static(`${__dirname}/dist/${PACKAGE_NAME}`));
 
 app.listen(process.env.PORT || 4200);
 
 // redirect traffic to index.html
-
 app.get('*', function (req, res) {
-  const index = __dirname + '/dist/ng-accounts/index.html';
-  res.sendFile(path.join(index));
+  res.sendFile(path.join(`${__dirname}/dist/${PACKAGE_NAME}/index.html`));
 });
