@@ -48,7 +48,7 @@ const forceSSL = function () {
 //
 //
 
-// app.disable('etag'); // Not sure.
+app.disable('etag'); // 
 
 app.use(forceSSL()); // enforces SSL connection.
 
