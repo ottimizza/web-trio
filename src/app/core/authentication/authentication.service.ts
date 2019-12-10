@@ -111,7 +111,7 @@ export class AuthenticationService {
 
   public logout() {
     const url = `${environment.oauthBaseUrl}/logout`;
-    return this.http.get(url);
+    return this.http.get(url, { responseType: 'text' });
   }
 
   public getAuthorizationHeaders(): HttpHeaders {
