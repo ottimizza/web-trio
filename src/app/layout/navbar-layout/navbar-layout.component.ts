@@ -29,9 +29,11 @@ export class NavbarLayoutComponent implements OnInit {
   }
 
   public logout() {
-    this.authorizationService.logout().subscribe((response: any) => {
+    this.authorizationService.revokeToken().subscribe((r1: any) => {
       this.authorizationService.clearStorage();
-      this.authorizationService.authorize();
+      return this.authorizationService.logout().subscribe((r2: any) => {
+        this.authorizationService.authorize();
+      });
     });
   }
 

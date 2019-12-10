@@ -103,10 +103,16 @@ export class AuthenticationService {
     return this.http.post(url, {}, {});
   }
 
-  public logout() {
+  public revokeToken() {
     const url = `${environment.oauthBaseUrl}/oauth/revoke_token`;
     const headers = this.getAuthorizationHeaders();
     return this.http.delete(url, { headers });
+  }
+
+  public logout() {
+    const url = `${environment.oauthBaseUrl}/logout`;
+    const headers = this.getAuthorizationHeaders();
+    return this.http.get(url, { headers });
   }
 
   public getAuthorizationHeaders(): HttpHeaders {
