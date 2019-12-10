@@ -34,7 +34,10 @@ fs.writeFile(`./src/environments/environment.ts`, environmentFile, (err) => {
 
 
 //
-const PACKAGE_NAME = getEnvironmentVariable('npm_package_name');
+let PACKAGE_NAME = getEnvironmentVariable('npm_package_name');
+
+PACKAGE_NAME = 'ng-accounts';
+
 
 const forceSSL = function () {
   // return function (req, res, next) {
