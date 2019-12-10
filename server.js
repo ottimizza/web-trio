@@ -34,11 +34,20 @@ fs.writeFile(`./src/environments/environment.ts`, environmentFile, (err) => {
 
 
 //
-const PACKAGE_NAME = getEnvironmentVariable('npm_package_name');
+let PACKAGE_NAME = getEnvironmentVariable('npm_package_name');
+
+PACKAGE_NAME = 'ng-accounts';
+
 
 const forceSSL = function () {
+  // return function (req, res, next) {
+  //   if (!req.secure) res.redirect('https://' + req.headers.host + req.url);
+  // };
   return function (req, res, next) {
-    if (!req.secure) res.redirect('https://' + req.headers.host + req.url);
+    if (req.headers["x-forwarded-proto"] !== "https") {
+      return res.redirect(["https://", req.get("Host"), req.url].join(""));
+    }
+    next();
   };
 };
 
