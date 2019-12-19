@@ -1,0 +1,42 @@
+<div class="page-wrapper bg-white">
+  <app-breadcrumb></app-breadcrumb>
+  <div *ngIf="canInvite()" class="content-wrapper full-width-nav-tabs pt-2">
+    <div class="container">
+      <div class="row justify-content-between">
+        <ul id="nav-tab" role="tablist" class="nav nav-tabs nav-justified-not border-0">
+
+          <li class="nav-item">
+            <a class="p-2 px-3 nav-link cursor-pointer" (click)="currentTab = 'userlist'"
+              [class.active]="currentTab === 'userlist'">
+              <i class="fad fa-users"></i><span class="d-none d-md-inline-block">&nbsp;&nbsp;Usuários Cadastrados</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="p-2 px-3 nav-link cursor-pointer" (click)="currentTab = 'invitations'"
+              [class.active]="currentTab === 'invitations'">
+              <i class="fad fa-mailbox"></i><span class="d-none d-md-inline-block">&nbsp;&nbsp;Usuários Convidados</span>
+            </a>
+          </li>
+
+        </ul>
+        <ul class="nav nav-pills flex-row-reverse">
+          <li class="nav-item notification-sidebar-toggle">
+            <!-- mat-stroked-button -->
+            <button class="btn btn-primary nav-link py-1 px-2 active" (click)="openDialog()">
+              <!-- (click)="openDialog()" -->
+              <i aria-hidden="true" class="fad fa-plus-square"></i>
+              <span class="ml-2"> Novo Usuário </span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <app-invitations *ngIf="currentTab == 'invitations'">
+  </app-invitations>
+
+  <app-userlist *ngIf="currentTab == 'userlist'">
+  </app-userlist>
+</div>

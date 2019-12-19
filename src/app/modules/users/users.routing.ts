@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UserListComponent } from './page/user-list/user-list.component';
+import { UsersComponent } from './page/user-list/users.component';
 import { UserDetailsComponent } from './page/user-details/user-details.component';
 
 // import { ProjectResolver } from './project-resolver.service';
@@ -16,7 +16,7 @@ export const routes: Routes = [
   // },
   {
     path: '',
-    component: UserListComponent
+    component: UsersComponent
   },
   {
     path: ':id',

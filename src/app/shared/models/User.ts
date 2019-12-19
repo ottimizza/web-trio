@@ -1,3 +1,5 @@
+import { Organization } from './Organization';
+
 export class User {
 
   static Type = class {
@@ -5,6 +7,24 @@ export class User {
     static ACCOUNTANT = 1;
     static CUSTOMER = 2;
   };
+
+  id: number;
+  username: string;
+  password: string;
+
+  activated: boolean;
+  type: number;
+
+  avatar: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+
+  organization: Organization;
+
+  constructor() {
+  }
 
   static fromLocalStorage(): User {
     const storedUser = JSON.parse(localStorage.getItem('user-info') || '{}');
@@ -28,18 +48,5 @@ export class User {
 
     return user;
   }
-
-  id: number;
-  username: string;
-  password: string;
-
-  activated: boolean;
-  type: number;
-
-  avatar: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
 
 }

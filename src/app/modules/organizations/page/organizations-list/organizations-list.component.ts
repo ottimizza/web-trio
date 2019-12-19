@@ -38,7 +38,7 @@ export class OrganizationListComponent implements OnInit {
   }
 
   public fetch() {
-    this.organizationService.fetch()
+    this.organizationService.fetch({})
       .subscribe((response: GenericPageableResponse<Organization>) => {
         this.organizations = response.records;
         this.dataSource = this.organizations;

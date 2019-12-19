@@ -1,11 +1,14 @@
 
-import { Component, OnInit, Inject, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AuthenticationService } from '@app/authentication/authentication.service';
 import { Organization } from '@shared/models/Organization';
 import { User } from '@shared/models/User';
 import { InvitationService } from '@app/http/invites.service';
-import { finalize } from 'rxjs/operators';
+import { finalize, debounceTime, map, distinctUntilChanged, filter } from 'rxjs/operators';
+import { OrganizationService } from '@app/http/organizations.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Invitation } from '@shared/models/Invitation';
 
 export interface AlertFeedback {
   visible: boolean;
@@ -18,37 +21,67 @@ export interface AlertFeedback {
   selector: 'app-invite-dialog',
   templateUrl: './invite-dialog.component.html',
 })
-export class InviteDialogComponent implements OnInit {
+export class InviteDialogComponent implements OnInit, AfterViewInit {
 
   public currentUser: User;
 
-  @ViewChild('emailInput', { static: false })
-  public emailInput: ElementRef;
-
   public alertFeedback: AlertFeedback = { visible: false };
 
-  public email: string;
+  public invitationForm: FormGroup;
 
-  public type: number;
+  public organizationsOptions: Array<Organization> = new Array<Organization>();
+  public organizations: Array<Organization> = new Array<Organization>();
 
-  public organization: Organization;
+  displayedColumns: string[] = ['name', 'cnpj'];
+  dataSource: MatTableDataSource<Organization>;
+
+  isFetching: boolean;
 
   constructor(
+    private elementRef: ElementRef,
+    private formBuilder: FormBuilder,
     public invitationService: InvitationService,
+    public organizationService: OrganizationService,
     public dialogRef: MatDialogRef<InviteDialogComponent>
   ) { }
 
+  public fetchOrganizationByName(name: string) {
+    this.isFetching = true;
+    this.organizationService.fetch({ name: name.toUpperCase(), pageIndex: 0, pageSize: 5 })
+      .pipe(finalize(() => this.isFetching = false))
+      .subscribe((response: any) => {
+        this.organizationsOptions = response.records;
+      });
+  }
+
+  public appendOrganization(organization: Organization): void {
+    this.organizationsOptions = new Array<Organization>();
+    this.organizations.push(organization);
+    this.dataSource = new MatTableDataSource<Organization>(this.organizations);
+  }
+
+  public removeOrganization(organization: Organization) {
+    const index = this.organizations.indexOf(organization);
+    this.organizations.splice(index, index + 1);
+    this.dataSource = new MatTableDataSource<Organization>(this.organizations);
+  }
+
   public invite(): void {
-    if (this.email !== '') {
-      this.invitationService.invite({
-        type: +this.type, email: this.email
-      }).pipe(
-        finalize(() => this.initFields())
-      ).subscribe((response) => {
+    const type = this.invitationForm.get('type').value;
+    const email = this.invitationForm.get('email').value;
+    const organization = this.organizations[0] || null;
+
+    const invitation = Invitation.builder()
+      .email(email)
+      .type(type)
+      .organization(organization).build();
+
+    if (email) {
+      this.invitationService.invite(invitation).subscribe((response) => {
         if (response.record) {
           this.alertFeedback = {
             visible: true, classes: 'alert alert-success',
-            message: `Convite enviado para ${this.email}!`
+            message: `Convite enviado para ${email}!`
           };
         }
       });
@@ -59,14 +92,31 @@ export class InviteDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  private initFields(): void {
-    this.email = '';
-    this.type = User.Type.ACCOUNTANT;
+  public showOrganizationsFields(): boolean {
+    return `${this.invitationForm.get('type').value}` === `${User.Type.CUSTOMER}`;
+  }
+
+  private applyDebouce(formGroup: FormGroup, formControlName: string, delay: number = 300) {
+    return formGroup.get(formControlName).valueChanges
+      .pipe(debounceTime(delay));
   }
 
   ngOnInit() {
     this.currentUser = User.fromLocalStorage();
-    this.initFields();
+
+    this.invitationForm = this.formBuilder.group({
+      type: [User.Type.ACCOUNTANT],
+      email: [''],
+      organization: ['']
+    });
+
+    this.applyDebouce(this.invitationForm, 'organization').subscribe((value) => {
+      if (value) {
+        this.fetchOrganizationByName(value);
+      }
+    });
   }
+
+  ngAfterViewInit() { }
 
 }

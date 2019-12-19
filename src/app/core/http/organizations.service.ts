@@ -15,8 +15,9 @@ export class OrganizationService {
 
   constructor(private http: HttpClient, private authorizationService: AuthenticationService) { }
 
-  public fetch(filters = {}, pageIndex = 0, pageSize = 10): Observable<GenericPageableResponse<Organization>> {
-    const url = `${environment.oauthBaseUrl}/api/v1/organizations`;
+  public fetch(searchCriteria: any): Observable<GenericPageableResponse<Organization>> {
+    const params = this.encode(searchCriteria);
+    const url = `${environment.oauthBaseUrl}/api/v1/organizations?${params}`;
     const headers = this.authorizationService.getAuthorizationHeaders();
     return this.http.get<GenericPageableResponse<Organization>>(url, { headers });
   }
@@ -37,6 +38,12 @@ export class OrganizationService {
     const url = `${environment.oauthBaseUrl}/api/v1/organizations/${id}`;
     const headers = this.authorizationService.getAuthorizationHeaders();
     return this.http.patch<GenericResponse<Organization>>(url, organization, { headers });
+  }
+
+  encode(params: any): string {
+    return Object.keys(params).map((key) => {
+      return [key, params[key]].map(encodeURIComponent).join('=');
+    }).join('&');
   }
 
 }

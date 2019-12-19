@@ -13,8 +13,11 @@ import { StorageService } from '@app/services/storage.service';
   styleUrls: ['./navbar-layout.component.scss']
 })
 export class NavbarLayoutComponent implements OnInit {
+  public DEFAULT_LOGO = 'https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png';
 
   currentUser: User;
+
+  logo: string = this.DEFAULT_LOGO;
 
   constructor(@Inject(DOCUMENT) public document: Document,
     public storageService: StorageService,
@@ -40,7 +43,15 @@ export class NavbarLayoutComponent implements OnInit {
   ngOnInit() {
     this.storageService.onStorage(AuthenticationService.STORAGE_KEY_USERINFO, (result: any) => {
       this.currentUser = User.fromLocalStorage();
+      if (this.currentUser.organization) {
+        const avatar = this.currentUser.organization.avatar;
+        this.logo = (avatar) ? avatar : this.DEFAULT_LOGO;
+      }
     });
     this.currentUser = User.fromLocalStorage();
+    if (this.currentUser.organization) {
+      const avatar = this.currentUser.organization.avatar;
+      this.logo = (avatar) ? avatar : this.DEFAULT_LOGO;
+    }
   }
 }

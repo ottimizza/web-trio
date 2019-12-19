@@ -1,8 +1,7 @@
 <header class="topbar is_stuck" style="position: absolute; top: 0px; width: 100%;">
   <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
     <div class="navbar-header">
-      <app-brand src="https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png" classes="px-5"
-        class="text-center">
+      <app-brand [src]="logo || DEFAULT_LOGO" classes="px-5" class="text-center">
       </app-brand>
     </div>
     <div class="navbar-collapse">

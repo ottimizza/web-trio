@@ -40,11 +40,8 @@ PACKAGE_NAME = 'ng-accounts';
 
 
 const forceSSL = function () {
-  // return function (req, res, next) {
-  //   if (!req.secure) res.redirect('https://' + req.headers.host + req.url);
-  // };
   return function (req, res, next) {
-    if (req.headers["x-forwarded-proto"] !== "https") {
+    if (req.headers["x-forwarded-proto"] !== "https" && environment !== 'local') {
       return res.redirect(["https://", req.get("Host"), req.url].join(""));
     }
     next();

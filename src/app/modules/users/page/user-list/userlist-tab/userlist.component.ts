@@ -11,9 +11,9 @@ import { Sort, MatSort } from '@angular/material/sort';
 
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss']
+  selector: 'app-userlist',
+  templateUrl: './userlist.component.html',
+  styleUrls: ['./userlist.component.scss']
 })
 export class UserListComponent implements OnInit, AfterViewInit {
 
@@ -22,17 +22,29 @@ export class UserListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   public users: Array<User>;
+  public empties: Array<any> = [
+    { empty: 'true' },
+    { empty: 'true' },
+    { empty: 'true' },
+    { empty: 'true' },
+    { empty: 'true' },
+    { empty: 'true' },
+    { empty: 'true' },
+    { empty: 'true' },
+    { empty: 'true' },
+    { empty: 'true' },
+  ];
   public pageInfo: PageInfo = new PageInfo();
   public sortInfo: any = null;
 
   displayedColumns: string[] = ['avatar', 'fullname', 'username', 'type'];
-  dataSource = this.users;
+  dataSource = this.empties;
 
   constructor(public storageService: StorageService, public userService: UserService, public dialog: MatDialog) {
   }
 
   public fetch(pageIndex: number = 0, pageSize: number = 10, sort: Sort = null) {
-
+    this.sortInfo = { 'sort.order': 'asc', 'sort.attribute': 'fullname' };
     if (sort && sort.active && sort.direction) {
       this.sortInfo = { 'sort.order': sort.direction, 'sort.attribute': sort.active };
     }

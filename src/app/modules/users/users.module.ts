@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // import { SharedModule } from '@shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
@@ -6,38 +8,41 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 import { UsersRoutingModule } from './users.routing';
 
-import { UserListComponent } from './page/user-list/user-list.component';
 import { BreadcrumbModule } from '@shared/components/breadcrumb/breadcrumb.module';
-// import { UserDetailsComponent } from './page/user-details/user-details.component';
 import { MatSliderModule } from '@angular/material/slider';
-import { UserDetailsComponent } from './page/user-details/user-details.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AvatarModule } from '@shared/components/avatar/avatar.module';
-import { CommonModule } from '@angular/common';
-import { ModalModule } from '@shared/components/modals/modal.module';
-import { MatDialogModule } from '@angular/material/dialog';
-import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { ImageCropperModule } from '@shared/components/image-cropper/image-cropper.module';
+import { AvatarModule } from '@shared/components/avatar/avatar.module';
+import { ModalModule } from '@shared/components/modals/modal.module';
+import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.component';
 import { AvatarDialogComponent } from './dialogs/avatar-dialog/avatar-dialog.component';
 import { DragDropDirective } from '@shared/directives/drag-drop.directive';
+import { ImageCropperModule } from '@shared/components/image-cropper/image-cropper.module';
+import { InvitationsComponent } from './page/user-list/invitations-tab/invitations.component';
 import { UserSecurityComponent } from './page/user-details/user-security-tab/user-security.component';
+// import { UserDetailsComponent } from './page/user-details/user-details.component';
 import { UserGeneralComponent } from './page/user-details/user-general-tab/user-general.component';
+import { UserListComponent } from './page/user-list/userlist-tab/userlist.component';
+import { UserDetailsComponent } from './page/user-details/user-details.component';
+import { UsersComponent } from './page/user-list/users.component';
 
 @NgModule({
   declarations: [
-    UserListComponent,
-
     UserGeneralComponent,
     UserSecurityComponent,
 
+    UserListComponent,
     UserDetailsComponent,
+    InvitationsComponent,
+    UsersComponent,
+
     AvatarDialogComponent,
     InviteDialogComponent,
     DragDropDirective
@@ -51,6 +56,7 @@ import { UserGeneralComponent } from './page/user-details/user-general-tab/user-
     MatMenuModule,
     MatIconModule,
     MatInputModule,
+    MatAutocompleteModule,
 
     // Table
     MatTableModule,

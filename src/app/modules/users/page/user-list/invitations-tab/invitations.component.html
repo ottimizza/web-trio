@@ -1,0 +1,31 @@
+<div class="container pt-4">
+  <div class="row">
+    <div class="col">
+      <table mat-table matSort [dataSource]="dataSource" class="table-hover mat-elevation-z0">
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="email"> <strong>Usuário</strong> </th>
+          <td mat-cell *matCellDef="let element" class="py-2">
+            <a>{{ element.email }}</a><br>
+            <small>{{element.organization.name}}</small>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Tipo </th>
+          <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Ações </th>
+          <td mat-cell *matCellDef="let element"> 
+            Ações...
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row class="cursor-pointer" *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+      </table>
+      <mat-paginator [length]="pageInfo.totalElements" [pageSize]="pageInfo.pageSize" [pageSizeOptions]="[5, 10, 20 ]"
+        (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+  </div>
+</div>
