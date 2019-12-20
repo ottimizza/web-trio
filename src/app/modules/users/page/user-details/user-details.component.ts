@@ -65,7 +65,7 @@ export class UserDetailsComponent implements OnInit {
 
   buildBreadcrumb(user: User) {
     this.breadcrumb = {
-      label: `${user.firstName} ${user.lastName}`,
+      label: `${user.firstName || ''} ${user.lastName || ''}`,
       params: {},
       url: this.router.url
     };

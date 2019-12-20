@@ -24,7 +24,9 @@
               <div class="bounce1" title="Carregando..."></div>
             </div>
             <div *ngIf="!element.empty">
-              <a [routerLink]="element.id">{{element.firstName + ' ' + element.lastName}}</a><br>
+              <a [routerLink]="element.id">
+                {{ element.firstName || ''}}&nbsp;{{ element.lastName || ''}}
+              </a><br>
               <small>{{element.email}}</small>
             </div>
           </td>
