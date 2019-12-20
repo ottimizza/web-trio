@@ -49,7 +49,7 @@
               <div class="bounce1" title="Carregando..."></div>
             </div>
             <div *ngIf="!element.empty">
-              {{element.type === 1 ? 'Contador' : 'Cliente'}}
+              {{ element.type === 0 ? 'Administrador' : element.type === 1 ? 'Contador' : 'Cliente'}}
             </div>
           </td>
         </ng-container>
