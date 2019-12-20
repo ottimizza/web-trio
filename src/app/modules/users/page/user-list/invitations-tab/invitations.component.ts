@@ -9,6 +9,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { InviteDialogComponent } from '@modules/users/dialogs/invite-dialog/invite-dialog.component';
 import { Sort, MatSort } from '@angular/material/sort';
 import { InvitationService } from '@app/http/invites.service';
+import { IInvitation } from '@shared/models/Invitation';
+import { environment } from '@env';
+import { ClipboardUtils } from '@shared/utils/clipboard.utiils';
 
 
 @Component({
@@ -38,6 +41,16 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
       this.pageInfo = response.pageInfo;
       this.dataSource = this.users;
     });
+  }
+
+  public copyInvitationLink(invitation: IInvitation): void {
+    const registerUrl = `${environment.oauthBaseUrl}/register?token=${invitation.token}`;
+    ClipboardUtils.copyTextToClipboard(registerUrl);
+  }
+
+  public openInvitationLink(invitation: IInvitation): void {
+    const registerUrl = `${environment.oauthBaseUrl}/register?token=${invitation.token}`;
+    window.open(registerUrl, '_blank');
   }
 
   openDialog(): void {
