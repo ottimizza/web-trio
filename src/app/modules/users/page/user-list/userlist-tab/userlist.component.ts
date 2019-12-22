@@ -44,10 +44,11 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   public fetch(pageIndex: number = 0, pageSize: number = 10, sort: Sort = null) {
-    this.sortInfo = { 'sort.order': 'asc', 'sort.attribute': 'fullname' };
-    if (sort && sort.active && sort.direction) {
-      this.sortInfo = { 'sort.order': sort.direction, 'sort.attribute': sort.active };
-    }
+    this.sortInfo = {};
+    // this.sortInfo = { 'sort.order': 'asc', 'sort.attribute': 'fullname' };
+    // if (sort && sort.active && sort.direction) {
+    //   this.sortInfo = { 'sort.order': sort.direction, 'sort.attribute': sort.active };
+    // }
 
     const searchCriteria = Object.assign({ pageIndex, pageSize }, this.sortInfo);
 
