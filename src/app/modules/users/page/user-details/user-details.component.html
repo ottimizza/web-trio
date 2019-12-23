@@ -13,7 +13,7 @@
             <i aria-hidden="true" class="fad fa-user-shield"></i>&nbsp;&nbsp;Segurança
           </a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="isCustomer()" class="nav-item">
           <a (click)="currentTab = 'organizations'" class="p-2 px-3 nav-link"
             [class.active]="currentTab === 'organizations'">
             <i aria-hidden="true" class="fad fa-industry-alt"></i>&nbsp;&nbsp;Empresas

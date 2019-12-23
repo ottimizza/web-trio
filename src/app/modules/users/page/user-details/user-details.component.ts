@@ -46,6 +46,10 @@ export class UserDetailsComponent implements OnInit {
     return (this.currentUser && this.user) ? this.currentUser.id === this.user.id : false;
   }
 
+  isCustomer(): boolean {
+    return this.user.type === User.Type.CUSTOMER;
+  }
+
 
 
 
