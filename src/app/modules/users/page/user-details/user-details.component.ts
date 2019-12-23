@@ -30,7 +30,7 @@ export class UserDetailsComponent implements OnInit {
 
   public breadcrumb: BreadCrumb;
 
-  public currentTab: 'general' | 'security' = 'general';
+  public currentTab: 'general' | 'security' | 'organizations' = 'general';
 
   public user: User = new User();
 
@@ -46,7 +46,7 @@ export class UserDetailsComponent implements OnInit {
     return (this.currentUser && this.user) ? this.currentUser.id === this.user.id : false;
   }
 
-  
+
 
 
   public fetchById(id: number): void {
