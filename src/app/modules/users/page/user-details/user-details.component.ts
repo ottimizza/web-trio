@@ -46,6 +46,8 @@ export class UserDetailsComponent implements OnInit {
     return (this.currentUser && this.user) ? this.currentUser.id === this.user.id : false;
   }
 
+  
+
 
   public fetchById(id: number): void {
     this.userService.fetchById(id).pipe(

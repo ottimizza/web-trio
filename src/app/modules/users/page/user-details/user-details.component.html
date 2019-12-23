@@ -1,6 +1,6 @@
 <div class="page-wrapper bg-white">
   <app-breadcrumb [append]="breadcrumb"></app-breadcrumb>
-  <div *ngIf="canSeeTabs()" class="content-wrapper full-width-nav-tabs pt-2 border-bottom-0">
+  <div class="content-wrapper full-width-nav-tabs pt-2 border-bottom-0">
     <div class="container">
       <ul id="nav-tab" role="tablist" class="nav nav-tabs nav-justified-not">
         <li class="nav-item ">
@@ -8,9 +8,15 @@
             <i aria-hidden="true" class="fad fa-cog"></i>&nbsp;&nbsp;Básico
           </a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="canSeeTabs()" class="nav-item">
           <a (click)="currentTab = 'security'" class="p-2 px-3 nav-link" [class.active]="currentTab === 'security'">
             <i aria-hidden="true" class="fad fa-user-shield"></i>&nbsp;&nbsp;Segurança
+          </a>
+        </li>
+        <li class="nav-item">
+          <a (click)="currentTab = 'organizations'" class="p-2 px-3 nav-link"
+            [class.active]="currentTab === 'organizations'">
+            <i aria-hidden="true" class="fad fa-industry-alt"></i>&nbsp;&nbsp;Empresas
           </a>
         </li>
       </ul>
@@ -21,6 +27,8 @@
     </app-user-security>
     <app-user-general *ngIf="currentTab == 'general'" [user]="user" (userUpdate)="onUserUpdate($event)">
     </app-user-general>
+    <app-user-organizations *ngIf="currentTab == 'organizations'" [user]="user" (userUpdate)="onUserUpdate($event)">
+    </app-user-organizations>
   </div>
   <footer class="footer d-none"> © 2017 Material Pro Admin by wrappixel.com </footer>
 </div>

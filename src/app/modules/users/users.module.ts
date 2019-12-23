@@ -42,7 +42,7 @@ import { UserOrganizationsComponent } from './page/user-details/user-organizatio
 
     UserListComponent,
     UserDetailsComponent,
-    InvitationsComponent,
+    InvitationsComponent, 
     UsersComponent,
 
     AvatarDialogComponent,
