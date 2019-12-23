@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { RxEvent } from '@app/services/rx-event.service';
 import { DOCUMENT } from '@angular/common';
-import { SwUpdate } from '@angular/service-worker';
+import { UpdateService } from '@app/services/update.service';
 
 
 @Component({
@@ -16,11 +16,9 @@ export class AppComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) public document: Document,
     private events: RxEvent,
-    private swUpdate: SwUpdate
+    private updateService: UpdateService
   ) {
-    // this.swUpdate.available.subscribe((e) => {
-    //   this.updateAvailable = true;
-    // });
+    this.updateService.checkForUpdates();
     this.events.subscribe('sw::update', () => {
       this.updateAvailable = true;
     });
