@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { AuthenticationService } from '@app/authentication/authentication.service';
 import { UserService } from '@app/http/users.service';
 import { User } from '@shared/models/User';
@@ -12,6 +12,7 @@ import { InvitationService } from '@app/http/invites.service';
 import { IInvitation } from '@shared/models/Invitation';
 import { environment } from '@env';
 import { ClipboardUtils } from '@shared/utils/clipboard.utiils';
+import { HTMLUtils } from '@shared/utils/html.utils';
 
 
 @Component({
@@ -32,7 +33,11 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['email', 'type', 'actions'];
   dataSource = this.users;
 
-  constructor(public storageService: StorageService, public invitationService: InvitationService, public dialog: MatDialog) {
+  constructor(
+    public htmlUtils: HTMLUtils,
+    public storageService: StorageService,
+    public invitationService: InvitationService,
+    public dialog: MatDialog) {
   }
 
   public fetch(pageIndex: number = 0, pageSize: number = 10, sort: Sort = null) {
@@ -43,7 +48,13 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public copyInvitationLink(invitation: IInvitation): void {
+  public copyInvitationLink(invitation: IInvitation, event): void {
+    if (event && event.target) {
+      console.log(event);
+
+      this.htmlUtils.removeStyles(event.target, ['animated', 'jello']);
+      this.htmlUtils.addStyles(event.target, ['animated', 'jello']);
+    }
     const registerUrl = `${environment.oauthBaseUrl}/register?token=${invitation.token}`;
     ClipboardUtils.copyTextToClipboard(registerUrl);
   }

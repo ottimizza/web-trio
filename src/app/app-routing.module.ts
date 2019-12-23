@@ -29,7 +29,7 @@ const routes: Routes = [
       {
         path: 'users',
         data: {
-          breadcrumb: 'Users'
+          breadcrumb: 'Usuários'
         },
         loadChildren: () => import('@modules/users/users.module').then(m => m.UsersModule),
         canActivate: [AuthGuard]
@@ -37,7 +37,7 @@ const routes: Routes = [
       {
         path: 'organizations',
         data: {
-          breadcrumb: 'Organizations'
+          breadcrumb: 'Empresas'
         },
         loadChildren: () => import('@modules/organizations/organizations.module').then(m => m.OrganizationModule),
         canActivate: [AuthGuard]
