@@ -18,7 +18,10 @@ export class AppComponent implements OnInit {
     private events: RxEvent,
     private swUpdate: SwUpdate
   ) {
-    this.swUpdate.available.subscribe((e) => {
+    // this.swUpdate.available.subscribe((e) => {
+    //   this.updateAvailable = true;
+    // });
+    this.events.subscribe('sw::update', () => {
       this.updateAvailable = true;
     });
   }
