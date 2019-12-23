@@ -10,7 +10,7 @@ export class UpdateService {
 
   constructor(public updates: SwUpdate, public events: RxEvent) {
     if (updates.isEnabled) {
-      interval(6 * 60 * 60)
+      interval(60 * 60 * 1000) // 1 Hora
         .subscribe(() => updates.checkForUpdate());
     }
   }
