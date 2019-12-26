@@ -32,15 +32,17 @@ import { UserGeneralComponent } from './page/user-details/user-general-tab/user-
 import { UserListComponent } from './page/user-list/userlist-tab/userlist.component';
 import { UserDetailsComponent } from './page/user-details/user-details.component';
 import { UsersComponent } from './page/user-list/users.component';
+import { UserOrganizationsComponent } from './page/user-details/user-organizations-tab/user-organizations.component';
 
 @NgModule({
   declarations: [
     UserGeneralComponent,
     UserSecurityComponent,
+    UserOrganizationsComponent,
 
     UserListComponent,
     UserDetailsComponent,
-    InvitationsComponent,
+    InvitationsComponent, 
     UsersComponent,
 
     AvatarDialogComponent,

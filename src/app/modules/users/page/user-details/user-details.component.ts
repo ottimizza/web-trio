@@ -30,7 +30,7 @@ export class UserDetailsComponent implements OnInit {
 
   public breadcrumb: BreadCrumb;
 
-  public currentTab: 'general' | 'security' = 'general';
+  public currentTab: 'general' | 'security' | 'organizations' = 'general';
 
   public user: User = new User();
 
@@ -45,6 +45,12 @@ export class UserDetailsComponent implements OnInit {
   canSeeTabs(): boolean {
     return (this.currentUser && this.user) ? this.currentUser.id === this.user.id : false;
   }
+
+  isCustomer(): boolean {
+    return this.user.type === User.Type.CUSTOMER;
+  }
+
+
 
 
   public fetchById(id: number): void {

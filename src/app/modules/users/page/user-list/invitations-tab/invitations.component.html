@@ -18,7 +18,7 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef class="text-center"> Ações </th>
           <td mat-cell *matCellDef="let element" class="text-center">
-            <button class="btn text-primary" (click)="copyInvitationLink(element)" title="Copiar link para cadastro.">
+            <button class="btn text-primary jello" (click)="copyInvitationLink(element, $event)" title="Copiar link para cadastro.">
               <i class="fad fa-copy"></i>
             </button>
             <button class="btn text-primary" (click)="openInvitationLink(element)" title="Abrir link para cadastro.">

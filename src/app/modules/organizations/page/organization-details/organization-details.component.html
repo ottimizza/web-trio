@@ -17,10 +17,10 @@
             <div class="col-md-6 text-center">
               <div class="container">
                 <div class="row">
-                  <div class="col-12">
-                    <a class="position-relative p-0">
-                      <img [src]="organization.avatar || './assets/images/Portrait_Placeholder.png'" width="150"
-                        class="img-thumbnail rounded-circle" [alt]="organization.name"
+                  <div class="col-12 p-0">
+                    <a class="position-relative w-100 p-0" (click)="currentUser.type === 1 ? openDialog(): 0">
+                      <img [src]="organization.avatar || './assets/images/Landscape_Placeholder.png'"
+                        class="img-thumbnail" alt="Lucas Martins"
                         onError="this.src='./assets/images/Portrait_Placeholder.png';">
                     </a>
                   </div>

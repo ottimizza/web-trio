@@ -5,6 +5,11 @@ import { Organization } from '@shared/models/Organization';
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { AvatarDialogComponent } from '@modules/organizations/dialogs/avatar-dialog/avatar-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { FileStorageService } from '@app/http/file-storage.service';
+import { ImageCompressorService } from '@app/services/image-compression.service';
+import { ImageUtils } from '@shared/utils/image.utils';
 
 
 interface BreadCrumb {
@@ -28,7 +33,13 @@ export class OrganizationDetaisComponent implements OnInit {
 
   public breadcrumb: BreadCrumb;
 
-  constructor(private activatedRoute: ActivatedRoute, public router: Router, public organizationService: OrganizationService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    public router: Router,
+    public fileStorageService: FileStorageService,
+    public imageCompressorService: ImageCompressorService,
+    public organizationService: OrganizationService,
+    public dialog: MatDialog) {
   }
 
   public edit = (id: string = null) => this.editingId = id;
@@ -65,6 +76,29 @@ export class OrganizationDetaisComponent implements OnInit {
   }
 
   canEditOrganization = () => [User.Type.ADMINISTRATOR, User.Type.ACCOUNTANT].includes(this.currentUser.type);
+
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AvatarDialogComponent, {
+      data: { name: '' }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.croppedImage) {
+        this.imageCompressorService.compress(ImageUtils.dataURLtoFile(result.croppedImage, result.croppedName))
+          .subscribe((compressed) => {
+            this.fileStorageService.store(compressed)
+              .subscribe((response) => {
+                if (response.record && response.record.id) {
+                  this.patch(this.organization.id, {
+                    avatar: this.fileStorageService.getResourceURL(response.record.id)
+                  });
+                }
+              });
+          });
+      }
+    });
+  }
+
 
   public ngOnInit() {
     this.currentUser = User.fromLocalStorage();
