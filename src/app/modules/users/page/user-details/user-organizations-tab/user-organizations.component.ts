@@ -32,9 +32,16 @@ export class UserOrganizationsComponent implements OnInit, AfterViewInit {
   @Output()
   userUpdate: EventEmitter<any> = new EventEmitter();
 
-  dataSource: MatTableDataSource<Organization>;
+  //
+  public organizations: Array<Organization>;
 
-  constructor(private activatedRoute: ActivatedRoute, public formBuilder: FormBuilder,
+  displayedColumns: string[] = ['name', 'cnpj'];
+  dataSource = this.organizations;
+
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    public formBuilder: FormBuilder,
     public router: Router,
     public userService: UserService,
     public fileStorageService: FileStorageService,
@@ -42,9 +49,18 @@ export class UserOrganizationsComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog) {
   }
 
+  public fetchOrganizations() {
+    this.userService.fetchOrganizations(this.user.id, {})
+      .subscribe((response: GenericPageableResponse<Organization>) => {
+        this.organizations = response.records;
+        this.dataSource = this.organizations;
+      });
+  }
+
   ngOnInit() {
     this.currentUser = User.fromLocalStorage();
     this.user = this.user === null ? User.fromLocalStorage() : this.user;
+    this.fetchOrganizations();
   }
 
   ngAfterViewInit() {

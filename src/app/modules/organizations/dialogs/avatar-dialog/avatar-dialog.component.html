@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>
+  <i class="fad fa-camera-retro"></i>&nbsp;&nbsp;Alterar Foto de Perfil
+</h2>
+<mat-dialog-content class="border-top border-bottom">
+  <div class="container-fluid px-0 py-3">
+    <div class="row">
+      <div class="col-12">
+        <div class="drag-box text-center px-5 py-4 mb-3" (click)="fileInput.click()" appDragDrop
+          (fileDropped)="fileChangeEvent($event)">
+          <input hidden type="file" #fileInput (change)="fileChangeEvent($event)">
+          <h4><strong class="cursor-pointer">Clique</strong> ou arraste sua foto para cá.</h4>
+        </div>
+        <div>
+          <image-cropper appDragDrop (onFileDropped)="fileChangeEvent($event)" [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true" [aspectRatio]="4 / 1" [resizeToWidth]="450" [cropperMinWidth]="128"
+            [onlyScaleDown]="true" [roundCropper]="false" format="jpeg " outputType="base64"
+            (imageCropped)="onImageCropped($event)" (imageLoaded)="onImageLoaded()" (cropperReady)="onCropperReady()"
+            (loadImageFailed)="loadImageFailed()" [style.display]="showCropper ? null : 'none'" [alignImage]="'left'">
+          </image-cropper>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <div class="container-fluid px-0 py-3 justify-content-between">
+    <button class="btn btn-light text-danger mx-2" mat-dialog-close>Cancelar</button>
+    <button class="btn btn-primary text-light mx-2" [disabled]="croppedImage == ''" (click)="crop()">Salvar</button>
+  </div>
+</mat-dialog-actions>

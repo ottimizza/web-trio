@@ -10,9 +10,12 @@ import { CommonModule } from '@angular/common';
 import { OrganizationDetaisComponent } from './page/organization-details/organization-details.component';
 import { CreateDialogComponent } from './dialogs/create-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AvatarDialogComponent } from './dialogs/avatar-dialog/avatar-dialog.component';
+import { ImageCropperModule } from '@shared/components/image-cropper/image-cropper.module';
 
 @NgModule({
   declarations: [
+    AvatarDialogComponent,
     OrganizationListComponent,
     OrganizationDetaisComponent,
     CreateDialogComponent
@@ -26,11 +29,14 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
 
     BreadcrumbModule,
-    OrganizationRoutingModule
+    OrganizationRoutingModule,
+
+    ImageCropperModule
   ],
   exports: [],
   providers: [],
   entryComponents: [
+    AvatarDialogComponent,
     CreateDialogComponent
   ]
 })

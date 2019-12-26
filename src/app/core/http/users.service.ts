@@ -7,6 +7,7 @@ import { User } from '@shared/models/User';
 import { GenericPageableResponse } from '@shared/models/GenericPageableResponse';
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { environment } from '@env';
+import { Organization } from '@shared/models/Organization';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,15 @@ export class UserService {
     const url = `${environment.oauthBaseUrl}/api/v1/users/${id}`;
     const headers = this.authorizationService.getAuthorizationHeaders();
     return this.http.patch<GenericResponse<User>>(url, data, { headers });
+  }
+
+  //
+  //
+  public fetchOrganizations(id: number, searchCriteria: any): Observable<GenericPageableResponse<Organization>> {
+    const params = this.encode(searchCriteria);
+    const url = `${environment.oauthBaseUrl}/api/v1/users/${id}/organizations?${params}`;
+    const headers = this.authorizationService.getAuthorizationHeaders();
+    return this.http.get<GenericPageableResponse<Organization>>(url, { headers });
   }
 
   encode(params: any): string {

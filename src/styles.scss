@@ -452,3 +452,13 @@ $full-sidebar-width: 240px;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+
+.nav-tabs {
+  .nav-item {
+    .nav-link {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
