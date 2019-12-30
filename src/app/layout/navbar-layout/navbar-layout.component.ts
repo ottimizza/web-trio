@@ -34,6 +34,11 @@ export class NavbarLayoutComponent implements OnInit {
     sidebar.focus();
   }
 
+
+  public shouldShowAccountingDetailsPage() {
+    return [User.Type.ADMINISTRATOR, User.Type.ACCOUNTANT].includes(this.currentUser.type);
+  }
+
   public logout() {
     this.router.navigate(['auth', 'logout']);
     // this.authorizationService.revokeToken().subscribe((r1: any) => {
