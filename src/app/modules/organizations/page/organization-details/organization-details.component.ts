@@ -89,6 +89,7 @@ export class OrganizationDetaisComponent implements OnInit {
         this.imageCompressionService.compress(ImageUtils.dataURLtoFile(result.croppedImage, result.croppedName))
           .subscribe((compressed) => {
             this.fileStorageService.store(ImageUtils.blobToFile(compressed, result.croppedName))
+              .pipe(finalize(() => document.location.reload()))
               .subscribe((response) => {
                 if (response.record && response.record.id) {
                   this.patch(this.organization.id, {
