@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FileStorageService } from '@app/http/file-storage.service';
 import { ImageCompressorService } from '@app/services/image-compression.service';
 import { ImageUtils } from '@shared/utils/image.utils';
+import { ImageCompressionService } from '@app/http/image-compression.service';
 
 
 interface BreadCrumb {
@@ -37,7 +38,7 @@ export class OrganizationDetaisComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public router: Router,
     public fileStorageService: FileStorageService,
-    public imageCompressorService: ImageCompressorService,
+    public imageCompressionService: ImageCompressionService,
     public organizationService: OrganizationService,
     public dialog: MatDialog) {
   }
@@ -80,13 +81,15 @@ export class OrganizationDetaisComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AvatarDialogComponent, {
+      maxWidth: '568px',
       data: { name: '' }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.croppedImage) {
-        this.imageCompressorService.compress(ImageUtils.dataURLtoFile(result.croppedImage, result.croppedName))
+        this.imageCompressionService.compress(ImageUtils.dataURLtoFile(result.croppedImage, result.croppedName))
           .subscribe((compressed) => {
-            this.fileStorageService.store(compressed)
+            this.fileStorageService.store(ImageUtils.blobToFile(compressed, result.croppedName))
+              .pipe(finalize(() => document.location.reload()))
               .subscribe((response) => {
                 if (response.record && response.record.id) {
                   this.patch(this.organization.id, {

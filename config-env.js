@@ -10,10 +10,12 @@ function createEnvironementFile() {
   production: true,
   oauthBaseUrl: '${getEnvironmentVariable('OAUTH2_BASE_URL')}',
   oauthClientId: '${getEnvironmentVariable('OAUTH2_CLIENT_ID')}',
+  imageCompressionBaseUrl: '${getEnvironmentVariable('IMAGE_COMPRESSION_BASE_URL')}',
   storageBaseUrl: '${getEnvironmentVariable('STORAGE_BASE_URL')}',
   storageApplicationId: '${getEnvironmentVariable('STORAGE_APPLICATION_ID', 'accounts-avatar')}',
   storageAccountingId: '${getEnvironmentVariable('STORAGE_ACCOUNTING_ID', 'ottimizza')}'
-};`;
+};
+`;
 }
 
 const environment = getEnvironmentVariable('ENVIRONMENT');

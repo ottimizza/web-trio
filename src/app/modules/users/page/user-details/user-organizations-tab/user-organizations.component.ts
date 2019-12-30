@@ -57,6 +57,11 @@ export class UserOrganizationsComponent implements OnInit, AfterViewInit {
       });
   }
 
+  public openOrganizationDetailsPage(organization: Organization): void {
+    this.router.navigateByUrl(`/${organization.id}`);
+  }
+
+
   ngOnInit() {
     this.currentUser = User.fromLocalStorage();
     this.user = this.user === null ? User.fromLocalStorage() : this.user;

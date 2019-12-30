@@ -4,15 +4,26 @@
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> <strong>Nome</strong> </th>
         <td mat-cell *matCellDef="let element">
-          {{element.name}}
+          <a class="link cursor-pointer" [routerLink]="['/dashboard/organizations/', element.id]">
+            {{element.codigoERP}} - {{element.name}}
+          </a><br>
+          <small class="text-muted">{{element.cnpj  | doc }}</small>
         </td>
       </ng-container>
       <ng-container matColumnDef="cnpj">
-        <th mat-header-cell *matHeaderCellDef> CPF/CNPJ </th>
-        <td mat-cell *matCellDef="let element"> {{element.cnpj}} </td>
+        <th mat-header-cell *matHeaderCellDef class="text-center"> Ações </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <button class="d-none btn text-primary jello" title="Copiar link para cadastro.">
+            <i class="fad fa-copy"></i>
+          </button>
+          <button class="d-none btn text-danger" title="Remover empresa.">
+            <i class="fad fa-times"></i>
+          </button>
+          Em breve
+        </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row class="cursor-pointer" *matRowDef="let row; columns: displayedColumns;" [routerLink]="row.id">
+      <tr mat-row class="cursor-pointer" *matRowDef="let row; columns: displayedColumns;">
       </tr>
     </table>
   </div>

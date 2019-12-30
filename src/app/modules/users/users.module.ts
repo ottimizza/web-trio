@@ -33,6 +33,7 @@ import { UserListComponent } from './page/user-list/userlist-tab/userlist.compon
 import { UserDetailsComponent } from './page/user-details/user-details.component';
 import { UsersComponent } from './page/user-list/users.component';
 import { UserOrganizationsComponent } from './page/user-details/user-organizations-tab/user-organizations.component';
+import { DocPipe } from '@shared/pipes/doc.pipe';
 
 @NgModule({
   declarations: [
@@ -42,12 +43,13 @@ import { UserOrganizationsComponent } from './page/user-details/user-organizatio
 
     UserListComponent,
     UserDetailsComponent,
-    InvitationsComponent, 
+    InvitationsComponent,
     UsersComponent,
 
     AvatarDialogComponent,
     InviteDialogComponent,
-    DragDropDirective
+    DragDropDirective,
+    DocPipe
   ],
   imports: [
     FormsModule,

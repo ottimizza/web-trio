@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthCallbackComponent } from './page/callback/callback.component';
+import { AuthLogoutComponent } from './page/logout/logout.component';
 
 // import { ProjectResolver } from './project-resolver.service';
 // import { HomeComponent } from './page/home.component';
@@ -13,8 +14,12 @@ export const routes: Routes = [
   //   pathMatch: 'full'
   // },
   {
-    path: '',
+    path: 'callback',
     component: AuthCallbackComponent
+  },
+  {
+    path: 'logout',
+    component: AuthLogoutComponent
   },
 ];
 
