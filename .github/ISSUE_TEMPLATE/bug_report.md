@@ -1,7 +1,7 @@
 ---
 name: Reportar um Bug
 about: Formulário para reportar um Bug
-title: ''
+titulo: ''
 labels: ''
 assignees: ''
 ---
