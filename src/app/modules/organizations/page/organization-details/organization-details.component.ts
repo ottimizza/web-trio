@@ -80,6 +80,7 @@ export class OrganizationDetaisComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AvatarDialogComponent, {
+      maxWidth: '568px',
       data: { name: '' }
     });
     dialogRef.afterClosed().subscribe(result => {

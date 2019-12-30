@@ -22,6 +22,7 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorInterceptor, ErrorInterceptorProvider } from '@app/interceptor/http.interceptor';
 import { NavbarLayoutModule } from './layout/navbar-layout/navbar-layout.module';
 import { DragDropDirective } from '@shared/directives/drag-drop.directive';
+import { DocPipe } from '@shared/pipes/doc.pipe';
 
 @NgModule({
   declarations: [
