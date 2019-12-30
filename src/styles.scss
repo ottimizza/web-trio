@@ -26,6 +26,12 @@ a {
   color: inherit;
 }
 
+.overflow-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Layout */
 // .s-layout {
 //   display: flex;
