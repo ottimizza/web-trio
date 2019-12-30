@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { User } from '@shared/models/User';
 import { AuthenticationService } from '@app/authentication/authentication.service';
 import { StorageService } from '@app/services/storage.service';
+import { Router } from '@angular/router';
 // import { OverlayContainer } from '@angular/cdk/overlay';
 
 // import { ThemeService } from '@app/service/theme.service';
@@ -19,7 +20,9 @@ export class NavbarLayoutComponent implements OnInit {
 
   logo: string = this.DEFAULT_LOGO;
 
-  constructor(@Inject(DOCUMENT) public document: Document,
+  constructor(
+    @Inject(DOCUMENT) public document: Document,
+    public router: Router,
     public storageService: StorageService,
     public authorizationService: AuthenticationService) { }
 
@@ -32,12 +35,13 @@ export class NavbarLayoutComponent implements OnInit {
   }
 
   public logout() {
-    this.authorizationService.revokeToken().subscribe((r1: any) => {
-      this.authorizationService.clearStorage();
-      return this.authorizationService.logout().subscribe((r2: any) => {
-        this.authorizationService.authorize();
-      });
-    });
+    this.router.navigate(['auth', 'logout']);
+    // this.authorizationService.revokeToken().subscribe((r1: any) => {
+    //   this.authorizationService.clearStorage();
+    //   return this.authorizationService.logout().subscribe((r2: any) => {
+    //     this.authorizationService.authorize();
+    //   });
+    // });
   }
 
   ngOnInit() {
