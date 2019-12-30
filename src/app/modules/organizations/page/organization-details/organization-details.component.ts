@@ -61,7 +61,7 @@ export class OrganizationDetaisComponent implements OnInit {
     });
   }
 
-  public patch(id: number, data: any): void {
+  public patch(id: number, data: any, reload: boolean = false): void {
     this.organizationService.patch(id, data).pipe(
       finalize(() => {
         this.breadcrumb = {
@@ -71,9 +71,11 @@ export class OrganizationDetaisComponent implements OnInit {
         };
         this.edit();
       })
-    ).subscribe((response: GenericResponse<Organization>) => {
-      this.organization = response.record;
-    });
+    )
+      .pipe(finalize(() => { if (reload) { document.location.reload(); } }))
+      .subscribe((response: GenericResponse<Organization>) => {
+        this.organization = response.record;
+      });
   }
 
   canEditOrganization = () => [User.Type.ADMINISTRATOR, User.Type.ACCOUNTANT].includes(this.currentUser.type);
@@ -89,12 +91,11 @@ export class OrganizationDetaisComponent implements OnInit {
         this.imageCompressionService.compress(ImageUtils.dataURLtoFile(result.croppedImage, result.croppedName))
           .subscribe((compressed) => {
             this.fileStorageService.store(ImageUtils.blobToFile(compressed, result.croppedName))
-              .pipe(finalize(() => document.location.reload()))
               .subscribe((response) => {
                 if (response.record && response.record.id) {
                   this.patch(this.organization.id, {
                     avatar: this.fileStorageService.getResourceURL(response.record.id)
-                  });
+                  }, true);
                 }
               });
           });
