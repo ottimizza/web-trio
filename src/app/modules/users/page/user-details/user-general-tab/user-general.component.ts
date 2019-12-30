@@ -54,12 +54,11 @@ export class UserGeneralComponent implements OnInit {
         this.imageCompressionService.compress(ImageUtils.dataURLtoFile(result.croppedImage, result.croppedName))
           .subscribe((compressed) => {
             this.fileStorageService.store(ImageUtils.blobToFile(compressed, result.croppedName))
-              .pipe(finalize(() => document.location.reload()))
               .subscribe((response) => {
                 if (response.record && response.record.id) {
                   this.patch(this.user.id, {
                     avatar: this.fileStorageService.getResourceURL(response.record.id)
-                  });
+                  }, true);
                 }
               });
           });
@@ -70,15 +69,17 @@ export class UserGeneralComponent implements OnInit {
   public edit = (id: string = null) => this.editingId = id;
   public isEditing = (id: string) => this.editingId === id;
 
-  public async patch(id: number, data: any): Promise<any> {
+  public async patch(id: number, data: any, reload: boolean = false): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       this.userService.patch(id, data).pipe(
         finalize(() => {
           resolve();
         })
-      ).subscribe((response: GenericResponse<User>) => {
-        this.user = response.record;
-      });
+      )
+        .pipe(finalize(() => { if (reload) { document.location.reload(); } }))
+        .subscribe((response: GenericResponse<User>) => {
+          this.user = response.record;
+        });
     }).then(() => {
       this.edit();
       this.userUpdate.emit(this.user);
