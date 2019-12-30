@@ -17,7 +17,7 @@ import { AvatarModule } from '@shared/components/avatar/avatar.module';
 import { BrandModule } from '@shared/components/brand/brand.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BreadcrumbModule } from '@shared/components/breadcrumb/breadcrumb.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpErrorInterceptor, ErrorInterceptorProvider } from '@app/interceptor/http.interceptor';
 import { NavbarLayoutModule } from './layout/navbar-layout/navbar-layout.module';
