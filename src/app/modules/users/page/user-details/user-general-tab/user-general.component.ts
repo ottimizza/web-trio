@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AvatarDialogComponent } from '@modules/users/dialogs/avatar-dialog/avatar-dialog.component';
 import { FileStorageService } from '@app/http/file-storage.service';
 import { ImageUtils } from '@shared/utils/image.utils';
-import { ImageCompressorService } from '@app/services/image-compression.service';
+import { ImageCompressionService } from '@app/http/image-compression.service';
 
 // Forms
 
@@ -34,7 +34,7 @@ export class UserGeneralComponent implements OnInit {
   constructor(
     public userService: UserService,
     public fileStorageService: FileStorageService,
-    public imageCompressorService: ImageCompressorService,
+    public imageCompressionService: ImageCompressionService,
     public dialog: MatDialog
   ) { }
   public canEdit() {
@@ -51,9 +51,10 @@ export class UserGeneralComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.croppedImage) {
-        this.imageCompressorService.compress(ImageUtils.dataURLtoFile(result.croppedImage, result.croppedName))
+        this.imageCompressionService.compress(ImageUtils.dataURLtoFile(result.croppedImage, result.croppedName))
           .subscribe((compressed) => {
-            this.fileStorageService.store(compressed)
+            this.fileStorageService.store(ImageUtils.blobToFile(compressed, result.croppedName))
+              .pipe(finalize(() => document.location.reload()))
               .subscribe((response) => {
                 if (response.record && response.record.id) {
                   this.patch(this.user.id, {
