@@ -31,12 +31,6 @@ export class AuthCallbackComponent implements OnInit {
 
   public onLoad() {
     const that = this;
-    setInterval(() => {
-      console.log('..');
-      if (that.callbackFinished) {
-        that.router.navigate(['dashboard']);
-      }
-    }, 1000);
   }
 
   public ngOnInit() {
