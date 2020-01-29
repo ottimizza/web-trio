@@ -6,8 +6,19 @@
 
       </div>
     </div>
-    <div class="row">
+    <div class="row pb-2">
       <div class="col-12">
+        <div *ngIf="organization.active === false" class="row m-0 alert alert-warning align-items-center" role="alert">
+          <div class="col-8">
+            <strong>Empresa Inativa!</strong> <br>
+            <small>A definir mensagem.</small>
+          </div>
+          <div class="col-4">
+            <button class="btn btn-warning float-right" (click)="patch(organization.id, {'activated': true})">
+              Ativar Empresa
+            </button>
+          </div>
+        </div>
         <div class="form-body pt-4">
           <div *ngIf="organization.type === 1" class="form-group row pb-2">
             <div class="col-md-3">
