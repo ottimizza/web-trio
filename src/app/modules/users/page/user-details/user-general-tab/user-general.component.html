@@ -1,9 +1,18 @@
-<div class="row pt-4 pb-2">
+<div class="row pb-2">
   <div class="col-12">
+    <div *ngIf="user.activated === false" class="row m-0 alert alert-warning align-items-center" role="alert">
+      <div class="col-8">
+        <strong>Usuário Inativado!</strong> <br><small>Usuários inativos não tem acesso ao sistema.</small>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-warning float-right" (click)="patch(user.id, {'activated': true})">Ativar
+          Usuário</button>
+      </div>
+    </div>
     <div class="form-body">
       <div class="form-group row pt-4 pb-2">
         <div class="col-md-3">
-          <h5 class="m-0"><i class="ft-user"></i> Avatar</h5>
+          <h5 class="m-0"><i class="ft-user"></i> Foto</h5>
         </div>
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center">
@@ -105,6 +114,40 @@
             </button>
           </div>
         </div>
+      </div>
+      <hr class="mt-5 mb-4">
+      <div class="form-group row">
+        <div class="col-md-3">
+          <h5 class="m-0"><i class="ft-user"></i> Situação do Usuário</h5>
+        </div>
+        <label for="email" class="col-md-3 label-control text-right"></label>
+        <div *ngIf="user.activated === false" class="col-6 m-0 alert alert-warning align-items-center" role="alert">
+
+          <div class="row m-0 p-0 align-items-center">
+            <div class="col-8">
+              <strong>Usuário Inativado!</strong> <br><small>Usuários inativos não tem acesso ao sistema.</small>
+            </div>
+            <div class="col-4">
+              <button class="btn btn-warning float-right" (click)="patch(user.id, {'activated': true})">Ativar
+                Usuário</button>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="user.activated === true" class="col-6 m-0 alert" role="alert">
+          <div class="row m-0 p-0 align-items-center">
+            <div class="col-8 text-success">
+              <strong class="">Usuário Ativo! <i class="far fa-smile-wink"></i></strong> <br><small>Acesso liberado ao
+                sistema. </small>
+            </div>
+            <div class="col-4">
+              <button class="btn btn-warning float-right" (click)="patch(user.id, {'activated': false})">Inativar
+                Usuário</button>
+            </div>
+          </div>
+        </div>
+        <!-- <div *ngIf="user.activated === true" class="col-md-6">
+          <button class="btn btn-warning float-right" (click)="patch(user.id, {'activated': true})">Inativar Usuário</button>
+        </div> -->
       </div>
     </div>
   </div>

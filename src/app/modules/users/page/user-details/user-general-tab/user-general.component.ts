@@ -37,6 +37,7 @@ export class UserGeneralComponent implements OnInit {
     public imageCompressionService: ImageCompressionService,
     public dialog: MatDialog
   ) { }
+
   public canEdit() {
     if (this.currentUser != null && this.user != null) {
       return this.currentUser.id === this.user.id;
@@ -84,6 +85,15 @@ export class UserGeneralComponent implements OnInit {
       this.edit();
       this.userUpdate.emit(this.user);
     });
+  }
+
+  /**
+   * Método para verificar se usuário logado tem permissão para alterar o 
+   * status do usuário. Apenas usuários do tipo Administrador (0) e Contador (1).
+   */
+  canSwitchStatus(): boolean {
+    return this.currentUser.id !== this.user.id
+      && [User.Type.ADMINISTRATOR, User.Type.ACCOUNTANT].includes(this.currentUser.type);
   }
 
   ngOnInit() {
