@@ -8,10 +8,10 @@
     </div>
     <div class="row pb-2">
       <div class="col-12">
-        <div *ngIf="organization.active === true" class="row m-0 alert alert-warning align-items-center" role="alert">
+        <div *ngIf="organization.active === false" class="row m-0 alert alert-warning align-items-center" role="alert">
           <div class="col-8">
             <strong>Empresa Inativa!</strong> <br>
-            <small>A definir mensagem.</small>
+            <small></small>
           </div>
           <div class="col-4">
             <button class="btn btn-warning float-right" (click)="patch(organization.id, {'activated': true})">
