@@ -13,7 +13,7 @@
             <strong>Empresa Inativa!</strong> <br>
             <small></small>
           </div>
-          <div class="col-4">
+          <div *ngIf="canSwitchStatus()" class="col-4">
             <button class="btn btn-warning float-right" (click)="patch(organization.id, {'active': true})">
               Ativar Empresa
             </button>
@@ -99,8 +99,8 @@
             </div>
           </div>
 
-          <hr class="mt-5 mb-4">
-          <div class="form-group row">
+          <hr *ngIf="canSwitchStatus() && organization.type != 1" class="mt-5 mb-4">
+          <div *ngIf="canSwitchStatus() && organization.type != 1" class="form-group row">
             <div class="col-md-3">
               <h5 class="m-0"><i class="ft-user"></i> Situação da Empresa</h5>
             </div>
@@ -111,7 +111,7 @@
                 <div class="col-8">
                   <strong>Empresa Inativada!</strong> <br><small class="d-none">Usuários inativos não tem acesso ao sistema.</small>
                 </div>
-                <div class="col-4">
+                <div *ngIf="canSwitchStatus()" class="col-4">
                   <button class="btn btn-warning float-right" (click)="patch(organization.id, {'active': true})">Ativar
                     Empresa</button>
                 </div>
@@ -123,7 +123,7 @@
                   <strong class="">Empresa Ativa! <i class="far fa-smile-wink"></i></strong> <br><small class="d-none">Acesso liberado ao
                     sistema. </small>
                 </div>
-                <div class="col-4">
+                <div *ngIf="canSwitchStatus()" class="col-4">
                   <button class="btn btn-warning float-right" (click)="patch(organization.id, {'active': false})">Inativar
                     Empresa</button>
                 </div>
