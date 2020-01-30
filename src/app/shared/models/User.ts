@@ -12,6 +12,7 @@ export class User {
   username: string;
   password: string;
 
+  active: boolean;
   activated: boolean;
   type: number;
 
