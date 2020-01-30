@@ -9,6 +9,7 @@ export class Organization {
 
   cnpj: string;
   externalId: boolean;
+  active: boolean;
   type: number;
 
   name: string;
