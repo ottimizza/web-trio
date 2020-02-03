@@ -49,8 +49,9 @@ export class UserListComponent implements OnInit, AfterViewInit {
     if (sort && sort.active && sort.direction) {
       this.sortInfo = { 'sort.order': sort.direction, 'sort.attribute': sort.active };
     }
-
-    const searchCriteria = Object.assign({ pageIndex, pageSize }, this.sortInfo);
+    const filter = Object.assign({ active: true }, this.sortInfo);
+    
+    const searchCriteria = Object.assign({ pageIndex, pageSize }, filter);
 
     this.userService.fetch(searchCriteria).subscribe((response: GenericPageableResponse<User>) => {
       this.users = response.records;

@@ -80,6 +80,16 @@ export class OrganizationDetaisComponent implements OnInit {
 
   canEditOrganization = () => [User.Type.ADMINISTRATOR, User.Type.ACCOUNTANT].includes(this.currentUser.type);
 
+  canSwitchStatus(): boolean {
+    let canSwitchStatus = false;
+    if (this.organization.type === Organization.Type.ACCOUNTING) {
+      canSwitchStatus = [User.Type.ADMINISTRATOR].includes(this.currentUser.type);
+    }
+    if (this.organization.type === Organization.Type.CUSTOMER) {
+      canSwitchStatus = [User.Type.ADMINISTRATOR, User.Type.ACCOUNTANT].includes(this.currentUser.type);
+    }
+    return canSwitchStatus;
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AvatarDialogComponent, {

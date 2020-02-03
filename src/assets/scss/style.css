@@ -441,8 +441,8 @@
   .text-warning {
     color: #ffb22b !important; }
 
-  .text-success {
-    color: #26c6da !important; }
+  /* .text-success {
+    color: #26c6da !important; } */
 
   .text-info {
     color: #1e88e5 !important; }
