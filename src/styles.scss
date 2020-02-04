@@ -128,15 +128,16 @@ $full-sidebar-width: 240px;
           margin-bottom: 10px;
           a {
             color: #fafafa;
-            padding: 13px 40px 13px 20px;
+            padding: 13px 40px 13px 0px;
             display: block;
             font-size: 15px;
             white-space: nowrap;
             transition: 0.25s;
+
             i,
             svg {
-              width: 50px;
-              height: 27px;
+              width: 70px;
+              text-align: center;
               font-size: 21px;
               display: inline-block;
               vertical-align: middle;
