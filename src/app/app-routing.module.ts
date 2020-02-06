@@ -27,6 +27,14 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'products',
+        data: {
+          breadcrumb: 'Produtos'
+        },
+        loadChildren: () => import('@modules/products/products.module').then(m => m.ProductsModule),
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'users',
         data: {
           breadcrumb: 'Usuários'
