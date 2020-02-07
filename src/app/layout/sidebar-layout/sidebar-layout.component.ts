@@ -27,7 +27,7 @@ export class SidebarLayoutComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      { icon: 'fad fa-box', label: 'Produtos', url: '/dashboard/products' },
+      { icon: 'fad fa-box', label: 'Aplicativos', url: '/dashboard/products' },
       { icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users' },
       { icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations' }
     ];

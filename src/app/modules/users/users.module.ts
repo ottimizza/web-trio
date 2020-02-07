@@ -34,6 +34,7 @@ import { UserDetailsComponent } from './page/user-details/user-details.component
 import { UsersComponent } from './page/user-list/users.component';
 import { UserOrganizationsComponent } from './page/user-details/user-organizations-tab/user-organizations.component';
 import { DocPipe } from '@shared/pipes/doc.pipe';
+import { PipesModule } from '@shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -48,10 +49,10 @@ import { DocPipe } from '@shared/pipes/doc.pipe';
 
     AvatarDialogComponent,
     InviteDialogComponent,
-    DragDropDirective,
-    DocPipe
+    DragDropDirective
   ],
   imports: [
+    PipesModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
