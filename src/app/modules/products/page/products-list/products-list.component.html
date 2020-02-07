@@ -1,0 +1,33 @@
+<div class="page-wrapper bg-white">
+  <app-breadcrumb></app-breadcrumb>
+  <div class="d-none content-wrapper full-width-nav-tabs py-2">
+    <div class="container">
+      <ul class="nav nav-pills flex-row-reverse">
+        <li class="nav-item notification-sidebar-toggle">
+          <button class="btn btn-primary nav-link py-1 px-2 active">
+            <i aria-hidden="true" class="fad fa-plus-square"></i>
+            <span class="ml-2"></span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="container pt-4">
+    <div class="row">
+      <div class="col">
+        <h3>Aplicativos</h3>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <a *ngFor="let product of products" class="card product cursor-pointer mx-2" [href]="product.appUrl">
+        <div class="card-body text-center">
+          <img class="img-thumbnail my-4" width="75px" [src]="product.imageUrl" alt="product.name">
+          <h4>{{product.name}}</h4>
+          <hr>
+          <small>{{product.description}}</small>
+        </div>
+      </a>
+    </div>
+  </div>
+  <footer class="footer d-none"> © 2017 Material Pro Admin by wrappixel.com </footer>
+</div>

@@ -23,6 +23,7 @@ import { HttpErrorInterceptor, ErrorInterceptorProvider } from '@app/interceptor
 import { NavbarLayoutModule } from './layout/navbar-layout/navbar-layout.module';
 import { DragDropDirective } from '@shared/directives/drag-drop.directive';
 import { DocPipe } from '@shared/pipes/doc.pipe';
+import { PipesModule } from '@shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,8 @@ import { DocPipe } from '@shared/pipes/doc.pipe';
 
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+
+    PipesModule,
 
     //
     NavbarLayoutModule,

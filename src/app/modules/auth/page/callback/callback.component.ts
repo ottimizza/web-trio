@@ -4,6 +4,7 @@ import { AuthenticationService } from '@app/authentication/authentication.servic
 import { AuthSession } from '@shared/models/AuthSession';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '@env';
+import { StorageService } from '@app/services/storage.service';
 
 // import { Project } from '../../../../data/schema/project';
 
@@ -26,6 +27,7 @@ export class AuthCallbackComponent implements OnInit {
     public sanitizer: DomSanitizer,
     public router: Router,
     public route: ActivatedRoute,
+    public storageService: StorageService,
     public authenticationService: AuthenticationService
   ) { }
 
@@ -42,6 +44,15 @@ export class AuthCallbackComponent implements OnInit {
           if (response.access_token) {
             AuthSession.fromOAuthResponse(response).store().then(async () => {
               that.callbackFinished = true;
+
+              this.storageService.fetch('redirect_url').then((value) => {
+                this.storageService.destroy('redirect_url');
+                if (value) {
+                  that.router.navigate([value]);
+                }
+                else that.router.navigate(['/dashboard/products']);
+              });
+
               // const storeUserInfo = that.authenticationService.storeUserInfo();
               // const storeTokenInfo = that.authenticationService.storeTokenInfo();
 
@@ -49,7 +60,10 @@ export class AuthCallbackComponent implements OnInit {
               //   storeUserInfo,
               //   storeTokenInfo
               // ]).then((values) => {
-              that.router.navigate(['dashboard']);
+              
+
+
+              // that.router.navigate(['dashboard']);
               // }).catch((e) => {
               //   console.log(e);
               // });

@@ -28,6 +28,21 @@ export class StorageService {
     });
   }
 
+  public async fetch(key: string): Promise<any | void> {
+    return new Promise<any | void>((resolve, reject) => {
+      resolve(localStorage.getItem(key));
+    });
+  }
+
+  public async destroy(key: string): Promise<any | void> {
+    return new Promise<any | void>((resolve, reject) => {
+      localStorage.removeItem(key);
+      resolve();
+    });
+  }
+
+
+
   public onStorage(key: string, handler: any): Subscription {
     return this._subscribe(`storage:${key}:store`, handler);
   }
@@ -44,11 +59,6 @@ export class StorageService {
       this.subjects[name] = (this.immediate ? new Subject() : new BehaviorSubject(null));
     }
     return this.subjects[name].subscribe(handler);
-  }
-
-
-  destroy(key: string): void {
-
   }
 
 }
