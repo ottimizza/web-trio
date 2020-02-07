@@ -12,6 +12,8 @@ import { CreateDialogComponent } from './dialogs/create-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AvatarDialogComponent } from './dialogs/avatar-dialog/avatar-dialog.component';
 import { ImageCropperModule } from '@shared/components/image-cropper/image-cropper.module';
+import { DocPipe } from '@shared/pipes/doc.pipe';
+import { PipesModule } from '@shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { ImageCropperModule } from '@shared/components/image-cropper/image-cropp
     CreateDialogComponent
   ],
   imports: [
+    PipesModule,
     CommonModule,
     FormsModule,
 
@@ -34,7 +37,8 @@ import { ImageCropperModule } from '@shared/components/image-cropper/image-cropp
     ImageCropperModule
   ],
   exports: [],
-  providers: [],
+  providers: [
+  ],
   entryComponents: [
     AvatarDialogComponent,
     CreateDialogComponent

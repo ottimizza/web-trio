@@ -29,7 +29,7 @@ const routes: Routes = [
       {
         path: 'products',
         data: {
-          breadcrumb: 'Produtos'
+          breadcrumb: 'Aplicativos'
         },
         loadChildren: () => import('@modules/products/products.module').then(m => m.ProductsModule),
         canActivate: [AuthGuard]
