@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>
+  Remover Logo da Contabilidade
+</h2>
+<mat-dialog-content class="border-top border-bottom">
+  <div class="container-fluid px-0 py-3">
+    <div class="row">
+      <div class="container-fluid pb-0">
+        <h4>Tem certeza que deseja remover a imagem atual?</h4>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <div class="container-fluid px-0 py-3 ">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-10 col-lg-6">
+        <div class="container-fluid p-0">
+          <div class="row">
+            <div class="col-6 px-1">
+              <button class="btn btn-light text-danger w-100 m-0" mat-dialog-close>
+                <i aria-hidden="true" class="d-none fad fa-times-square"></i>&nbsp;&nbsp;<span>Cancelar</span>
+              </button>
+            </div>
+            <div class="col-6 px-1">
+              <button class="btn btn-raised btn-danger w-100 m-0" (click)="close(true)">
+                <i aria-hidden="true" class="d-none fad fa-save"></i>&nbsp;&nbsp;<span>Remover</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

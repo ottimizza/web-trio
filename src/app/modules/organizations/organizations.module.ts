@@ -14,13 +14,16 @@ import { AvatarDialogComponent } from './dialogs/avatar-dialog/avatar-dialog.com
 import { ImageCropperModule } from '@shared/components/image-cropper/image-cropper.module';
 import { DocPipe } from '@shared/pipes/doc.pipe';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
+import { AvatarRemoveDialogComponent } from './dialogs/avatar-remove-dialog/avatar-remove-dialog.component';
 
 @NgModule({
   declarations: [
     AvatarDialogComponent,
     OrganizationListComponent,
     OrganizationDetaisComponent,
-    CreateDialogComponent
+    CreateDialogComponent,
+    AvatarRemoveDialogComponent
   ],
   imports: [
     PipesModule,
@@ -41,7 +44,8 @@ import { PipesModule } from '@shared/pipes/pipes.module';
   ],
   entryComponents: [
     AvatarDialogComponent,
-    CreateDialogComponent
+    CreateDialogComponent,
+    AvatarRemoveDialogComponent
   ]
 })
 export class OrganizationModule { }

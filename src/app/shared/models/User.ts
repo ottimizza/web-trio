@@ -51,4 +51,11 @@ export class User {
     return user;
   }
 
+
+  isCustomer = () => this.type === User.Type.CUSTOMER; 
+
+  isAccountant = () => this.type === User.Type.ACCOUNTANT; 
+
+  isAdministrator = () => this.type === User.Type.ADMINISTRATOR; 
+
 }
