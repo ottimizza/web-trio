@@ -8,6 +8,8 @@ import { ModalComponent } from '@shared/components/modals/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InviteDialogComponent } from '@modules/users/dialogs/invite-dialog/invite-dialog.component';
 import { Sort, MatSort } from '@angular/material/sort';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 
 @Component({
@@ -20,6 +22,11 @@ export class UserListComponent implements OnInit, AfterViewInit {
   public currentUser: User = new User();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  public form: FormGroup;
+
+  public searchOptions: Array<any> = new Array<any>();
+  public isFetching: boolean;
 
   public users: Array<User>;
   public empties: Array<any> = [
@@ -40,8 +47,14 @@ export class UserListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['avatar', 'fullname', 'username', 'type'];
   dataSource = this.empties;
 
-  constructor(public storageService: StorageService, public userService: UserService, public dialog: MatDialog) {
-  }
+  private filters: Array<any> = new Array<any>();
+
+  constructor(
+    public storageService: StorageService,
+    public userService: UserService,
+    public dialog: MatDialog,
+    public formBuilder: FormBuilder
+  ) { }
 
   public fetch(pageIndex: number = 0, pageSize: number = 10, sort: Sort = null) {
     // this.sortInfo = {};
@@ -49,8 +62,9 @@ export class UserListComponent implements OnInit, AfterViewInit {
     if (sort && sort.active && sort.direction) {
       this.sortInfo = { 'sort.order': sort.direction, 'sort.attribute': sort.active };
     }
-    const filter = Object.assign({ active: true }, this.sortInfo);
-    
+    let filter = Object.assign({ active: true }, this.sortInfo);
+    this.filters.forEach((value, index) => filter = Object.assign(value, filter));
+
     const searchCriteria = Object.assign({ pageIndex, pageSize }, filter);
 
     this.userService.fetch(searchCriteria).subscribe((response: GenericPageableResponse<User>) => {
@@ -61,13 +75,8 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(InviteDialogComponent, {
-      data: { name: '' }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+    const dialogRef = this.dialog.open(InviteDialogComponent, {data: { name: '' }});
+    dialogRef.afterClosed().subscribe((result) => console.log('The dialog was closed'));
   }
 
   public canInvite = () => [User.Type.ACCOUNTANT].includes(this.currentUser.type);
@@ -86,10 +95,34 @@ export class UserListComponent implements OnInit, AfterViewInit {
     this.fetch(pageEvent.pageIndex, pageEvent.pageSize);
   }
 
+  private applyDebouce(formGroup: FormGroup, formControlName: string, delay: number = 300) {
+    return formGroup.get(formControlName).valueChanges
+      .pipe(debounceTime(delay));
+  }
+  
+  public applyFilter(value: any): void {
+    this.filters.push(value);
+    this.fetch();
+  }
+
   public ngOnInit() {
     this.fetch();
 
     this.fetchCurrentUser();
+
+    this.form = this.formBuilder.group({
+      search: ['']
+    });
+
+    this.applyDebouce(this.form, 'search', 0).subscribe((value) => {
+      if (value) {
+        this.searchOptions = new Array<any>();
+        this.searchOptions.push({ value: {firstName: value}, label: `Buscar por "${value}"` })
+        // this.fetchOrganizationByName(value);
+      } else {
+        this.searchOptions = new Array<any>();
+      }
+    });
   }
 
   ngAfterViewInit() {
