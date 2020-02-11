@@ -89,7 +89,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['avatar', 'fullname', 'username', 'type'];
   dataSource = this.empties;
 
-  private filters: Array<any> = new Array<any>(
+  public filters: Array<any> = new Array<any>(
     SearchRule.Builder()
       .id('active')
       .value({active: true})
