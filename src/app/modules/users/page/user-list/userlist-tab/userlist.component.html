@@ -5,11 +5,11 @@
         <div class="form-group">
           <div class="input-group w-100">
             <div class="input-group-prepend">
-              <span class="input-group-text">
+              <span (click)="showOptions(input);" class="input-group-text">
                 <i class="far fa-sliders-h"></i>
               </span>
             </div>
-            <input [matAutocomplete]="auto" class="form-control" formControlName="search" placeholder="Buscar">
+            <input #input [matAutocomplete]="auto" class="form-control" formControlName="search" placeholder="Buscar">
             <div class="input-group-append">
               <span *ngIf="!isFetching  && searchOptions.length === 0" class="input-group-text bg-white">
                 <i class="fal fa-search"></i>
@@ -27,18 +27,29 @@
             Informe o nome da empresa a ser vinculada ao usuário.
           </small>
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of searchOptions" (onSelectionChange)="applyFilter(option.value)">
-              <span>{{ option.label }}</span>
+            <mat-option *ngFor="let option of searchOptions" (onSelectionChange)="applyFilter(option)">
+              <span>{{ option.description }}</span>
               <!-- <br>
           <small>{{option.cnpj}}</small> -->
             </mat-option>
           </mat-autocomplete>
+          <br>
+          <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip
+              *ngFor="let filter of filters"
+              [selectable]="true"
+              [removable]="true"
+              (removed)="removeFilter(filter)">
+              {{ filter.description }}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
         </div>
       </form>
     </div>
   </div>
 </div>
-<div class="container pt-2">
+<div class="container">
   <div class="row">
     <div class="col">
       <table mat-table matSort [dataSource]="dataSource" class="table-hover mat-elevation-z0">

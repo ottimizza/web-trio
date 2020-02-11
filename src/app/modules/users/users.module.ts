@@ -11,6 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 
 
@@ -64,6 +65,7 @@ import { PipesModule } from '@shared/pipes/pipes.module';
     MatAutocompleteModule,
 
     // Table
+    MatChipsModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
