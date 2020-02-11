@@ -12,9 +12,7 @@ import { CreateDialogComponent } from './dialogs/create-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AvatarDialogComponent } from './dialogs/avatar-dialog/avatar-dialog.component';
 import { ImageCropperModule } from '@shared/components/image-cropper/image-cropper.module';
-import { DocPipe } from '@shared/pipes/doc.pipe';
 import { PipesModule } from '@shared/pipes/pipes.module';
-import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 import { AvatarRemoveDialogComponent } from './dialogs/avatar-remove-dialog/avatar-remove-dialog.component';
 
 @NgModule({
