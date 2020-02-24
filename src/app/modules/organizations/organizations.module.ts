@@ -14,6 +14,12 @@ import { AvatarDialogComponent } from './dialogs/avatar-dialog/avatar-dialog.com
 import { ImageCropperModule } from '@shared/components/image-cropper/image-cropper.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AvatarRemoveDialogComponent } from './dialogs/avatar-remove-dialog/avatar-remove-dialog.component';
+import { ComplexSearchInputComponent } from '@shared/components/search/complex-search.component';
+import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -28,14 +34,22 @@ import { AvatarRemoveDialogComponent } from './dialogs/avatar-remove-dialog/avat
     CommonModule,
     FormsModule,
 
-    // Material
+    // Material - Table
     MatTableModule,
     MatDialogModule,
+    MatPaginatorModule,
+    MatSortModule,
 
+    // Material - Chips
+    MatChipsModule,
+    MatIconModule,
+
+    //
     BreadcrumbModule,
     OrganizationRoutingModule,
 
-    ImageCropperModule
+    ImageCropperModule,
+    ComplexSearchModule
   ],
   exports: [],
   providers: [

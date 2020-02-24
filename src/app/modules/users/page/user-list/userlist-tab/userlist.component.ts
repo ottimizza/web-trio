@@ -57,7 +57,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   public defaultRule = SearchRule.builder()
                         .id('default')
                         .value({ firstName: '' })
-                        .description('Buscar por "{0}"')
+                        .description('Primeiro nome contém "{0}"')
                         .build();
 
   public filters: Array<any> = new Array<any>(
