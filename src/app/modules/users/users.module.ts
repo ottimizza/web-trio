@@ -36,6 +36,7 @@ import { UsersComponent } from './page/user-list/users.component';
 import { UserOrganizationsComponent } from './page/user-details/user-organizations-tab/user-organizations.component';
 import { DocPipe } from '@shared/pipes/doc.pipe';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { ComplexSearchInputComponent } from '@shared/components/search/complex-search.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,8 @@ import { PipesModule } from '@shared/pipes/pipes.module';
     UserDetailsComponent,
     InvitationsComponent,
     UsersComponent,
+
+    ComplexSearchInputComponent,
 
     AvatarDialogComponent,
     InviteDialogComponent,
@@ -83,7 +86,8 @@ import { PipesModule } from '@shared/pipes/pipes.module';
   exports: [],
   entryComponents: [
     AvatarDialogComponent,
-    InviteDialogComponent
+    InviteDialogComponent,
+    ComplexSearchInputComponent,
   ]
 })
 export class UsersModule { }
