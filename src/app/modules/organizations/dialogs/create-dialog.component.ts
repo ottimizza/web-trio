@@ -40,9 +40,12 @@ export class CreateDialogComponent implements OnInit {
   }
 
   public create() {
+    // const org = this.organization;
+    // org.active = true;
     new Promise<any>((resolve, reject) => {
+      // this.organizationService.create(org).subscribe((response: GenericResponse<Organization>) => {
       this.organizationService.create(this.organization).subscribe((response: GenericResponse<Organization>) => {
-        resolve(response);
+          resolve(response);
       });
     }).then((response: GenericResponse<Organization>) => {
       this.alertFeedback = {
