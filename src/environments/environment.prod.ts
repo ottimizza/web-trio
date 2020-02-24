@@ -5,5 +5,6 @@ export const environment = {
   imageCompressionBaseUrl: '',
   storageBaseUrl: '',
   storageApplicationId: 'accounts-avatar',
-  storageAccountingId: 'ottimizza'
+  storageAccountingId: 'ottimizza',
+  applicationId: 'ottimizza'
 };

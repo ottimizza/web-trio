@@ -14,6 +14,7 @@ function createEnvironementFile() {
   storageBaseUrl: '${getEnvironmentVariable('STORAGE_BASE_URL')}',
   storageApplicationId: '${getEnvironmentVariable('STORAGE_APPLICATION_ID', 'accounts-avatar')}',
   storageAccountingId: '${getEnvironmentVariable('STORAGE_ACCOUNTING_ID', 'ottimizza')}'
+  applicationId: '${getEnvironmentVariable('APPLICATION_ID', 'ottimizza')}'
 };
 `;
 }

@@ -28,7 +28,7 @@ export class ProductListComponent implements OnInit {
   }
 
   public fetch() {
-    const filter = { group: `${environment.storageAccountingId}` };
+    const filter = { group: `${environment.applicationId}` };
     this.productService.fetch(filter)
       .subscribe((response: GenericResponse<Product>) => {
         this.products = response.records;
