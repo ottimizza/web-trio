@@ -11,6 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 
 
@@ -35,6 +36,8 @@ import { UsersComponent } from './page/user-list/users.component';
 import { UserOrganizationsComponent } from './page/user-details/user-organizations-tab/user-organizations.component';
 import { DocPipe } from '@shared/pipes/doc.pipe';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { ComplexSearchInputComponent } from '@shared/components/search/complex-search.component';
+import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
 
 @NgModule({
   declarations: [
@@ -62,8 +65,8 @@ import { PipesModule } from '@shared/pipes/pipes.module';
     MatIconModule,
     MatInputModule,
     MatAutocompleteModule,
-
     // Table
+    MatChipsModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
@@ -71,6 +74,7 @@ import { PipesModule } from '@shared/pipes/pipes.module';
     // Modals
     MatDialogModule,
 
+    ComplexSearchModule,
     AvatarModule,
     BreadcrumbModule,
     ModalModule,
@@ -81,7 +85,7 @@ import { PipesModule } from '@shared/pipes/pipes.module';
   exports: [],
   entryComponents: [
     AvatarDialogComponent,
-    InviteDialogComponent
+    InviteDialogComponent,
   ]
 })
 export class UsersModule { }

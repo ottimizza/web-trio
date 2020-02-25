@@ -5,5 +5,6 @@ export const environment = {
   imageCompressionBaseUrl: 'https://development-image-compression.herokuapp.com',
   storageBaseUrl: 'https://s4.ottimizzacontabil.com:55325',
   storageApplicationId: 'account-avatar',
-  storageAccountingId: 'ottimizza'
+  storageAccountingId: 'ottimizza',
+  applicationId: 'ottimizza'
 };

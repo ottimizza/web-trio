@@ -8,7 +8,8 @@
     </div>
     <div class="row pb-2">
       <div class="col-12">
-        <div *ngIf="organization.active === false" class="row m-0 alert alert-warning animated headShake align-items-center" role="alert">
+        <div *ngIf="organization.active === false"
+          class="row m-0 alert alert-warning animated headShake align-items-center" role="alert">
           <div class="col-8">
             <strong>Empresa Inativa!</strong> <br>
             <small></small>
@@ -22,25 +23,39 @@
         <div class="form-body pt-4">
           <div *ngIf="organization.type === 1" class="form-group row pb-2">
             <div class="col-md-3">
-              <h5 class="m-0"><i class="ft-user"></i> Logo</h5>
+              <h5 class="m-0"><i class="ft-user"></i> Logo da Contabilidade</h5>
             </div>
             <div class="col-md-3"></div>
             <div class="col-md-6 text-center">
               <div class="container">
                 <div class="row">
                   <div class="col-12 p-0">
-                    <a class="position-relative w-100 p-0" (click)="currentUser.type === 1 ? openDialog(): 0">
+                    <a class="position-relative w-100 p-0" (click)="canEditLogo() ? openDialog(): 0">
                       <img [src]="organization.avatar || './assets/images/Landscape_Placeholder.png'"
                         class="img-thumbnail" alt="Lucas Martins"
                         onError="this.src='./assets/images/Portrait_Placeholder.png';">
                     </a>
                   </div>
                 </div>
-                <div class="d-none row justify-content-center mt-2"><button type="button" data-toggle="modal"
-                    data-target="#modal-image-cropper" class="btn btn-link"><i aria-hidden="true"
-                      class="fad fa-pencil-alt"></i><span>&nbsp;&nbsp;Editar</span></button> <button type="button"
-                    class="btn btn-link"><i aria-hidden="true"
-                      class="fas fa-times"></i><span>&nbsp;&nbsp;Remover</span></button></div>
+                <div *ngIf="canEditLogo() && organization.avatar == null" class="row justify-content-center mt-2">
+                  <button type="button" (click)="openDialog()"
+                    class="btn btn-link text-primary">
+                    <i aria-hidden="true" class="fad fa-pencil-alt"></i>
+                    <span>&nbsp;&nbsp;Adicionar</span>
+                  </button>
+                </div>
+                <div *ngIf="canEditLogo() && organization.avatar != null" class="row justify-content-center mt-2">
+                  <button type="button" (click)="openDialog()"
+                    class="btn btn-link text-primary">
+                    <i aria-hidden="true" class="fad fa-pencil-alt"></i>
+                    <span>&nbsp;&nbsp;Editar</span>
+                  </button>
+                  <button type="button" (click)="removerLogoContabilidade()"
+                    class="btn btn-link text-danger">
+                    <i aria-hidden="true" class="fas fa-times"></i>
+                    <span>&nbsp;&nbsp;Remover</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -105,11 +120,13 @@
               <h5 class="m-0"><i class="ft-user"></i> Situação da Empresa</h5>
             </div>
             <label for="email" class="col-md-3 label-control text-right"></label>
-            <div *ngIf="organization.active === false" class="col-6 m-0 alert alert-warning align-items-center" role="alert">
+            <div *ngIf="organization.active === false" class="col-6 m-0 alert alert-warning align-items-center"
+              role="alert">
 
               <div class="row m-0 p-0 align-items-center">
                 <div class="col-8">
-                  <strong>Empresa Inativada!</strong> <br><small class="d-none">Usuários inativos não tem acesso ao sistema.</small>
+                  <strong>Empresa Inativada!</strong> <br><small class="d-none">Usuários inativos não tem acesso ao
+                    sistema.</small>
                 </div>
                 <div *ngIf="canSwitchStatus()" class="col-4">
                   <button class="btn btn-warning float-right" (click)="patch(organization.id, {'active': true})">Ativar
@@ -120,11 +137,13 @@
             <div *ngIf="organization.active === true" class="col-6 m-0 alert" role="alert">
               <div class="row m-0 p-0 align-items-center">
                 <div class="col-8 text-success">
-                  <strong class="">Empresa Ativa! <i class="far fa-smile-wink"></i></strong> <br><small class="d-none">Acesso liberado ao
+                  <strong class="">Empresa Ativa! <i class="far fa-smile-wink"></i></strong> <br><small
+                    class="d-none">Acesso liberado ao
                     sistema. </small>
                 </div>
                 <div *ngIf="canSwitchStatus()" class="col-4">
-                  <button class="btn btn-warning float-right" (click)="patch(organization.id, {'active': false})">Inativar
+                  <button class="btn btn-warning float-right"
+                    (click)="patch(organization.id, {'active': false})">Inativar
                     Empresa</button>
                 </div>
               </div>

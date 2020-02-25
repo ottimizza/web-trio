@@ -8,9 +8,9 @@ import { finalize } from 'rxjs/operators';
 import { AvatarDialogComponent } from '@modules/organizations/dialogs/avatar-dialog/avatar-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FileStorageService } from '@app/http/file-storage.service';
-import { ImageCompressorService } from '@app/services/image-compression.service';
 import { ImageUtils } from '@shared/utils/image.utils';
 import { ImageCompressionService } from '@app/http/image-compression.service';
+import { AvatarRemoveDialogComponent } from '@modules/organizations/dialogs/avatar-remove-dialog/avatar-remove-dialog.component';
 
 
 interface BreadCrumb {
@@ -113,6 +113,24 @@ export class OrganizationDetaisComponent implements OnInit {
     });
   }
 
+  public removerLogoContabilidade(): void {
+    const dialogRef = this.dialog.open(AvatarRemoveDialogComponent, {
+      maxWidth: '568px'
+    });
+    dialogRef.afterClosed().subscribe(result => {      
+      if (result) {
+        this.patch(this.organization.id, { avatar: '' }, true);
+      }
+    });
+  }
+
+  public canEditLogo(): boolean {
+    return (
+      (this.currentUser.isAdministrator() && this.organization.type === 1) 
+      || (this.currentUser.isAccountant() && this.organization.type === 1
+        && this.currentUser.organization.id === this.organization.id)
+    );
+  }
 
   public ngOnInit() {
     this.currentUser = User.fromLocalStorage();

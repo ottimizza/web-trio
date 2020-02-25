@@ -44,6 +44,18 @@ export class UserService {
     return this.http.get<GenericPageableResponse<Organization>>(url, { headers });
   }
 
+  public appendOrganization(id: number, organization: Organization): Observable<GenericPageableResponse<Organization>> {
+    const url = `${environment.oauthBaseUrl}/api/v1/users/${id}/organizations`;
+    const headers = this.authorizationService.getAuthorizationHeaders();
+    return this.http.post<GenericPageableResponse<Organization>>(url, organization, { headers });
+  }
+
+  public removeOrganization(id: number, organizationId: number): Observable<GenericPageableResponse<Organization>> {
+    const url = `${environment.oauthBaseUrl}/api/v1/users/${id}/organizations/${organizationId}`;
+    const headers = this.authorizationService.getAuthorizationHeaders();
+    return this.http.delete<GenericPageableResponse<Organization>>(url, { headers });
+  }
+
   encode(params: any): string {
     return Object.keys(params).map((key) => {
       return [key, params[key]].map(encodeURIComponent).join('=');
