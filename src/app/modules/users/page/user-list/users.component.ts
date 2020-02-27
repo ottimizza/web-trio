@@ -34,6 +34,10 @@ export class UsersComponent implements OnInit {
   constructor(public storageService: StorageService, public userService: UserService, public dialog: MatDialog) {
   }
 
+  public openInviteDialog() {
+    const dialog = this.dialog.open(InviteDialogComponent, { data: { name: '' } });
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(InviteDialogComponent, {
       data: { name: '' }
@@ -44,7 +48,15 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  public canInvite = () => [User.Type.ACCOUNTANT].includes(this.currentUser.type);
+  /* ************************************************************ **
+   * Validations
+   * ************************************************************ */
+  public canInviteUser(user: User = this.currentUser): boolean {
+    const allowedRoles: number[] = [
+      User.Type.ADMINISTRATOR, User.Type.ACCOUNTANT
+    ];
+    return allowedRoles.includes(user.type);
+  }
 
   public fetchCurrentUser() {
     this.storageService.onStorage(AuthenticationService.STORAGE_KEY_USERINFO, (result: any) => {
