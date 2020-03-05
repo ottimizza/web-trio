@@ -1,9 +1,11 @@
 <!-- <strong mat-dialog-title>{{ accountingName }}</strong> -->
-<h1 mat-dialog-title>Deseja entrar como qual contabilidade?</h1>
+<h1 mat-dialog-title><i class="fad fa-pencil"></i>&nbsp;&nbsp; Deseja entrar como qual contabilidade?</h1>
 <div mat-dialog-content class="border-top border-bottom">
   <form>
 
-    <p>Busque a contabilidade desejada para acessar</p>
+    <div class="p-4 mb-4">
+      <app-info description="Busque a contabilidade desejada para acessar"></app-info>
+    </div>
 
     <mat-form-field>
       <mat-label>Buscar</mat-label>
@@ -19,7 +21,11 @@
 
   </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="confirm()">Confirmar</button>
-  <button mat-button (click)="onNoClick()">Cancelar</button>
+<div mat-dialog-actions class="text-center">
+  <!-- <button mat-button (click)="confirm()">Confirmar</button>
+  <button mat-button (click)="onNoClick()">Cancelar</button> -->
+    <div class="container-fluid px-0 py-3 justify-content-between">
+      <button class="btn btn-light text-danger mx-2" mat-dialog-close>Cancelar</button>
+      <button class="btn btn-primary text-light mx-2" (click)="confirm()">Confirmar</button>
+    </div>
 </div>
