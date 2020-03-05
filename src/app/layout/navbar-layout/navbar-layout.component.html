@@ -12,6 +12,12 @@
           </a>
         </li>
       </ul>
+      <div class="navbar-nav mr-4">
+        <span>
+          {{ currentUser.organization.name }}
+          <i class="fa fa-pencil mr-4 ml-3 cursor-pointer" (click)="openSiginAsModal()" *ngIf="currentUser.type === 0"></i>
+        </span>
+      </div>
       <ul class="navbar-nav my-lg-0">
         <li class="nav-item dropdown">
           <a [matMenuTriggerFor]="menu" class="cursor-pointer">

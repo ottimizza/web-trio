@@ -8,6 +8,8 @@ import { environment } from '@env';
 import { Organization } from '@shared/models/Organization';
 import { OrganizationService } from '@app/http/organizations.service';
 import { PageInfo } from '@shared/models/GenericPageableResponse';
+import { UserService } from '@app/http/users.service';
+import { MatSelectChange } from '@angular/material/select';
 
 
 @Component({
@@ -28,6 +30,7 @@ export class ProductListComponent implements OnInit {
   constructor(
     public productService: ProductService,
     public organizationService: OrganizationService,
+    public userService: UserService,
     public dialog: MatDialog
   ) { }
 
@@ -67,14 +70,21 @@ export class ProductListComponent implements OnInit {
 
   public nextPage() {
     if (!this.pageInfo || this.pageInfo.hasNext) {
-      const pageCriteria = { pageIndex: 0, pageSize: 25 };
+      const pageCriteria = { pageIndex: this.pageInfo ? this.pageInfo.pageIndex + 1 : 0, pageSize: 20 };
+      const sort = { 'sort.attribute': 'name', 'sort.order': 'asc' };
       const filter = { type: Organization.Type.ACCOUNTING };
-      Object.assign(filter, pageCriteria);
+      // Object.assign(filter, sort);
+      // Object.assign(filter, pageCriteria);
+      Object.assign(filter, sort, pageCriteria);
       this.organizationService.fetch(filter).subscribe(result => {
         result.records.forEach(rec => this.accountings.push(rec));
         this.pageInfo = result.pageInfo;
       });
     }
+  }
+
+  public selectAccounting(event: MatSelectChange) {
+    this.userService.patch(this.currentUser.id, { organization: { id: event.value } }).subscribe();
   }
 
 }

@@ -4,6 +4,8 @@ import { User } from '@shared/models/User';
 import { AuthenticationService } from '@app/authentication/authentication.service';
 import { StorageService } from '@app/services/storage.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.component';
 // import { OverlayContainer } from '@angular/cdk/overlay';
 
 // import { ThemeService } from '@app/service/theme.service';
@@ -22,6 +24,7 @@ export class NavbarLayoutComponent implements OnInit {
 
   constructor(
     @Inject(DOCUMENT) public document: Document,
+    public dialog: MatDialog,
     public router: Router,
     public storageService: StorageService,
     public authorizationService: AuthenticationService) { }
@@ -47,6 +50,16 @@ export class NavbarLayoutComponent implements OnInit {
     //     this.authorizationService.authorize();
     //   });
     // });
+  }
+
+  public openSiginAsModal() {
+    const dialogRef = this.dialog.open(SigninAsDialogComponent, {
+      width: '80vw',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
   }
 
   ngOnInit() {

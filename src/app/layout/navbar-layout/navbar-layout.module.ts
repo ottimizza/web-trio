@@ -18,6 +18,9 @@ import { NavbarLayoutComponent } from './navbar-layout.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { SigninAsDialogModule } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.module';
+import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -29,12 +32,14 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     AvatarModule,
     BrandModule,
-    MatMenuModule
+    SigninAsDialogModule,
+    MatMenuModule,
+    MatDialogModule
   ],
   exports: [
     NavbarLayoutComponent
   ],
   providers: [],
-  entryComponents: []
+  entryComponents: [SigninAsDialogComponent]
 })
 export class NavbarLayoutModule { }

@@ -29,6 +29,7 @@
     "@angular/platform-browser-dynamic": "^9.0.0",
     "@angular/router": "^9.0.0",
     "@angular/service-worker": "^9.0.0",
+    "@fortawesome/fontawesome-pro": "^5.12.1",
     "compression": "^1.7.4",
     "core-js": "^2.6.11",
     "dotenv": "^8.2.0",
