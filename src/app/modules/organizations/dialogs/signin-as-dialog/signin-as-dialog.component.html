@@ -1,3 +1,4 @@
+<strong mat-dialog-title>{{ currentAccounting.name }}</strong>
 <h1 mat-dialog-title>Deseja entrar como qual contabilidade?</h1>
 <div mat-dialog-content>
   <form>
@@ -5,21 +6,11 @@
     <p>Busque a contabilidade desejada para acessar</p>
 
     <mat-form-field>
-      <mat-label>Buscar por CNPJ</mat-label>
-      <input matInput [placeholder]="currentAccounting.cnpj" [matAutocomplete]="autocnpj" [(ngModel)]="filtering.cnpj" (keyup)="filterByCnpj()">
-      <mat-autocomplete #autocnpj="matAutocomplete">
-        <mat-option *ngFor="let option of accountingsByCnpj" [value]="option.id">
-          {{ option.cnpj }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Buscar por nome</mat-label>
-      <input matInput [placeholder]="currentAccounting.name" [matAutocomplete]="autoname" [(ngModel)]="filtering.name" (keyup)="filterByName()">
-      <mat-autocomplete #autoname="matAutocomplete">
-        <mat-option *ngFor="let option of accountingsByName" [value]="option.id">
-          {{ option.name }}
+      <mat-label>Buscar</mat-label>
+      <input matInput [placeholder]="getContent(currentAccounting)" [matAutocomplete]="autoname" [(ngModel)]="filtering" (keyup)="filter()" name="name">
+      <mat-autocomplete #autoname="matAutocomplete" (optionSelected)="filter()">
+        <mat-option *ngFor="let option of accountings" [value]="getContent(option)">
+          {{ getContent(option) }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

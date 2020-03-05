@@ -13,9 +13,8 @@ import { debounceTime } from 'rxjs/operators';
 export class SigninAsDialogComponent implements OnInit {
 
   currentAccounting: Organization;
-  accountingsByCnpj: Organization[] = [];
-  accountingsByName: Organization[] = [];
-  filtering = { name: '', cnpj: '' };
+  accountings: Organization[] = [];
+  filtering = '';
 
   constructor(
     public dialogRef: MatDialogRef<SigninAsDialogComponent>,
@@ -26,35 +25,42 @@ export class SigninAsDialogComponent implements OnInit {
     this.currentAccounting = User.fromLocalStorage().organization;
   }
 
+  getContent(accounting: Organization) {
+    return `${accounting.cnpj} - ${accounting.name}`;
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  filterByCnpj() {
-    const search = { cnpj: this.filtering.cnpj };
-    const cbFn = (res: GenericPageableResponse<Organization>) => {
-      this.accountingsByCnpj = res.records;
-    };
-    this.nextPage(search, cbFn);
+  filter() {
+    const type = { type: Organization.Type.ACCOUNTING };
+
+    const filter1 = Object.assign({ cnpj: this.filtering }, type);
+    this.organizationService.
+      fetch(filter1)
+      .pipe(debounceTime(200))
+      .subscribe(result1 => {
+
+        const filter2 = Object.assign({ name: this.filtering }, type);
+        this.organizationService
+          .fetch(filter2)
+          .subscribe(result2 => {
+
+            this.accountings = result1.records.concat(result2.records);
+            this.verifyAccounting();
+
+          });
+
+      });
   }
 
-  filterByName() {
-    const search = { name: this.filtering.name };
-    const cbFn = (res: GenericPageableResponse<Organization>) => {
-      this.accountingsByName = res.records;
-    };
-    this.nextPage(search, cbFn);
+  verifyAccounting() {
+    this.accountings.forEach(acc => {
+      if (this.getContent(acc) === this.filtering) {
+        this.currentAccounting = acc;
+      }
+    });
   }
-
-  nextPage(search: any, callbackFn: (res: GenericPageableResponse<Organization>) => void) {
-    const filter = { type: Organization.Type.ACCOUNTING };
-    const pageCriteria = { pageIndex: 0, pageSize: 20 };
-    Object.assign(filter, pageCriteria, search);
-    this.organizationService
-      .fetch(filter)
-      .pipe(debounceTime(300))
-      .subscribe(result => callbackFn(result));
-  }
-
 
 }
