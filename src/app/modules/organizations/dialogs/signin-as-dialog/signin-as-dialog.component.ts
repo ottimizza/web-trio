@@ -3,8 +3,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Organization } from '@shared/models/Organization';
 import { User } from '@shared/models/User';
 import { OrganizationService } from '@app/http/organizations.service';
-import { GenericPageableResponse } from '@shared/models/GenericPageableResponse';
 import { debounceTime } from 'rxjs/operators';
+import { UserService } from '@app/http/users.service';
 
 @Component({
   templateUrl: './signin-as-dialog.component.html',
@@ -15,14 +15,17 @@ export class SigninAsDialogComponent implements OnInit {
   currentAccounting: Organization;
   accountings: Organization[] = [];
   filtering = '';
+  accountingName: string;
 
   constructor(
     public dialogRef: MatDialogRef<SigninAsDialogComponent>,
-    public organizationService: OrganizationService
+    public organizationService: OrganizationService,
+    public userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.currentAccounting = User.fromLocalStorage().organization;
+    this.accountingName = this.currentAccounting.name;
   }
 
   getContent(accounting: Organization) {
@@ -59,8 +62,16 @@ export class SigninAsDialogComponent implements OnInit {
     this.accountings.forEach(acc => {
       if (this.getContent(acc) === this.filtering) {
         this.currentAccounting = acc;
+        this.accountingName = acc.name;
       }
     });
+  }
+
+  confirm() {
+    this.userService
+      .patch(User.fromLocalStorage().id, { organizationId: this.currentAccounting.id })
+      .subscribe(result => console.log(result));
+    this.dialogRef.close(this.currentAccounting);
   }
 
 }

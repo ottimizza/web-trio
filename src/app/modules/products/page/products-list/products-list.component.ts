@@ -29,8 +29,6 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     public productService: ProductService,
-    public organizationService: OrganizationService,
-    public userService: UserService,
     public dialog: MatDialog
   ) { }
 
@@ -63,28 +61,7 @@ export class ProductListComponent implements OnInit {
   public ngOnInit() {
     this.currentUser = User.fromLocalStorage();
     this.fetch();
-    if (this.currentUser.type === 0) {
-      this.nextPage();
-    }
   }
 
-  public nextPage() {
-    if (!this.pageInfo || this.pageInfo.hasNext) {
-      const pageCriteria = { pageIndex: this.pageInfo ? this.pageInfo.pageIndex + 1 : 0, pageSize: 20 };
-      const sort = { 'sort.attribute': 'name', 'sort.order': 'asc' };
-      const filter = { type: Organization.Type.ACCOUNTING };
-      // Object.assign(filter, sort);
-      // Object.assign(filter, pageCriteria);
-      Object.assign(filter, sort, pageCriteria);
-      this.organizationService.fetch(filter).subscribe(result => {
-        result.records.forEach(rec => this.accountings.push(rec));
-        this.pageInfo = result.pageInfo;
-      });
-    }
-  }
-
-  public selectAccounting(event: MatSelectChange) {
-    this.userService.patch(this.currentUser.id, { organization: { id: event.value } }).subscribe();
-  }
 
 }

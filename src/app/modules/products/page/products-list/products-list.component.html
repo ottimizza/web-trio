@@ -1,16 +1,5 @@
 <div class="page-wrapper bg-white">
   <app-breadcrumb></app-breadcrumb>
-  <div class="w-100 accounting-container" *ngIf="currentUser && currentUser.type === 0">
-    <mat-form-field class="accounting-selector">
-      <mat-label>Entrar como:</mat-label>
-      <mat-select [(value)]="selectedAccounting" (selectionChange)="selectAccounting($event)">
-        <mat-option *ngFor="let accounting of accountings" [value]="accounting.id">
-          {{ accounting.name }}
-        </mat-option>
-        <div (click)="nextPage()" class="cursor-pointer" *ngIf="pageInfo && pageInfo.hasNext"><p class="ml-3 text-black">Ver mais</p></div>
-      </mat-select>
-    </mat-form-field>
-  </div>
   <div class="d-none content-wrapper full-width-nav-tabs py-2">
     <div class="container">
       <ul class="nav nav-pills flex-row-reverse">

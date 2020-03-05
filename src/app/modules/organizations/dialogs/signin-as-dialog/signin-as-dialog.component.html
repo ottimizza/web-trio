@@ -1,4 +1,4 @@
-<strong mat-dialog-title>{{ currentAccounting.name }}</strong>
+<strong mat-dialog-title>{{ accountingName }}</strong>
 <h1 mat-dialog-title>Deseja entrar como qual contabilidade?</h1>
 <div mat-dialog-content>
   <form>
@@ -7,7 +7,7 @@
 
     <mat-form-field>
       <mat-label>Buscar</mat-label>
-      <input matInput [placeholder]="getContent(currentAccounting)" [matAutocomplete]="autoname" [(ngModel)]="filtering" (keyup)="filter()" name="name">
+      <input matInput cdkFocusInitial [placeholder]="getContent(currentAccounting)" [matAutocomplete]="autoname" [(ngModel)]="filtering" (keyup)="filter()" name="name">
       <mat-autocomplete #autoname="matAutocomplete" (optionSelected)="filter()">
         <mat-option *ngFor="let option of accountings" [value]="getContent(option)">
           {{ getContent(option) }}
@@ -18,6 +18,6 @@
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button cdkFocusInitial>Confirmar</button>
+  <button mat-button (click)="confirm()">Confirmar</button>
   <button mat-button (click)="onNoClick()">Cancelar</button>
 </div>
