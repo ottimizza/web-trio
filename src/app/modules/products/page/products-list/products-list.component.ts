@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '@shared/models/User';
-import { GenericPageableResponse } from '@shared/models/GenericPageableResponse';
-import { OrganizationService } from '@app/http/organizations.service';
-import { Organization } from '@shared/models/Organization';
 import { MatDialog } from '@angular/material/dialog';
 import { Product } from '@shared/models/Product';
 import { ProductService } from '@app/http/products.service';
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { environment } from '@env';
+import { Organization } from '@shared/models/Organization';
+import { OrganizationService } from '@app/http/organizations.service';
+import { PageInfo } from '@shared/models/GenericPageableResponse';
 
 
 @Component({
@@ -18,14 +18,18 @@ import { environment } from '@env';
 export class ProductListComponent implements OnInit {
 
   public currentUser: User;
+  public accountings: Organization[] = [];
+  public selectedAccounting: string;
+
+  public pageInfo: PageInfo;
 
   public products: Array<Product>;
 
   constructor(
     public productService: ProductService,
+    public organizationService: OrganizationService,
     public dialog: MatDialog
-  ) {
-  }
+  ) { }
 
   public fetch() {
     const filter = { group: `${environment.applicationId}` };
@@ -56,6 +60,21 @@ export class ProductListComponent implements OnInit {
   public ngOnInit() {
     this.currentUser = User.fromLocalStorage();
     this.fetch();
+    if (this.currentUser.type === 0) {
+      this.nextPage();
+    }
+  }
+
+  public nextPage() {
+    if (!this.pageInfo || this.pageInfo.hasNext) {
+      const pageCriteria = { pageIndex: 0, pageSize: 25 };
+      const filter = { type: Organization.Type.ACCOUNTING };
+      Object.assign(filter, pageCriteria);
+      this.organizationService.fetch(filter).subscribe(result => {
+        result.records.forEach(rec => this.accountings.push(rec));
+        this.pageInfo = result.pageInfo;
+      });
+    }
   }
 
 }

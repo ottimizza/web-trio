@@ -52,10 +52,10 @@ export class User {
   }
 
 
-  isCustomer = () => this.type === User.Type.CUSTOMER; 
+  isCustomer = () => this.type === User.Type.CUSTOMER;
 
-  isAccountant = () => this.type === User.Type.ACCOUNTANT; 
+  isAccountant = () => this.type === User.Type.ACCOUNTANT;
 
-  isAdministrator = () => this.type === User.Type.ADMINISTRATOR; 
+  isAdministrator = () => this.type === User.Type.ADMINISTRATOR;
 
 }
