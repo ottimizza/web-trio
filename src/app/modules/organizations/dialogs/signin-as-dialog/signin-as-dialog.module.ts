@@ -7,6 +7,7 @@ import { SigninAsDialogComponent } from './signin-as-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
 
 @NgModule({
   declarations: [SigninAsDialogComponent],
@@ -18,7 +19,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    ComplexSearchModule
   ],
   exports: [SigninAsDialogComponent]
 })

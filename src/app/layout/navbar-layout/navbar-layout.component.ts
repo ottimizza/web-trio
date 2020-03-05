@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { User } from '@shared/models/User';
 import { AuthenticationService } from '@app/authentication/authentication.service';
@@ -58,7 +58,6 @@ export class NavbarLayoutComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
     });
   }
 
