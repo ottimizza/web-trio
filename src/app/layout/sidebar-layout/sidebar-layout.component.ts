@@ -21,6 +21,7 @@ export interface SidebarItem {
 export class SidebarLayoutComponent implements OnInit {
 
   public items: SidebarItem[];
+  public currentUser: User;
 
   constructor(@Inject(DOCUMENT) public document: Document, public dialog: MatDialog) { }
 
@@ -29,6 +30,7 @@ export class SidebarLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.currentUser = User.fromLocalStorage();
     this.items = [
       { icon: 'fad fa-box', label: 'Aplicativos', url: '/dashboard/products' },
       { icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users' },
@@ -38,7 +40,7 @@ export class SidebarLayoutComponent implements OnInit {
 
   public openSiginAsModal() {
     const dialogRef = this.dialog.open(SigninAsDialogComponent, {
-      width: '80vw',
+      width: '568px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

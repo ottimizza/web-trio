@@ -54,7 +54,7 @@ export class NavbarLayoutComponent implements OnInit {
 
   public openSiginAsModal() {
     const dialogRef = this.dialog.open(SigninAsDialogComponent, {
-      width: '80vw',
+      width: '568px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
