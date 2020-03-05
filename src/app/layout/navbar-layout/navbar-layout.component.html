@@ -12,7 +12,7 @@
           </a>
         </li>
       </ul>
-      <div class="navbar-nav mr-4">
+      <div class="navbar-nav mr-4 signin-as-navbar">
         <span>
           {{ currentUser.organization.name }}
           <i class="fa fa-pencil mr-4 ml-3 cursor-pointer" (click)="openSiginAsModal()" *ngIf="currentUser.type === 0"></i>

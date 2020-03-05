@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { User } from '@shared/models/User';
+import { MatDialog } from '@angular/material/dialog';
+import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.component';
 // import { OverlayContainer } from '@angular/cdk/overlay';
 
 // import { ThemeService } from '@app/service/theme.service';
@@ -19,7 +22,7 @@ export class SidebarLayoutComponent implements OnInit {
 
   public items: SidebarItem[];
 
-  constructor(@Inject(DOCUMENT) public document: Document) { }
+  constructor(@Inject(DOCUMENT) public document: Document, public dialog: MatDialog) { }
 
   public hide(e) {
     this.document.getElementsByTagName('body')[0].classList.remove('show-sidebar');
@@ -31,5 +34,14 @@ export class SidebarLayoutComponent implements OnInit {
       { icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users' },
       { icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations' }
     ];
+  }
+
+  public openSiginAsModal() {
+    const dialogRef = this.dialog.open(SigninAsDialogComponent, {
+      width: '80vw',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
 }
