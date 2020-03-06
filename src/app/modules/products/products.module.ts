@@ -15,6 +15,8 @@ import { DragDropDirective } from '@shared/directives/drag-drop.directive';
 import { DocPipe } from '@shared/pipes/doc.pipe';
 import { ProductsRoutingModule } from './products.routing';
 import { ProductListComponent } from './page/products-list/products-list.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { ProductListComponent } from './page/products-list/products-list.compone
     MatIconModule,
     MatInputModule,
     MatAutocompleteModule,
+    MatSelectModule,
+    MatOptionModule,
 
     AvatarModule,
     BreadcrumbModule,

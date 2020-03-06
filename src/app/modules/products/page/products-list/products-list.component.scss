@@ -8,6 +8,14 @@ table {
   }
 }
 
+.accounting-container {
+  height: 50px;
+  .accounting-selector {
+    margin: 10px;
+    width: 32%;
+    float: right;
+  }
+}
 
 .product {
   transition: all .2s;
@@ -25,7 +33,7 @@ table {
     max-width: 240px;
   }
 }
-@media (min-width: 768px) {  
+@media (min-width: 768px) {
   .product {
     max-width: 300px;
   }

@@ -1,13 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '@shared/models/User';
-import { GenericPageableResponse } from '@shared/models/GenericPageableResponse';
-import { OrganizationService } from '@app/http/organizations.service';
-import { Organization } from '@shared/models/Organization';
 import { MatDialog } from '@angular/material/dialog';
 import { Product } from '@shared/models/Product';
 import { ProductService } from '@app/http/products.service';
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { environment } from '@env';
+import { Organization } from '@shared/models/Organization';
+import { OrganizationService } from '@app/http/organizations.service';
+import { PageInfo } from '@shared/models/GenericPageableResponse';
+import { UserService } from '@app/http/users.service';
+import { MatSelectChange } from '@angular/material/select';
 
 
 @Component({
@@ -18,14 +20,17 @@ import { environment } from '@env';
 export class ProductListComponent implements OnInit {
 
   public currentUser: User;
+  public accountings: Organization[] = [];
+  public selectedAccounting: string;
+
+  public pageInfo: PageInfo;
 
   public products: Array<Product>;
 
   constructor(
     public productService: ProductService,
     public dialog: MatDialog
-  ) {
-  }
+  ) { }
 
   public fetch() {
     const filter = { group: `${environment.applicationId}` };
@@ -57,5 +62,6 @@ export class ProductListComponent implements OnInit {
     this.currentUser = User.fromLocalStorage();
     this.fetch();
   }
+
 
 }
