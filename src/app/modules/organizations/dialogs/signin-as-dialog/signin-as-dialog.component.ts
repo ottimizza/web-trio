@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -13,6 +13,7 @@ import { ToastService } from '@app/services/toast.service';
 import { Organization } from '@shared/models/Organization';
 import { UserService } from '@app/http/users.service';
 import { User } from '@shared/models/User';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   templateUrl: './signin-as-dialog.component.html',
@@ -26,6 +27,7 @@ export class SigninAsDialogComponent implements OnInit {
   pageInfo = new PageInfo();
   dataSource: Organization[] = [];
   displayedColumns = ['name', 'cnpj'];
+  selectedRowIndex = -1;
 
   defaultRule = SearchRule.builder()
     .id('default')
@@ -94,7 +96,7 @@ export class SigninAsDialogComponent implements OnInit {
 
   fetch(pageIndex = 0, pageSize = 5) {
     let filter = { type: Organization.Type.ACCOUNTING };
-    this.filters.forEach((value, index) => filter = Object.assign(filter, value.value));
+    this.filters.forEach(value => filter = Object.assign(filter, value.value));
     const searchCriteria = Object.assign({ pageIndex, pageSize }, filter);
 
     this.organizationService.fetch(searchCriteria)
@@ -107,7 +109,6 @@ export class SigninAsDialogComponent implements OnInit {
 
   select(accounting: Organization) {
     this.currentAccounting = accounting;
-    this.toastService.show(`Contabilidade ${accounting.name} selecionada`, 'primary');
   }
 
   confirm() {
@@ -117,6 +118,7 @@ export class SigninAsDialogComponent implements OnInit {
         const user = User.fromLocalStorage();
         user.organization = this.currentAccounting;
         this.storageService.store(AuthenticationService.STORAGE_KEY_USERINFO, JSON.stringify(user));
+        this.toastService.show(`Contabilidade ${this.currentAccounting.name} selecionada`, 'primary');
         this.dialogRef.close(this.currentAccounting);
       });
   }
