@@ -1,23 +1,37 @@
-<!-- <strong mat-dialog-title>{{ accountingName }}</strong> -->
 <h1 mat-dialog-title><i class="fad fa-pencil"></i>&nbsp;&nbsp; Deseja entrar como qual contabilidade?</h1>
 <div mat-dialog-content class="border-top border-bottom">
   <form>
 
-    <div class="p-4 mb-4">
-      <app-info description="Busque a contabilidade desejada para acessar"></app-info>
+    <div class="mb-4 mt-3">
+      <app-info description="Busque a contabilidade que deseja acessar."></app-info>
     </div>
 
-    <mat-form-field>
-      <mat-label>Buscar</mat-label>
-      <input matInput cdkFocusInitial [placeholder]="getContent(currentAccounting)" [matAutocomplete]="autoname" [(ngModel)]="filtering" (keyup)="filter()" name="name">
-      <mat-autocomplete #autoname="matAutocomplete" (optionSelected)="filter()">
-        <mat-option *ngFor="let option of accountings" [value]="getContent(option)">
-          {{ getContent(option) }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <app-complex-search-input [hackings]="hackings()" [defaultRule]="defaultRule" (filterApplied)="apply($event)"></app-complex-search-input>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip *ngFor="let filter of filters" [selectable]="true" [removable]="true"
+        (removed)="removeFilter(filter)">
+        {{ filter.description }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
 
-    <!-- <app-complex-search-input [hackings]="hackings()" [defaultRule]="defaultRule" (filterApplied)="apply($event)"></app-complex-search-input> -->
+    <table mat-table matSort [dataSource]="dataSource" class="table-hover mat-elevation-z0" *ngIf="dataSource.length">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="name"><strong>Nome</strong></th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="cnpj">
+        <th mat-header-cell *matHeaderCellDef> CPF/CNPJ </th>
+        <td mat-cell *matCellDef="let element"> {{ element.cnpj }} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row class="cursor-pointer" *matRowDef="let row; columns: displayedColumns;" (click)="select(row)">
+      </tr>
+    </table>
+    <mat-paginator [length]="pageInfo.totalElements" [pageSize]="pageInfo.pageSize" [pageSizeOptions]="[5, 10, 20]"(page)="onPageChange($event)" *ngIf="dataSource.length">
+    </mat-paginator>
 
   </form>
 </div>

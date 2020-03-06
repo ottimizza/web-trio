@@ -1,26 +1,34 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { SigninAsDialogComponent } from './signin-as-dialog.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material';
+
 import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
+import { SigninAsDialogComponent } from './signin-as-dialog.component';
 import { InfoModule } from '@shared/components/info/info.module';
 
 @NgModule({
   declarations: [SigninAsDialogComponent],
   imports: [
+    ReactiveFormsModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    MatDialogModule,
+
+    MatPaginatorModule,
     MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatTableModule,
+    MatChipsModule,
+    MatIconModule,
+
     ComplexSearchModule,
     InfoModule
   ],

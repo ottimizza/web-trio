@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { debounceTime } from 'rxjs/operators';
 
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { AuthenticationService } from '@app/authentication/authentication.service';
+import { SearchOption } from '@shared/components/search/models/SearchOption';
 import { HackingRule } from '@shared/components/search/models/HackingRule';
 import { SearchRule } from '@shared/components/search/models/SearchRule';
 import { OrganizationService } from '@app/http/organizations.service';
+import { PageInfo } from '@shared/models/GenericPageableResponse';
 import { StorageService } from '@app/services/storage.service';
+import { ToastService } from '@app/services/toast.service';
 import { Organization } from '@shared/models/Organization';
 import { UserService } from '@app/http/users.service';
 import { User } from '@shared/models/User';
-import { SearchOption } from '@shared/components/search/models/SearchOption';
 
 @Component({
   templateUrl: './signin-as-dialog.component.html',
@@ -22,8 +23,10 @@ export class SigninAsDialogComponent implements OnInit {
   currentAccounting: Organization;
   accountings: Organization[] = [];
   filters: SearchOption[] = [];
-  accountingName: string;
-  filtering = '';
+  pageInfo = new PageInfo();
+  dataSource: Organization[] = [];
+  displayedColumns = ['name', 'cnpj'];
+
   defaultRule = SearchRule.builder()
     .id('default')
     .value({ name: '' })
@@ -33,13 +36,13 @@ export class SigninAsDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<SigninAsDialogComponent>,
     public organizationService: OrganizationService,
-    public userService: UserService,
-    public storageService: StorageService
+    public storageService: StorageService,
+    public toastService: ToastService,
+    public userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.currentAccounting = User.fromLocalStorage().organization;
-    this.accountingName = this.currentAccounting.name;
   }
 
   getContent(accounting: Organization) {
@@ -50,66 +53,62 @@ export class SigninAsDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  filter() {
-    const type = { type: Organization.Type.ACCOUNTING };
+  onPageChange(event): void {
+    const pageEvent = event;
+    this.fetch(pageEvent.pageIndex, pageEvent.pageSize);
+  }
 
-    const filter1 = Object.assign({ cnpj: this.filtering }, type);
-    this.organizationService.
-      fetch(filter1)
-      .pipe(debounceTime(200))
-      .subscribe(result1 => {
+  hackings() {
+    return [
+      HackingRule.builder()
+        .id('name')
+        .value({ name: '' })
+        .regex(/(nome)\:\s(?<value>.+)/ig)
+        .description('Nome contém: "{0}"')
+        .build(),
+      HackingRule.builder()
+        .id('cnpj')
+        .value({ cnpj: '' })
+        .regex(/(cnpj)\:\s(?<value>.+)/ig)
+        .description('CNPJ igual a: {0}')
+        .build()
+    ];
+  }
 
-        const filter2 = Object.assign({ name: this.filtering }, type);
-        this.organizationService
-          .fetch(filter2)
-          .subscribe(result2 => {
+  apply(event: SearchOption) {
+    const filters = this.filters.filter(fil => fil.id === event.id);
+    if (filters.length > 0) {
+      this.filters.splice(this.filters.indexOf(filters[0]), 1);
+    }
+    this.filters.push(event);
+    this.fetch();
+  }
 
-            this.accountings = result1.records.concat(result2.records);
-            this.verifyAccounting();
+  public removeFilter(value: any): void {
+    const filter = this.filters.filter(el => el.id === value.id);
+    if (filter.length > 0) {
+      this.filters.splice(this.filters.indexOf(filter[0]), 1);
+    }
+    this.fetch();
+  }
 
-          });
+  fetch(pageIndex = 0, pageSize = 5) {
+    let filter = { type: Organization.Type.ACCOUNTING };
+    this.filters.forEach((value, index) => filter = Object.assign(filter, value.value));
+    const searchCriteria = Object.assign({ pageIndex, pageSize }, filter);
 
+    this.organizationService.fetch(searchCriteria)
+      .subscribe(response => {
+        this.accountings = response.records;
+        this.pageInfo = response.pageInfo;
+        this.dataSource = this.accountings;
       });
   }
 
-  verifyAccounting() {
-    this.accountings.forEach(acc => {
-      if (this.getContent(acc) === this.filtering) {
-        this.currentAccounting = acc;
-        this.accountingName = acc.name;
-      }
-    });
+  select(accounting: Organization) {
+    this.currentAccounting = accounting;
+    this.toastService.show(`Contabilidade ${accounting.name} selecionada`, 'primary');
   }
-
-  // hackings() {
-  //   return [
-  //     HackingRule.builder()
-  //       .id('name')
-  //       .value({ name: '' })
-  //       .regex(/(nome)\:\s(?<value>.+)/ig)
-  //       .description('Nome contém: "{0}"')
-  //       .build(),
-  //     HackingRule.builder()
-  //       .id('cnpj')
-  //       .value({ cnpj: '' })
-  //       .regex(/(cnpj)\:\s(?<value>.+)/ig)
-  //       .description('CNPJ igual a: {0}')
-  //       .build()
-  //   ];
-  // }
-
-  // apply(event: SearchOption) {
-  //   const filters = this.filters.filter(fil => fil.id === event.id);
-  //   if (filters.length > 0) {
-  //     this.filters.splice(this.filters.indexOf(filters[0]), 1);
-  //   }
-  //   this.filters.push(event);
-  //   this.fetch();
-  // }
-
-  // fetch() {
-  //   const type = { type: Organization.Type.ACCOUNTING };
-  // }
 
   confirm() {
     this.userService
