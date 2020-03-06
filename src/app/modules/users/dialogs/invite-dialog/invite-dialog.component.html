@@ -15,6 +15,7 @@
                 </span>
               </div>
               <select class="custom-select" formControlName="type" required>
+                <option *ngIf="currentUser.type === 0" value="0" selected>Administrador</option>
                 <option value="1" selected>Contador</option>
                 <option value="2">Cliente</option>
               </select>

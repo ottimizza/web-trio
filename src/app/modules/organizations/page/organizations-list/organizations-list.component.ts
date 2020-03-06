@@ -55,7 +55,7 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
 
@@ -134,7 +134,7 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
     }
     this.fetch();
   }
-  
+
   public ngOnInit() {
     this.currentUser = User.fromLocalStorage();
     this.fetch();

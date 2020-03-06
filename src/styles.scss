@@ -154,6 +154,9 @@ $full-sidebar-width: 240px;
 }
 
 @media (max-width: 767px) {
+  .signin-as-navbar {
+    display: none;
+  }
   .mini-sidebar {
     .page-wrapper {
       margin-left: 0px;
@@ -176,6 +179,9 @@ $full-sidebar-width: 240px;
     .sidebar-overlay {
       display: none;
     }
+    .signin-as-sidebar {
+      display: none;
+    }
     .page-wrapper,
     .footer {
       margin-left: $compact-sidebar-width;
@@ -193,6 +199,9 @@ $full-sidebar-width: 240px;
   .mini-sidebar {
     .left-sidebar {
       width: $full-sidebar-width;
+    }
+    .signin-as-sidebar {
+      display: none;
     }
     .page-wrapper,
     .footer {
