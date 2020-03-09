@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { RxEvent } from '@app/services/rx-event.service';
 import { DOCUMENT } from '@angular/common';
 import { UpdateService } from '@app/services/update.service';
+import { MessagingService } from '@app/services/messaging.service';
+import { LoggerUtils } from '@shared/utils/logger.utils';
 
 
 @Component({
@@ -16,7 +18,8 @@ export class AppComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) public document: Document,
     private events: RxEvent,
-    private updateService: UpdateService
+    private updateService: UpdateService,
+    private messagingService: MessagingService
   ) {
     this.updateService.checkForUpdates();
     this.events.subscribe('sw::update', () => {
@@ -37,6 +40,9 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.messagingService.requestPermission();
+    this.messagingService.receiveMessage();
+    this.messagingService.currentMessage.subscribe(msg => LoggerUtils.log(msg));
   }
 
 }
