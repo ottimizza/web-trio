@@ -64,7 +64,7 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
     if (sort && sort.active && sort.direction) {
       this.sortInfo = { 'sort.order': sort.direction, 'sort.attribute': sort.active };
     }
-    let filter = Object.assign({}, this.sortInfo);
+    let filter = Object.assign({ type: 2 }, this.sortInfo);
     this.filters.forEach((value, index) => filter = Object.assign(filter, value.value));
     const searchCriteria = Object.assign({ pageIndex, pageSize }, filter);
 
@@ -119,7 +119,7 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
   }
 
   public apply(option: SearchOption): void {
-    let existingFilter = this.filters.filter(el => el.id === option.id);
+    const existingFilter = this.filters.filter(el => el.id === option.id);
     if (existingFilter.length > 0) {
       this.filters.splice(this.filters.indexOf(existingFilter[0]), 1);
     }
@@ -128,7 +128,7 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
   }
 
   public removeFilter(value: any): void {
-    let filter = this.filters.filter(el => el.id === value.id);
+    const filter = this.filters.filter(el => el.id === value.id);
     if (filter.length > 0) {
       this.filters.splice(this.filters.indexOf(filter[0]), 1);
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -12,8 +12,8 @@ import { StorageService } from '@app/services/storage.service';
 import { ToastService } from '@app/services/toast.service';
 import { Organization } from '@shared/models/Organization';
 import { UserService } from '@app/http/users.service';
+import { PageEvent } from '@angular/material';
 import { User } from '@shared/models/User';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   templateUrl: './signin-as-dialog.component.html',
@@ -55,9 +55,8 @@ export class SigninAsDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onPageChange(event): void {
-    const pageEvent = event;
-    this.fetch(pageEvent.pageIndex, pageEvent.pageSize);
+  onPageChange(event: PageEvent): void {
+    this.fetch(event.pageIndex, event.pageSize);
   }
 
   hackings() {
@@ -118,7 +117,7 @@ export class SigninAsDialogComponent implements OnInit {
         const user = User.fromLocalStorage();
         user.organization = this.currentAccounting;
         this.storageService.store(AuthenticationService.STORAGE_KEY_USERINFO, JSON.stringify(user));
-        this.toastService.show(`Contabilidade ${this.currentAccounting.name} selecionada`, 'primary');
+        this.toastService.show(`Contabilidade ${this.currentAccounting.name} selecionada`);
         this.dialogRef.close(this.currentAccounting);
       });
   }
