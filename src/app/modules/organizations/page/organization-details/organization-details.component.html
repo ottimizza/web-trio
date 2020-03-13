@@ -120,28 +120,28 @@
               <h5 class="m-0"><i class="ft-user"></i> Situação da Empresa</h5>
             </div>
             <label for="email" class="col-md-3 label-control text-right"></label>
-            <div *ngIf="organization.active === false" class="col-6 m-0 alert alert-warning align-items-center"
+            <div *ngIf="organization.active === false" class="m-0 alert alert-warning align-items-center"
               role="alert">
 
               <div class="row m-0 p-0 align-items-center">
-                <div class="col-8">
+                <div class="col-8 col-sm-6 col-xs-6">
                   <strong>Empresa Inativada!</strong> <br><small class="d-none">Usuários inativos não tem acesso ao
                     sistema.</small>
                 </div>
-                <div *ngIf="canSwitchStatus()" class="col-4">
+                <div *ngIf="canSwitchStatus()" class="col-4 col-sm-6 col-xs-6">
                   <button class="btn btn-warning float-right" (click)="patch(organization.id, {'active': true})">Ativar
                     Empresa</button>
                 </div>
               </div>
             </div>
-            <div *ngIf="organization.active === true" class="col-6 m-0 alert" role="alert">
+            <div *ngIf="organization.active === true" class="m-0 alert" role="alert">
               <div class="row m-0 p-0 align-items-center">
-                <div class="col-8 text-success">
+                <div class="col-8 col-sm-6 col-xs-6 text-success">
                   <strong class="">Empresa Ativa! <i class="far fa-smile-wink"></i></strong> <br><small
                     class="d-none">Acesso liberado ao
                     sistema. </small>
                 </div>
-                <div *ngIf="canSwitchStatus()" class="col-4">
+                <div *ngIf="canSwitchStatus()" class="col-4 col-sm-6 col-xs-6">
                   <button class="btn btn-warning float-right"
                     (click)="patch(organization.id, {'active': false})">Inativar
                     Empresa</button>
