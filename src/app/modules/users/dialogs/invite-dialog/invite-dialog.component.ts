@@ -9,6 +9,7 @@ import { OrganizationService } from '@app/http/organizations.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Invitation } from '@shared/models/Invitation';
+import { ToastService } from '@app/services/toast.service';
 
 export interface AlertFeedback {
   visible: boolean;
@@ -42,6 +43,7 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     public invitationService: InvitationService,
     public organizationService: OrganizationService,
+    public toastService: ToastService,
     public dialogRef: MatDialogRef<InviteDialogComponent>
   ) { }
 
@@ -79,10 +81,12 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
     if (email) {
       this.invitationService.invite(invitation).subscribe((response) => {
         if (response.record) {
-          this.alertFeedback = {
-            visible: true, classes: 'alert alert-success',
-            message: `Convite enviado para ${email}!`
-          };
+          // this.alertFeedback = {
+          //   visible: true, classes: 'alert alert-success',
+          //   message: `Convite enviado para ${email}!`
+          // };
+          this.toastService.show(`Convite enviado para ${email}!`, 'success');
+          this.dialogRef.close();
         }
       });
     }
