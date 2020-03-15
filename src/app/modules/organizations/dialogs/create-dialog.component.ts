@@ -6,6 +6,7 @@ import { User } from '@shared/models/User';
 import { InvitationService } from '@app/http/invites.service';
 import { OrganizationService } from '@app/http/organizations.service';
 import { GenericResponse } from '@shared/models/GenericResponse';
+import { ToastService } from '@app/services/toast.service';
 
 export interface AlertFeedback {
   visible: boolean;
@@ -29,9 +30,12 @@ export class CreateDialogComponent implements OnInit {
 
   public organization: Organization = new Organization();
 
-  constructor(public organizationService: OrganizationService,
+  constructor(
+    public organizationService: OrganizationService,
+    public toastService: ToastService,
     public dialogRef: MatDialogRef<CreateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) { }
 
 
   public validateCNPJ() {
@@ -47,11 +51,13 @@ export class CreateDialogComponent implements OnInit {
           resolve(response);
       });
     }).then((response: GenericResponse<Organization>) => {
-      this.alertFeedback = {
-        visible: true,
-        classes: 'alert alert-success',
-        message: 'Organização criada com sucesso!'
-      };
+      // this.alertFeedback = {
+      //   visible: true,
+      //   classes: 'alert alert-success',
+      //   message: 'Organização criada com sucesso!'
+      // };
+      this.toastService.show('Organização criada com sucesso!', 'success');
+      this.dialogRef.close();
     });
   }
 

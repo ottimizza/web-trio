@@ -58,6 +58,22 @@ export class BreadcrumbComponent implements OnInit {
     return breadcrumbs;
   }
 
+  get route(): string {
+    if (this.append) {
+      return this.breadcrumbs[this.breadcrumbs.length - 1].url;
+    } else {
+      return this.breadcrumbs[this.breadcrumbs.length - 2].url;
+    }
+  }
+
+  isDefault() {
+    const bc = this.breadcrumbs;
+    if (bc.length === 2) {
+      return (bc[0].label === 'Dashboard' && bc[1].label === 'Aplicativos');
+    }
+    return false;
+  }
+
   private isParam(params: Params, segment: string) {
     for (const key of Object.keys(params)) {
       const value = params[key];

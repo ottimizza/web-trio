@@ -60,8 +60,6 @@ import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-a
     NavbarLayoutModule,
 
     // Firebase Notification
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
     AngularFireMessagingModule,
     AngularFireModule.initializeApp(environment.firebase),
 

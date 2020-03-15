@@ -121,25 +121,25 @@
           <h5 class="m-0"><i class="ft-user"></i> Situação do Usuário</h5>
         </div>
         <label for="email" class="col-md-3 label-control text-right"></label>
-        <div *ngIf="user.active === false" class="col-6 m-0 alert alert-warning align-items-center" role="alert">
+        <div *ngIf="user.active === false" class="m-0 alert alert-warning align-items-center" role="alert">
 
           <div class="row m-0 p-0 align-items-center">
-            <div class="col-8">
+            <div class="col-8 col-sm-6 col-xs-6 ">
               <strong>Usuário Inativado!</strong> <br><small>Usuários inativos não tem acesso ao sistema.</small>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-sm-6 col-xs-6 ">
               <button class="btn btn-warning float-right" (click)="patch(user.id, {'active': true})">Ativar
                 Usuário</button>
             </div>
           </div>
         </div>
-        <div *ngIf="user.active === true" class="col-6 m-0 alert" role="alert">
+        <div *ngIf="user.active === true" class="m-0 alert" role="alert">
           <div class="row m-0 p-0 align-items-center">
-            <div class="col-8 text-success">
+            <div class="col-8 col-sm-6 col-xs-6 text-success">
               <strong class="">Usuário Ativo! <i class="far fa-smile-wink"></i></strong> <br><small>Acesso liberado ao
                 sistema. </small>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-sm-6 col-xs-6">
               <button class="btn btn-warning float-right" (click)="patch(user.id, {'active': false})">Inativar
                 Usuário</button>
             </div>
