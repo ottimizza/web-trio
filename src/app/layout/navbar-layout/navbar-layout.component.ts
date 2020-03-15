@@ -37,6 +37,16 @@ export class NavbarLayoutComponent implements OnInit {
     sidebar.focus();
   }
 
+  toggleSidebarStyle() {
+    const body = this.document.getElementsByTagName('body')[0];
+    if (body.classList.contains('compact-sidebar')) {
+      body.classList.remove('compact-sidebar');
+      body.classList.add('default-sidebar');
+    } else {
+      body.classList.add('compact-sidebar');
+      body.classList.remove('default-sidebar');
+    }
+  }
 
   public shouldShowAccountingDetailsPage() {
     return [User.Type.ADMINISTRATOR, User.Type.ACCOUNTANT].includes(this.currentUser.type);
