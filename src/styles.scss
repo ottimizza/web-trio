@@ -175,7 +175,7 @@ $full-sidebar-width: 240px;
 }
 @media (min-width: 768px) {
   .mini-sidebar {
-    .sidebar-toggler,
+    // .sidebar-toggler,
     .sidebar-overlay {
       display: none;
     }
@@ -209,6 +209,76 @@ $full-sidebar-width: 240px;
     }
   }
 }
+
+
+
+
+
+// sidebar
+// $compact-sidebar-width: 70px;
+$default-sidebar-width: 240px;
+
+// MOBILES
+@media (max-width: 767px) {
+  .btn-sidebar-toggle-sm { display: block; }
+  .btn-sidebar-toggle-md { display: none; }
+  .btn-sidebar-toggle-lg { display: none; }
+  .compact-sidebar, .default-sidebar {
+    .page-wrapper, .footer { margin-left: 0; }
+    .left-sidebar {
+      position: absolute;
+      left: -240px;
+      transition: left 0.15s linear;
+    }
+    &.show-sidebar {
+      .left-sidebar { left: 0px; }
+    }
+  }
+}
+
+// TABLETS PRA CIMA
+@media (min-width: 768px) {
+  .btn-sidebar-toggle-sm { display: none; }
+  .btn-sidebar-toggle-md { display: block; }
+  .btn-sidebar-toggle-lg { display: none; }
+  .sidebar-overlay {
+    display: none;
+  }
+  .compact-sidebar, .default-sidebar {
+    .left-sidebar { 
+      width: $compact-sidebar-width; 
+      transition: all 0.15s ease-out;
+      &:hover {
+        width: $default-sidebar-width;
+      }
+    }
+    .page-wrapper, .footer { margin-left: $compact-sidebar-width; }
+    &.show-sidebar {
+      .left-sidebar { 
+        width: $default-sidebar-width; 
+        transition: all 0.15s ease-out;
+      }
+    }
+  }
+}
+
+// MONITORES
+@media (min-width: 1170px) {
+  .btn-sidebar-toggle-sm { display: none; }
+  .btn-sidebar-toggle-md { display: none; }
+  .btn-sidebar-toggle-lg { display: block; }
+  .compact-sidebar {
+    .left-sidebar { width: $compact-sidebar-width; }
+    .page-wrapper, .footer { margin-left: $compact-sidebar-width; }
+  }
+
+  .default-sidebar {
+    .left-sidebar { width: $default-sidebar-width;  }
+    .page-wrapper, .footer { margin-left: $default-sidebar-width; }
+  }
+}
+// sidebar
+
 
 /*******************
  Topbar
