@@ -21,7 +21,7 @@
     <div class="row w-100 m-0 mt-4 text-center">
       <a *ngFor="let product of products" class="card product cursor-pointer mx-2" [href]="product.appUrl">
         <div class="card-body text-center">
-          <img class="img-thumbnail my-4" width="75px" [src]="product.imageUrl" alt="product.name">
+          <img class="img-thumbnail my-4" width="50%" height="50%" [src]="product.imageUrl" alt="product.name">
           <h4>{{product.name}}</h4>
           <hr>
           <small>{{product.description}}</small>
