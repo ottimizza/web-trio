@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Inject, Input, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Organization } from '@shared/models/Organization';
@@ -7,6 +6,7 @@ import { InvitationService } from '@app/http/invites.service';
 import { OrganizationService } from '@app/http/organizations.service';
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { ToastService } from '@app/services/toast.service';
+import { LoggerUtils } from '@shared/utils/logger.utils';
 
 export interface AlertFeedback {
   visible: boolean;
