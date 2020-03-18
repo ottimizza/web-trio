@@ -25,19 +25,21 @@ table {
 }
 @media (max-width: 576px) {
   .product {
-    max-width: auto;
+    width: 100%;
   }
 }
 @media (min-width: 577px) {
   .product {
-    max-width: 240px;
+    width: 240px;
   }
 }
 @media (min-width: 768px) {
   .product {
-    max-width: 300px;
+    width: 300px;
   }
 }
 @media (min-width: 1170px) {
-
+  .product {
+    width: 31%;
+  }
 }
