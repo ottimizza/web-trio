@@ -71,20 +71,19 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
   public invite(): void {
     const type = this.invitationForm.get('type').value;
     const email = this.invitationForm.get('email').value;
-    const organization = this.organizations[0] || null;
+    const organization = this.organizations[0] || this.currentUser.organization;
 
     const invitation = Invitation.builder()
-      .email(email)
-      .type(type)
-      .organization(organization).build();
-
+    .email(email)
+    .type(type)
+    .organization(organization).build();
     if (email) {
       this.invitationService.invite(invitation).subscribe((response) => {
         if (response.record) {
           // this.alertFeedback = {
-          //   visible: true, classes: 'alert alert-success',
-          //   message: `Convite enviado para ${email}!`
-          // };
+            //   visible: true, classes: 'alert alert-success',
+            //   message: `Convite enviado para ${email}!`
+            // };
           this.toastService.show(`Convite enviado para ${email}!`, 'success');
           this.dialogRef.close();
         }
@@ -109,7 +108,7 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
     this.currentUser = User.fromLocalStorage();
 
     this.invitationForm = this.formBuilder.group({
-      type: [User.Type.ACCOUNTANT],
+      type: [this.currentUser.type === User.Type.ADMINISTRATOR ? User.Type.ADMINISTRATOR : User.Type.ACCOUNTANT],
       email: [''],
       organization: ['']
     });
