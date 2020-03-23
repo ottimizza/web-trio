@@ -81,9 +81,9 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
       this.invitationService.invite(invitation).subscribe((response) => {
         if (response.record) {
           // this.alertFeedback = {
-            //   visible: true, classes: 'alert alert-success',
-            //   message: `Convite enviado para ${email}!`
-            // };
+          //   visible: true, classes: 'alert alert-success',
+          //   message: `Convite enviado para ${email}!`
+          // };
           this.toastService.show(`Convite enviado para ${email}!`, 'success');
           this.dialogRef.close();
         }
