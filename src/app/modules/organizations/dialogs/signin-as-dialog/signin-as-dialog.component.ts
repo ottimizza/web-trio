@@ -94,7 +94,7 @@ export class SigninAsDialogComponent implements OnInit {
   }
 
   fetch(pageIndex = 0, pageSize = 5) {
-    let filter = { type: Organization.Type.ACCOUNTING };
+    let filter = { type: Organization.Type.ACCOUNTING, ignoreAccountingFilter: true };
     this.filters.forEach(value => filter = Object.assign(filter, value.value));
     const searchCriteria = Object.assign({ pageIndex, pageSize }, filter);
 

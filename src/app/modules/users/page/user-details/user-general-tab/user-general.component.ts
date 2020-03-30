@@ -88,7 +88,7 @@ export class UserGeneralComponent implements OnInit {
   }
 
   /**
-   * Método para verificar se usuário logado tem permissão para alterar o 
+   * Método para verificar se usuário logado tem permissão para alterar o
    * status do usuário. Apenas usuários do tipo Administrador (0) e Contador (1).
    */
   canSwitchStatus(): boolean {
