@@ -3,6 +3,8 @@ import { DOCUMENT } from '@angular/common';
 import { User } from '@shared/models/User';
 import { MatDialog } from '@angular/material/dialog';
 import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.component';
+import { TokenInfo } from '@shared/models/TokenInfo';
+import { Token } from '@angular/compiler/src/ml_parser/lexer';
 // import { OverlayContainer } from '@angular/cdk/overlay';
 
 // import { ThemeService } from '@app/service/theme.service';
@@ -36,6 +38,10 @@ export class SidebarLayoutComponent implements OnInit {
       { icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users' },
       { icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations' }
     ];
+
+    if (TokenInfo.fromLocalStorage().canManage()) {
+      this.items.push({ icon: 'fad fa-users-cog', label: 'Permissões', url: '/dashboard/permissions' });
+    }
   }
 
   public openSiginAsModal() {

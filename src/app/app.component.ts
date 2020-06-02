@@ -3,8 +3,9 @@ import { RxEvent } from '@app/services/rx-event.service';
 import { DOCUMENT } from '@angular/common';
 import { UpdateService } from '@app/services/update.service';
 import { MessagingService } from '@app/services/messaging.service';
-import { LoggerUtils } from '@shared/utils/logger.utils';
-
+import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
+import { TokenInfo } from '@shared/models/TokenInfo';
+import { User } from '@shared/models/User';
 
 @Component({
   selector: 'app-root',
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
     // this.messagingService.requestPermission();
     // this.messagingService.receiveMessage();
     // this.messagingService.currentMessage.subscribe(msg => LoggerUtils.log(msg));
+    console.log(TokenInfo.fromLocalStorage());
   }
 
 }

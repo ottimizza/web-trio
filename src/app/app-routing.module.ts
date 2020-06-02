@@ -6,6 +6,7 @@ import { ContentLayoutComponent } from './layout/content-layout/content-layout.c
 
 import { AuthGuard } from '@app/guard/auth.guard';
 import { NoAuthGuard } from '@app/guard/no-auth.guard';
+import { ManageGuard } from '@app/guard/manage.guard';
 
 const routes: Routes = [
   {
@@ -50,6 +51,14 @@ const routes: Routes = [
         loadChildren: () => import('@modules/organizations/organizations.module').then(m => m.OrganizationModule),
         canActivate: [AuthGuard]
       },
+      {
+        path: 'permissions',
+        data: {
+          breadcrumb: 'Permissões'
+        },
+        loadChildren: () => import('@modules/permissions/permissions.module').then(m => m.PermissionsModule),
+        canActivate: [AuthGuard, ManageGuard]
+      }
     ]
   },
   {
