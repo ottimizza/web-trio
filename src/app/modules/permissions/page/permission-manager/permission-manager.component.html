@@ -2,7 +2,12 @@
   <app-breadcrumb></app-breadcrumb>
 
     <div class="m-4">
-      <app-complex-search-input></app-complex-search-input>
+      <app-complex-search-input
+        [rules]="filteringRules()"
+        [defaultRule]="defaultRule"
+        [hackings]="hackings()"
+        (filterApplied)="filterApply($event)"
+      ></app-complex-search-input>
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let filter of filters" [removable]="true"
           (removed)="removeFilter(filter)">
