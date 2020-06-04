@@ -8,7 +8,7 @@ import { HackingRule } from '@shared/components/search/models/HackingRule';
 import { MatTableDataSource, MatOptionSelectionChange } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
-import { UserProductAuthorities } from '@shared/models/UserProductAuthorities';
+import { UserProductAuthorities, UserProducts } from '@shared/models/UserProductAuthorities';
 import { LoggerUtils } from '@shared/utils/logger.utils';
 import { User } from '@shared/models/User';
 
@@ -31,16 +31,16 @@ export class PermissionManagerComponent implements OnInit {
   pageSize = 15;
 
   products: { name: string, id: number }[] = [
-    { name: 'Bússola', id: 1 },
-    { name: 'OIC 3.0', id: 2 },
-    { name: 'Sugestão de Melhoria', id: 3 }
+    { name: 'Bússola', id: 5 },
+    { name: 'OIC 3.0', id: 6 },
+    { name: 'Sugestão de Melhoria', id: 7 }
   ];
 
   USER_PLACEHOLDER = './assets/images/Portrait_Placeholder.png';
 
   constructor(
     public toastService: ToastService,
-    public userProductAuthoritiesService: UserProductAuthoritiesService
+    public service: UserProductAuthoritiesService
   ) { }
 
   get defaultRule() {
@@ -52,6 +52,12 @@ export class PermissionManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.getProducts().subscribe((results: any[]) => {
+      this.products = results;
+    }, err => {
+      this.toastService.show('Falha ao obter lista de produtos', 'danger');
+      LoggerUtils.throw(err);
+    });
     this.fetch();
   }
 
@@ -125,7 +131,7 @@ export class PermissionManagerComponent implements OnInit {
     Object.assign(filter, pageCriteria);
 
     this.toastService.showSnack('Obtendo informações');
-    this.userProductAuthoritiesService.get(filter).subscribe(results => {
+    this.service.get(filter).subscribe(results => {
       this.toastService.hideSnack();
       this.pageInfo = results.pageInfo;
       results.records.forEach(rec => {
@@ -143,7 +149,21 @@ export class PermissionManagerComponent implements OnInit {
     if (!e.isUserInput) {
       return;
     }
-    console.log(e);
+    const product: UserProducts = {
+      productsId: e.source.value,
+      usersId: userId
+    };
+    // tslint:disable-next-line: no-string-literal
+    const observable$ = e.source['_selected'] ?
+      this.service.createUserProduct(product) :
+      this.service.deleteUserProduct(userId, e.source.value);
+
+    observable$.subscribe(() => {
+      this.toastService.show('Acesso alterado com sucesso!', 'primary');
+    }, err => {
+      this.toastService.show('Falha ao alterar acesso', 'danger');
+      LoggerUtils.throw(err);
+    });
   }
 
   getAccessKey(id: number) {

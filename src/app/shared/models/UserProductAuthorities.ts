@@ -8,7 +8,6 @@ export class UserAuthorities {
 }
 
 export class UserProducts {
-  id: number;
   productsId: number;
   usersId: number;
 }

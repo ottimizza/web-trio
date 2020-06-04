@@ -20,23 +20,28 @@ export class UserProductAuthoritiesService {
     return this.http.get<GenericPageableResponse<UserProductAuthorities>>(url, this._headers);
   }
 
+  getProducts() {
+    const url = `${BASE_URL}/api/v1/users/products`;
+    return this.http.get(url, this._headers);
+  }
+
   createUserProduct(userProducts: UserProducts) {
-    const url = `${BASE_URL}/oauth/users/products`;
+    const url = `${BASE_URL}/api/v1/users/products`;
     return this.http.post(url, userProducts, this._headers);
   }
 
   createUserAuthorities(userAuthoritiy: UserAuthorities) {
-    const url = `${BASE_URL}/oauth/users/authorities`;
+    const url = `${BASE_URL}/api/v1/users/authorities`;
     return this.http.post(url, userAuthoritiy, this._headers);
   }
 
   deleteUserAuthorities(userId: number, authorityId: number) {
-    const url = `${BASE_URL}/oauth/users/authorities?usersId=${userId}&authoritiesId=${authorityId}`;
+    const url = `${BASE_URL}/api/v1/users/authorities?usersId=${userId}&authoritiesId=${authorityId}`;
     return this.http.delete(url, this._headers);
   }
 
   deleteUserProduct(userId: number, productId: number) {
-    const url = `${BASE_URL}/oauth/users/products?usersId=${userId}&productsId=${productId}`;
+    const url = `${BASE_URL}/api/v1/users/products?usersId=${userId}&productsId=${productId}`;
     return this.http.delete(url, this._headers);
   }
 
