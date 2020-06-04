@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+
+.username {
+  max-width: 350px;
+
+  strong, span {
+    max-width: 350px;
+  }
+}
+
+.mat-row {
+  height: auto !important;
+}
+
+.mat-cell {
+  padding: 8px 8px 8px 0 !important;
+}

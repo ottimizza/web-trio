@@ -5,6 +5,12 @@ import { ToastService } from '@app/services/toast.service';
 import { SearchRule } from '@shared/components/search/models/SearchRule';
 import { Authority } from '@shared/models/TokenInfo';
 import { HackingRule } from '@shared/components/search/models/HackingRule';
+import { MatTableDataSource, MatOptionSelectionChange } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
+import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
+import { UserProductAuthorities } from '@shared/models/UserProductAuthorities';
+import { LoggerUtils } from '@shared/utils/logger.utils';
+import { User } from '@shared/models/User';
 
 @Component({
   templateUrl: './permission-manager.component.html',
@@ -12,15 +18,29 @@ import { HackingRule } from '@shared/components/search/models/HackingRule';
 })
 export class PermissionManagerComponent implements OnInit {
 
+  displayedColumns: string[] = ['user', 'access', 'read', 'write', 'admin'];
+  dataSource = new MatTableDataSource<UserProductAuthorities>([]);
+  selection = new SelectionModel<UserProductAuthorities>(true, []);
+
+  access: any = {};
+
   filters: SearchOption[] = [];
-  records: any[] = [];
 
   pageInfo: PageInfo;
   pageIndex = 0;
   pageSize = 15;
 
+  products: { name: string, id: number }[] = [
+    { name: 'Bússola', id: 1 },
+    { name: 'OIC 3.0', id: 2 },
+    { name: 'Sugestão de Melhoria', id: 3 }
+  ];
+
+  USER_PLACEHOLDER = './assets/images/Portrait_Placeholder.png';
+
   constructor(
-    public toastService: ToastService
+    public toastService: ToastService,
+    public userProductAuthoritiesService: UserProductAuthoritiesService
   ) { }
 
   get defaultRule() {
@@ -36,78 +56,40 @@ export class PermissionManagerComponent implements OnInit {
   }
 
   hackings() {
+    const HRB = (desc: string, id: string, value: any, regex: RegExp) => {
+      return HackingRule.builder()
+        .description(desc)
+        .id(id)
+        .value(value)
+        .regex(regex)
+        .build();
+    };
+
     return [
-      HackingRule.builder()
-      .description('Primeiro nome contém "{0}"')
-      .id('firstName')
-      .value({ firstName: '' })
-      .regex(/(nome)\:\s(?<value>.+)/ig)
-      .build(),
-    HackingRule.builder()
-      .description('Primeiro nome contém "{0}"')
-      .id('firstName')
-      .value({ firstName: '' })
-      .regex(/(primeiro)\:\s(?<value>.+)/ig)
-      .build(),
-    HackingRule.builder()
-      .description('Sobrenome contém "{0}"')
-      .id('lastName')
-      .value({ lastName: '' })
-      .regex(/(segundo)\:\s(?<value>.+)/ig)
-      .build(),
-    HackingRule.builder()
-      .description('Sobrenome contém "{0}"')
-      .id('lastName')
-      .value({ lastName: '' })
-      .regex(/(sobrenome)\:\s(?<value>.+)/ig)
-      .build(),
-    HackingRule.builder()
-      .description('Sobrenome contém "{0}"')
-      .id('lastName')
-      .value({ lastName: '' })
-      .regex(/(ultimo)\:\s(?<value>.+)/ig)
-      .build(),
-    HackingRule.builder()
-      .description('E-mail contém "{0}"')
-      .id('email')
-      .value({ email: '' })
-      .regex(/(email)\:\s(?<value>.+)/ig)
-      .build(),
-    HackingRule.builder()
-      .description('E-mail contém "{0}"')
-      .id('email')
-      .value({ email: '' })
-      .regex(/(e-mail)\:\s(?<value>.+)/ig)
-      .build(),
+      HRB('Primeiro nome contém "{0}"', 'firstName', { firstName: '' }, /(nome)\:\s(?<value>.+)/ig),
+      HRB('Primeiro nome contém "{0}"', 'firstName', { firstName: '' }, /(primeiro)\:\s(?<value>.+)/ig),
+      HRB('Sobrenome contém "{0}"', 'lastName', { lastName: '' }, /(segundo)\:\s(?<value>.+)/ig),
+      HRB('Sobrenome contém "{0}"', 'lastName', { lastName: '' }, /(sobrenome)\:\s(?<value>.+)/ig),
+      HRB('Sobrenome contém "{0}"', 'lastName', { lastName: '' }, /(ultimo)\:\s(?<value>.+)/ig),
+      HRB('E-mail contém "{0}"', 'email', { email: '' }, /(email)\:\s(?<value>.+)/ig),
+      HRB('E-mail contém "{0}"', 'email', { email: '' }, /(e-mail)\:\s(?<value>.+)/ig)
     ];
   }
 
   filteringRules() {
+    const SRB = (desc: string, id: string, value: any, keywords: string[]) => {
+      return SearchRule.builder()
+        .description(desc)
+        .id(id)
+        .value(value)
+        .keywords(['possue', 'permissao', 'permissão', 'para'].concat(keywords))
+        .build();
+    };
     return [
-      SearchRule.builder()
-        .description('Possue permissão para gerenciar')
-        .id('authority')
-        .value({ authority: Authority.ADMIN })
-        .keywords(['possue', 'permissao', 'permissão', 'para', 'gerenciar', 'gerente', 'admin'])
-        .build(),
-      SearchRule.builder()
-        .description('Possue permissão para editar')
-        .id('authority')
-        .value({ authority: Authority.WRITE })
-        .keywords(['possue', 'permissao', 'permissão', 'para', 'editar', 'editor', 'write'])
-        .build(),
-      SearchRule.builder()
-        .description('Possue permissão para visualizar')
-        .id('authority')
-        .value({ authority: Authority.READ })
-        .keywords(['possue', 'permissao', 'permissão', 'para', 'visualizar', 'leitor', 'read'])
-        .build(),
-      SearchRule.builder()
-        .description('Não possue nenhuma permissão')
-        .id('authority')
-        .value({ authority: '' })
-        .keywords(['possue', 'permissao', 'permissão', 'não', 'nada', 'null', 'nenhum', 'nenhuma'])
-        .build(),
+      SRB('Possue permissão para gerenciar', 'authority', { authority: Authority.ADMIN }, ['gerenciar', 'gerente', 'admin']),
+      SRB('Possue permissão para editar', 'authority', { authority: Authority.WRITE }, ['editar', 'editor', 'write']),
+      SRB('Possue permissão para visualizar', 'authority', { authority: Authority.READ }, ['visualizar', 'leitor', 'read']),
+      SRB('Não possue nenhuma permissão', 'authority', { authority: 'NENHUM' }, ['não', 'nada', 'null', 'nenhum', 'nenhuma'])
     ];
   }
 
@@ -127,10 +109,10 @@ export class PermissionManagerComponent implements OnInit {
   }
 
   fetch() {
-    this.records = [];
     this.pageInfo = null;
     this.pageIndex = 0;
     this.nextPage();
+    // this._fake();
   }
 
   nextPage() {
@@ -141,6 +123,42 @@ export class PermissionManagerComponent implements OnInit {
     const filter: any = {};
     this.filters.forEach(f => Object.assign(filter, f.value));
     Object.assign(filter, pageCriteria);
+
+    this.toastService.showSnack('Obtendo informações');
+    this.userProductAuthoritiesService.get(filter).subscribe(results => {
+      this.toastService.hideSnack();
+      this.pageInfo = results.pageInfo;
+      results.records.forEach(rec => {
+        this.access[this.getAccessKey(rec.id)] = rec.products;
+      });
+      this.dataSource = new MatTableDataSource<UserProductAuthorities>(results.records);
+      LoggerUtils.log(results);
+    }, err => {
+      this.toastService.show('Falha ao obter usuários', 'danger');
+      LoggerUtils.throw(err);
+    });
+  }
+
+  setProduct(e: MatOptionSelectionChange, userId: number) {
+    if (!e.isUserInput) {
+      return;
+    }
+    console.log(e);
+  }
+
+  getAccessKey(id: number) {
+    const key = id.toString()
+      .replace(/0/ig, 'aA')
+      .replace(/1/ig, 'bB')
+      .replace(/2/ig, 'cC')
+      .replace(/3/ig, 'dD')
+      .replace(/4/ig, 'eE')
+      .replace(/5/ig, 'fF')
+      .replace(/6/ig, 'gG')
+      .replace(/7/ig, 'hH')
+      .replace(/8/ig, 'iI')
+      .replace(/9/ig, 'jJ');
+    return key;
   }
 
 }

@@ -3,7 +3,7 @@ import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
 export enum Authority {
   ADMIN = 'ADMIN',
   READ = 'READ',
-  WRITE = 'WRITE'
+  WRITE = 'WRITE',
 }
 
 export class TokenInfo {

@@ -6,6 +6,8 @@ import { MessagingService } from '@app/services/messaging.service';
 import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
 import { TokenInfo } from '@shared/models/TokenInfo';
 import { User } from '@shared/models/User';
+import { HttpClient } from '@angular/common/http';
+import { AuthenticationService } from '@app/authentication/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +46,6 @@ export class AppComponent implements OnInit {
     // this.messagingService.requestPermission();
     // this.messagingService.receiveMessage();
     // this.messagingService.currentMessage.subscribe(msg => LoggerUtils.log(msg));
-    console.log(TokenInfo.fromLocalStorage());
   }
 
 }

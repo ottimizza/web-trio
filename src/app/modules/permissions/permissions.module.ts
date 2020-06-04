@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { PermissionManagerComponent } from './page/permission-manager/permission-manager.component';
 import { CommonModule } from '@angular/common';
-import { MatTableModule, MatChipsModule, MatIconModule } from '@angular/material';
+import { MatTableModule, MatChipsModule, MatIconModule, MatCheckboxModule, MatSelectModule, MatFormFieldModule } from '@angular/material';
 import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
 import { BreadcrumbModule } from '@shared/components/breadcrumb/breadcrumb.module';
 import { PermissionsRoutingModule } from './permissions.routing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [PermissionManagerComponent],
@@ -15,7 +16,12 @@ import { PermissionsRoutingModule } from './permissions.routing';
     ComplexSearchModule,
     BreadcrumbModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatCheckboxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatFormFieldModule
   ]
 })
 export class PermissionsModule { }
