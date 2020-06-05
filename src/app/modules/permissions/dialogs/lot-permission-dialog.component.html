@@ -1,0 +1,81 @@
+<h1 mat-dialog-title><i class="fad fa-unlock-alt"></i>&nbsp;&nbsp; Deseja conceder quais permissões?</h1>
+
+
+
+<div mat-dialog-content>
+
+  <div class="p-3" *ngIf="data.filters && data.filters.length">
+    <p>Filtro:</p>
+    <mat-chip-list>
+      <mat-chip *ngFor="let chip of data.filters" [selectable]="false" [removable]="false"> {{ chip.description }} </mat-chip>
+    </mat-chip-list>
+  </div>
+
+  <div class="p-3">
+    <span>Afetados: &nbsp;{{ ids !== undefined ? ids.length : 'Calculando...' }}</span><span class="text-danger">&nbsp;&nbsp;{{ (ids && ids.includes(currentId)) ? '(AFETA VOCÊ)' : '' }}</span>
+  </div>
+
+  <hr>
+
+  <div class="p-3" *ngIf="ids && !isSubmiting">
+    <div *ngFor="let aut of authorities; let i = index">
+      <strong>Permissão para {{ aut.name }}:</strong>
+      <div class="row w-100 m-0">
+        <div class="col p-0">
+          <mat-checkbox [(ngModel)]="authorities[i].add" (change)="changeProduct($event, i, true, false)" [value]="aut.value"> Conceder à todos </mat-checkbox>
+        </div>
+        <div class="col p-0">
+          <mat-checkbox [(ngModel)]="authorities[i].remove" (change)="changeProduct($event, i, false, false)" [value]="aut.value"> Remover de todos </mat-checkbox>
+        </div>
+      </div>
+      <br>
+    </div>
+  </div>
+
+  <hr *ngIf="ids !== undefined && !isSubmiting">
+
+  <div class="p-3" *ngIf="ids !== undefined && !isSubmiting">
+    <div *ngFor="let prod of products; let i = index">
+      <strong>{{ prod.name }}:</strong>
+      <div class="row w-100 m-0">
+        <div class="col p-0">
+          <mat-checkbox [(ngModel)]="products[i].add" (change)="changeProduct($event, i, true)" [value]="prod.id"> Conceder acesso à todos </mat-checkbox>
+        </div>
+        <div class="col p-0">
+          <mat-checkbox [(ngModel)]="products[i].remove" (change)="changeProduct($event, i, false)" [value]="prod.id"> Remover acesso de todos </mat-checkbox>
+        </div>
+      </div>
+      <br>
+    </div>
+  </div>
+
+  <div class="p-3 w-100 text-center" *ngIf="isSubmiting">
+    <mat-progress-spinner  [value]="getPercentage() || 1" style="margin: 10px auto;"></mat-progress-spinner>
+  </div>
+
+</div>
+
+
+
+<div mat-dialog-actions>
+  <div class="container-fluid px-0 py-3 ">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-10 col-lg-6">
+        <div class="container-fluid p-0">
+          <div class="row">
+            <div class="col-6 px-1">
+              <button class="btn btn-light text-danger w-100 m-0" mat-dialog-close [disabled]="isSubmiting">
+                <i aria-hidden="true" class="fad fa-times-square"></i>&nbsp;&nbsp;<span>Cancelar</span>
+              </button>
+            </div>
+            <div class="col-6 px-1">
+              <button class="btn btn-raised btn-primary w-100 m-0" (click)="submit()" [disabled]="isSubmiting">
+                <i aria-hidden="true" class="fad fa-save"></i>&nbsp;&nbsp;<span>Salvar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

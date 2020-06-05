@@ -5,12 +5,15 @@ import { ToastService } from '@app/services/toast.service';
 import { SearchRule } from '@shared/components/search/models/SearchRule';
 import { Authority } from '@shared/models/TokenInfo';
 import { HackingRule } from '@shared/components/search/models/HackingRule';
-import { MatTableDataSource, MatOptionSelectionChange } from '@angular/material';
+import { MatTableDataSource, MatOptionSelectionChange, MatCheckboxChange, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
 import { UserProductAuthorities, UserProducts } from '@shared/models/UserProductAuthorities';
 import { LoggerUtils } from '@shared/utils/logger.utils';
 import { User } from '@shared/models/User';
+import { ActionButton } from '@shared/components/action-buttons/action-buttons.component';
+import { LotPermissionDialogComponent } from '@modules/permissions/dialogs/lot-permission-dialog.component';
+import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
 
 @Component({
   templateUrl: './permission-manager.component.html',
@@ -23,6 +26,9 @@ export class PermissionManagerComponent implements OnInit {
   selection = new SelectionModel<UserProductAuthorities>(true, []);
 
   access: any = {};
+  read: any = {};
+  write: any = {};
+  admin: any = {};
 
   filters: SearchOption[] = [];
 
@@ -30,28 +36,30 @@ export class PermissionManagerComponent implements OnInit {
   pageIndex = 0;
   pageSize = 15;
 
+  currentUser: User;
+
   products: { name: string, id: number }[] = [
     { name: 'Bússola', id: 5 },
     { name: 'OIC 3.0', id: 6 },
     { name: 'Sugestão de Melhoria', id: 7 }
   ];
 
+  button: ActionButton[] = [{
+    icon: 'fad fa-unlock-alt',
+    id: 'button',
+    label: 'Acesso em lote',
+  }];
+
   USER_PLACEHOLDER = './assets/images/Portrait_Placeholder.png';
 
   constructor(
     public toastService: ToastService,
-    public service: UserProductAuthoritiesService
+    public service: UserProductAuthoritiesService,
+    public dialog: MatDialog
   ) { }
 
-  get defaultRule() {
-    return SearchOption.builder()
-      .description('Primeiro nome contém "{0}"')
-      .id('name')
-      .value({ name: '' })
-      .build();
-  }
-
   ngOnInit(): void {
+    this.currentUser = User.fromLocalStorage();
     this.service.getProducts().subscribe((results: any[]) => {
       this.products = results;
     }, err => {
@@ -59,6 +67,14 @@ export class PermissionManagerComponent implements OnInit {
       LoggerUtils.throw(err);
     });
     this.fetch();
+  }
+
+  get defaultRule() {
+    return SearchOption.builder()
+      .description('Primeiro nome contém "{0}"')
+      .id('firstName')
+      .value({ firstName: '' })
+      .build();
   }
 
   hackings() {
@@ -94,7 +110,7 @@ export class PermissionManagerComponent implements OnInit {
     return [
       SRB('Possue permissão para gerenciar', 'authority', { authority: Authority.ADMIN }, ['gerenciar', 'gerente', 'admin']),
       SRB('Possue permissão para editar', 'authority', { authority: Authority.WRITE }, ['editar', 'editor', 'write']),
-      SRB('Possue permissão para visualizar', 'authority', { authority: Authority.READ }, ['visualizar', 'leitor', 'read']),
+      SRB('Possue permissão para visualizar', 'authority', { authority: Authority.READ }, ['ver', 'leitor', 'read']),
       SRB('Não possue nenhuma permissão', 'authority', { authority: 'NENHUM' }, ['não', 'nada', 'null', 'nenhum', 'nenhuma'])
     ];
   }
@@ -132,10 +148,11 @@ export class PermissionManagerComponent implements OnInit {
 
     this.toastService.showSnack('Obtendo informações');
     this.service.get(filter).subscribe(results => {
+      this._reset();
       this.toastService.hideSnack();
       this.pageInfo = results.pageInfo;
       results.records.forEach(rec => {
-        this.access[this.getAccessKey(rec.id)] = rec.products;
+        this._setDefault(TypeConversorUtils.fromAny<UserProductAuthorities>(rec, new UserProductAuthorities()));
       });
       this.dataSource = new MatTableDataSource<UserProductAuthorities>(results.records);
       LoggerUtils.log(results);
@@ -179,6 +196,46 @@ export class PermissionManagerComponent implements OnInit {
       .replace(/8/ig, 'iI')
       .replace(/9/ig, 'jJ');
     return key;
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(LotPermissionDialogComponent, {
+      width: '568px',
+      data: { filters: this.filters }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.fetch();
+      }
+    });
+  }
+
+  setAuthority(event: MatCheckboxChange, authority: Authority, userId: number) {
+    const observable$ = event.checked ?
+      this.service.createUserAuthorities({ usersId: userId, authoritiesId: authority }) :
+      this.service.deleteUserAuthorities(userId, authority);
+
+    observable$.subscribe(() => {
+      this.toastService.show(`Permissão ${event.checked ? 'concedida' : 'negada'} com sucesso!`, 'primary');
+    }, err => {
+      this.toastService.show(`Falha ao ${event.checked ? 'conceder' : 'negar'} permissão`, 'danger');
+      LoggerUtils.throw(err);
+    });
+  }
+
+  private _reset() {
+    this.access = {};
+    this.read  = {};
+    this.write = {};
+    this.admin = {};
+  }
+
+  private _setDefault(user: UserProductAuthorities) {
+    this.access[this.getAccessKey(user.id)] = user.products;
+    this.read[this.getAccessKey(user.id)] = user.canView();
+    this.write[this.getAccessKey(user.id)] = user.canEdit();
+    this.admin[this.getAccessKey(user.id)] = user.canManage();
   }
 
 }

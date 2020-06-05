@@ -2,9 +2,8 @@ import { Authority } from './TokenInfo';
 import { IBuilder, Builder } from './Builder';
 
 export class UserAuthorities {
-  id: number;
   usersId: number;
-  authoritiesId: number;
+  authoritiesId: Authority;
 }
 
 export class UserProducts {
