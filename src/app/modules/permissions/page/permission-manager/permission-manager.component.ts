@@ -5,7 +5,7 @@ import { ToastService } from '@app/services/toast.service';
 import { SearchRule } from '@shared/components/search/models/SearchRule';
 import { Authority } from '@shared/models/TokenInfo';
 import { HackingRule } from '@shared/components/search/models/HackingRule';
-import { MatTableDataSource, MatOptionSelectionChange, MatCheckboxChange, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatOptionSelectionChange, MatCheckboxChange, MatDialog, MatPaginator } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
 import { UserProductAuthorities, UserProducts } from '@shared/models/UserProductAuthorities';
@@ -32,7 +32,7 @@ export class PermissionManagerComponent implements OnInit {
 
   filters: SearchOption[] = [];
 
-  pageInfo: PageInfo;
+  pageInfo = new PageInfo();
   pageIndex = 0;
   pageSize = 15;
 
@@ -67,6 +67,12 @@ export class PermissionManagerComponent implements OnInit {
       LoggerUtils.throw(err);
     });
     this.fetch();
+  }
+
+  onPageChange(e) {
+    this.pageIndex = e.pageIndex;
+    this.pageSize = e.pageSize;
+    this.nextPage();
   }
 
   get defaultRule() {

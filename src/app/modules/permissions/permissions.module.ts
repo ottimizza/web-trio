@@ -8,7 +8,8 @@ import {
   MatCheckboxModule,
   MatSelectModule,
   MatFormFieldModule,
-  MatDialogModule
+  MatDialogModule,
+  MatPaginatorModule
 } from '@angular/material';
 import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
 import { BreadcrumbModule } from '@shared/components/breadcrumb/breadcrumb.module';
@@ -35,7 +36,8 @@ import { LotPermissionDialogComponent } from './dialogs/lot-permission-dialog.co
     MatFormFieldModule,
     ActionButtonsModule,
     MatDialogModule,
-    LotPermissionDialogModule
+    LotPermissionDialogModule,
+    MatPaginatorModule
   ],
   entryComponents: [LotPermissionDialogComponent]
 })
