@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   oauthBaseUrl: 'https://development-oauth-server.herokuapp.com',
   oauthClientId: '58a94562a7a7502d4c1b',
   imageCompressionBaseUrl: 'https://development-image-compression.herokuapp.com',

@@ -1,4 +1,6 @@
 import { Organization } from './Organization';
+import { TokenInfo } from './TokenInfo';
+import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
 
 export class User {
 
@@ -24,33 +26,38 @@ export class User {
 
   organization: Organization;
 
-  constructor() {
-  }
+  // static fromLocalStorage(): User {
+  //   const storedUser = JSON.parse(localStorage.getItem('user-info') || '{}');
+  //   const user = new User();
+  //   if (storedUser !== null && typeof storedUser !== 'undefined') {
+  //     if (storedUser.username !== null && typeof storedUser.username !== 'undefined') {
+  //       user.id = storedUser.id;
+  //       user.id = storedUser.id;
+  //       user.username = storedUser.username;
+  //       user.password = storedUser.password;
+  //       user.activated = storedUser.activated;
+  //       user.type = storedUser.type;
+  //       user.avatar = storedUser.avatar;
+  //       user.email = storedUser.email;
+  //       user.firstName = storedUser.firstName;
+  //       user.lastName = storedUser.lastName;
+  //       user.phone = storedUser.phone;
+  //       user.organization = storedUser.organization;
+  //       return user;
+  //     }
+  //   }
+
+  //   return user;
+  // }
 
   static fromLocalStorage(): User {
     const storedUser = JSON.parse(localStorage.getItem('user-info') || '{}');
-    const user = new User();
-    if (storedUser !== null && typeof storedUser !== 'undefined') {
-      if (storedUser.username !== null && typeof storedUser.username !== 'undefined') {
-        user.id = storedUser.id;
-        user.id = storedUser.id;
-        user.username = storedUser.username;
-        user.password = storedUser.password;
-        user.activated = storedUser.activated;
-        user.type = storedUser.type;
-        user.avatar = storedUser.avatar;
-        user.email = storedUser.email;
-        user.firstName = storedUser.firstName;
-        user.lastName = storedUser.lastName;
-        user.phone = storedUser.phone;
-        user.organization = storedUser.organization;
-        return user;
-      }
-    }
-
-    return user;
+    return TypeConversorUtils.fromAny<User>(storedUser, new User());
   }
 
+  public static allInfoFromLocalStorage() {
+    return Object.assign(this.fromLocalStorage(), TokenInfo.fromLocalStorage());
+  }
 
   isCustomer = () => this.type === User.Type.CUSTOMER;
 

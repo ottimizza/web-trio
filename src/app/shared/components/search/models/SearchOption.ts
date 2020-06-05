@@ -9,7 +9,7 @@ export interface ISearchOption {
     description: string;
 
     value: any;
-    
+
 }
 
 export class SearchOption implements ISearchOption {
