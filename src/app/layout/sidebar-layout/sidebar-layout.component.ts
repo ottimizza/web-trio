@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.component';
 import { TokenInfo } from '@shared/models/TokenInfo';
 import { Token } from '@angular/compiler/src/ml_parser/lexer';
+import { environment } from '@env';
 // import { OverlayContainer } from '@angular/cdk/overlay';
 
 // import { ThemeService } from '@app/service/theme.service';
@@ -24,6 +25,8 @@ export class SidebarLayoutComponent implements OnInit {
 
   public items: SidebarItem[];
   public currentUser: User;
+
+  theme = `${environment.backgroundTheme}`;
 
   constructor(@Inject(DOCUMENT) public document: Document, public dialog: MatDialog) { }
 

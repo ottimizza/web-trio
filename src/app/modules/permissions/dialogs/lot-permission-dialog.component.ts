@@ -5,8 +5,8 @@ import { Observable, PartialObserver } from 'rxjs';
 import { ToastService } from '@app/services/toast.service';
 import { LoggerUtils } from '@shared/utils/logger.utils';
 import { User } from '@shared/models/User';
-import { UserProducts } from '@shared/models/UserProductAuthorities';
 import { Authority } from '@shared/models/TokenInfo';
+import { ArrayUtils } from '@shared/utils/array.utils';
 
 class MockupObservable {
 
@@ -101,17 +101,46 @@ export class LotPermissionDialogComponent implements OnInit {
       this.dialogRef.close(false);
       return;
     }
-    this.actions.forEach((action, index) => {
-      action.observable$.subscribe(() => {
-        this.count++;
-        this._close(index);
-      }, err => {
-        this.count++;
-        this.toast.show('Não foi possível realizar todas as alterações', 'danger');
-        LoggerUtils.throw(err);
-        this._close(index);
+
+    const packages: Observable<any>[][] = ArrayUtils.package(this.actions.map(act => act.observable$));
+
+    const next = (id: number) => {
+      let counter = 0;
+      packages[id].forEach(ob$ => {
+        ob$.subscribe(() => {
+          counter++;
+          this.count++;
+          this._close(this.count - 1);
+          if (counter === packages[id].length) {
+            next(id + 1);
+          }
+        }, err => {
+          counter++;
+          this.count++;
+          this.toast.show('Não foi possível realizar todas as alterações', 'danger');
+          LoggerUtils.throw(err);
+          this._close(this.count - 1);
+          if (counter === packages[id].length) {
+            next(id + 1);
+          }
+        });
       });
-    });
+    };
+
+    next(0);
+
+    // this.actions.forEach((action, index) => {
+    //   action.observable$.subscribe(() => {
+    //     this.count++;
+    //     this._close(index);
+    //   }, err => {
+    //     this.count++;
+    //     this.toast.show('Não foi possível realizar todas as alterações', 'danger');
+    //     LoggerUtils.throw(err);
+    //     this._close(index);
+    //   });
+    // });
+
   }
 
   getPercentage() {
