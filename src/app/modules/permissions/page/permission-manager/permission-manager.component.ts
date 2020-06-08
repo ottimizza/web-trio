@@ -11,13 +11,14 @@ import { UserProductAuthoritiesService } from '@app/http/user-product-authoritie
 import { UserProductAuthorities, UserProducts } from '@shared/models/UserProductAuthorities';
 import { LoggerUtils } from '@shared/utils/logger.utils';
 import { User } from '@shared/models/User';
-import { ActionButton } from '@shared/components/action-buttons/action-buttons.component';
+import { ActionButton, HexColor } from '@shared/components/action-buttons/action-buttons.component';
 import { LotPermissionDialogComponent } from '@modules/permissions/dialogs/lot-permission-dialog.component';
 import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
+import { environment } from '@env';
 
 @Component({
   templateUrl: './permission-manager.component.html',
-  styleUrls: ['./permission-manager.component.scss']
+  styleUrls: ['./permission-manager.component.scss'],
 })
 export class PermissionManagerComponent implements OnInit {
 
@@ -38,16 +39,13 @@ export class PermissionManagerComponent implements OnInit {
 
   currentUser: User;
 
-  products: { name: string, id: number }[] = [
-    { name: 'Bússola', id: 5 },
-    { name: 'OIC 3.0', id: 6 },
-    { name: 'Sugestão de Melhoria', id: 7 }
-  ];
+  products: { name: string, id: number }[] = [];
 
   button: ActionButton[] = [{
     icon: 'fad fa-unlock-alt',
     id: 'button',
     label: 'Acesso em lote',
+    color: new HexColor(environment.backgroundTheme)
   }];
 
   USER_PLACEHOLDER = './assets/images/Portrait_Placeholder.png';
@@ -117,7 +115,25 @@ export class PermissionManagerComponent implements OnInit {
       SRB('Possue permissão para gerenciar', 'authority', { authority: Authority.ADMIN }, ['gerenciar', 'gerente', 'admin']),
       SRB('Possue permissão para editar', 'authority', { authority: Authority.WRITE }, ['editar', 'editor', 'write']),
       SRB('Possue permissão para visualizar', 'authority', { authority: Authority.READ }, ['ver', 'leitor', 'read']),
-      SRB('Não possue nenhuma permissão', 'authority', { authority: 'NENHUM' }, ['não', 'nada', 'null', 'nenhum', 'nenhuma'])
+      SRB('Não possue nenhuma permissão', 'authority', { authority: 'NENHUM' }, ['não', 'nada', 'null', 'nenhum', 'nenhuma']),
+      SearchRule.builder()
+        .description('Tipo: Administrador')
+        .id('type')
+        .value({ type: 0 })
+        .keywords(['tipo', '0', 'administrador'])
+        .build(),
+      SearchRule.builder()
+        .description('Tipo: Contador')
+        .id('type')
+        .value({ type: 1 })
+        .keywords(['tipo', '1', 'contador'])
+        .build(),
+      SearchRule.builder()
+        .description('Tipo: Cliente')
+        .id('type')
+        .value({ type: 2 })
+        .keywords(['tipo', '2', 'cliente'])
+        .build(),
     ];
   }
 

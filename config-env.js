@@ -15,6 +15,7 @@ function createEnvironementFile() {
   storageApplicationId: '${getEnvironmentVariable('STORAGE_APPLICATION_ID', 'accounts-avatar')}',
   storageAccountingId: '${getEnvironmentVariable('STORAGE_ACCOUNTING_ID', 'ottimizza')}',
   applicationId: '${getEnvironmentVariable('APPLICATION_ID', 'ottimizza')}',
+  backgroundThem: '${getEnvironmentVariable('BACKGROUND_THEME')}',
   firebase: {
     apiKey: '${getEnvironmentVariable('FIREBASE_API_KEY')}',
     authDomain: '${getEnvironmentVariable('FIREBASE_AUTH_DOMAIN')}',

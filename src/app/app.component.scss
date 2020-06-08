@@ -6,3 +6,15 @@
     height: 300px;
   }
 }
+
+:root {
+  --default-color: #004ecb;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: var(--default-color) !important;
+}
+
+::ng-deep .mat-checkbox-disabled .mat-checkbox-background {
+  background-color: rgb(177, 177, 177) !important;
+}

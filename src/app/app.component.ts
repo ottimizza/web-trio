@@ -8,6 +8,7 @@ import { TokenInfo } from '@shared/models/TokenInfo';
 import { User } from '@shared/models/User';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '@app/authentication/authentication.service';
+import { environment } from '@env';
 
 @Component({
   selector: 'app-root',
@@ -46,6 +47,13 @@ export class AppComponent implements OnInit {
     // this.messagingService.requestPermission();
     // this.messagingService.receiveMessage();
     // this.messagingService.currentMessage.subscribe(msg => LoggerUtils.log(msg));
+    this._setVariables();
   }
+
+  private _setVariables() {
+    document.documentElement.style.setProperty('--default-color', environment.backgroundTheme);
+  }
+
+
 
 }
