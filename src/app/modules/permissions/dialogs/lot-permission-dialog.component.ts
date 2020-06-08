@@ -102,7 +102,7 @@ export class LotPermissionDialogComponent implements OnInit {
       return;
     }
 
-    const packages: Observable<any>[][] = ArrayUtils.package(this.actions.map(act => act.observable$));
+    const packages: Observable<any>[][] = ArrayUtils.package(this.actions.map(act => act.observable$), 150);
 
     const next = (id: number) => {
       let counter = 0;
