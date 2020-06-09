@@ -10,9 +10,10 @@ import {
   MatProgressSpinnerModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import { SinglePermissionDialogComponent } from './single-permission/single-permission-dialog.component';
 
 @NgModule({
-  declarations: [LotPermissionDialogComponent],
+  declarations: [LotPermissionDialogComponent, SinglePermissionDialogComponent],
   imports: [
     CommonModule,
     MatDialogModule,
@@ -23,6 +24,6 @@ import { FormsModule } from '@angular/forms';
     MatCheckboxModule,
     MatProgressSpinnerModule
   ],
-  exports: [LotPermissionDialogComponent]
+  exports: [LotPermissionDialogComponent, SinglePermissionDialogComponent]
 })
 export class LotPermissionDialogModule {}

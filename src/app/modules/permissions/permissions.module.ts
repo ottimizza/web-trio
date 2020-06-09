@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActionButtonsModule } from '@shared/components/action-buttons/action-buttons.module';
 import { LotPermissionDialogModule } from './dialogs/lot-permission-dialog.module';
 import { LotPermissionDialogComponent } from './dialogs/lot-permission-dialog.component';
+import { InfoModule } from '@shared/components/info/info.module';
 
 @NgModule({
   declarations: [PermissionManagerComponent],
@@ -37,7 +38,8 @@ import { LotPermissionDialogComponent } from './dialogs/lot-permission-dialog.co
     ActionButtonsModule,
     MatDialogModule,
     LotPermissionDialogModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    InfoModule
   ],
   entryComponents: [LotPermissionDialogComponent]
 })

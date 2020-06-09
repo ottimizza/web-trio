@@ -5,6 +5,10 @@
     <app-actions [buttons]="button" (clicked)="openDialog()"></app-actions>
   </div>
 
+  <div class="m-3 mb-4 d-md-none">
+    <app-info description="Para alterar as permissões de um usuário, toque em cima do seu nome."></app-info>
+  </div>
+
     <div class="m-4">
       <app-complex-search-input
         [rules]="filteringRules()"
@@ -29,7 +33,7 @@
 
         <ng-container matColumnDef="user">
           <th mat-header-cell *matHeaderCellDef> Usuário </th>
-          <td mat-cell *matCellDef="let element" style="width: 500px;">
+          <td mat-cell *matCellDef="let element" style="width: 500px;" (click)="openSingleDialog(element)">
             <div class="float-left p-1 mr-2">
               <img [src]="element.avatar || USER_PLACEHOLDER" class="img-thumbnail rounded-circle" width="50" height="50">
             </div>
@@ -83,8 +87,8 @@
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns();"
             (click)="selection.toggle(row)">
         </tr>
 
