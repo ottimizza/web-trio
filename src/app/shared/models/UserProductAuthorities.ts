@@ -19,7 +19,7 @@ export class UserProductAuthorities {
   email: string;
   firstName: string;
   lastName: string;
-  products: string[];
+  products: number[];
 
   public static builder(): IBuilder<UserProductAuthorities> {
     return Builder<UserProductAuthorities>();

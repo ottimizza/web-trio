@@ -1,0 +1,59 @@
+<h1 mat-dialog-title><i class="fad fa-user-cog"></i>&nbsp;&nbsp; {{ data.user.firstName }} {{ data.user.lastName || '' }}</h1>
+
+
+
+<div mat-dialog-content>
+
+  <div class="p-3">
+    <strong>Permissões:</strong>
+    <div class="row w-100 m-0" *ngFor="let aut of authorities; let i = index">
+      <mat-checkbox
+      [(ngModel)]="authorityManager[i]"
+      [value]="aut.value"
+      (change)="setAuthority($event)"
+      [disabled]="data.user.id === userId && aut.value === 'ADMIN'">
+        Permissão para {{ aut.name }}
+      </mat-checkbox>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="p-3">
+    <strong>Acesso:</strong>
+    <div class="row w-100 m-0" *ngFor="let prod of data.products; let i = index">
+      <mat-checkbox
+      [(ngModel)]="productManager[i]"
+      [value]="prod.id"
+      (change)="setProduct($event)">
+        {{ prod.name }}
+      </mat-checkbox>
+    </div>
+  </div>
+
+</div>
+
+
+
+<div mat-dialog-actions>
+  <div class="container-fluid px-0 py-3 ">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-10 col-lg-6">
+        <div class="container-fluid p-0">
+          <div class="row">
+            <div class="col-6 px-1">
+              <button class="btn btn-light text-danger w-100 m-0" mat-dialog-close>
+                <i aria-hidden="true" class="fad fa-times-square"></i>&nbsp;&nbsp;<span>Cancelar</span>
+              </button>
+            </div>
+            <div class="col-6 px-1">
+              <button class="btn btn-raised btn-primary w-100 m-0" mat-dialog-close>
+                <i aria-hidden="true" class="fad fa-check-square"></i>&nbsp;&nbsp;<span>Ok</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

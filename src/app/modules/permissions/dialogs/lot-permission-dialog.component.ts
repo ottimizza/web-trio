@@ -111,7 +111,7 @@ export class LotPermissionDialogComponent implements OnInit {
           counter++;
           this.count++;
           this._close(this.count - 1);
-          if (counter === packages[id].length) {
+          if (counter === packages[id].length && id < packages.length) {
             next(id + 1);
           }
         }, err => {
@@ -120,7 +120,7 @@ export class LotPermissionDialogComponent implements OnInit {
           this.toast.show('Não foi possível realizar todas as alterações', 'danger');
           LoggerUtils.throw(err);
           this._close(this.count - 1);
-          if (counter === packages[id].length) {
+          if (counter === packages[id].length && id < packages.length) {
             next(id + 1);
           }
         });
@@ -128,18 +128,6 @@ export class LotPermissionDialogComponent implements OnInit {
     };
 
     next(0);
-
-    // this.actions.forEach((action, index) => {
-    //   action.observable$.subscribe(() => {
-    //     this.count++;
-    //     this._close(index);
-    //   }, err => {
-    //     this.count++;
-    //     this.toast.show('Não foi possível realizar todas as alterações', 'danger');
-    //     LoggerUtils.throw(err);
-    //     this._close(index);
-    //   });
-    // });
 
   }
 

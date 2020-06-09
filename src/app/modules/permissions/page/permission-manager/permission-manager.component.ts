@@ -15,6 +15,7 @@ import { ActionButton, HexColor } from '@shared/components/action-buttons/action
 import { LotPermissionDialogComponent } from '@modules/permissions/dialogs/lot-permission-dialog.component';
 import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
 import { environment } from '@env';
+import { SinglePermissionDialogComponent } from '@modules/permissions/dialogs/single-permission/single-permission-dialog.component';
 
 @Component({
   templateUrl: './permission-manager.component.html',
@@ -22,7 +23,6 @@ import { environment } from '@env';
 })
 export class PermissionManagerComponent implements OnInit {
 
-  displayedColumns: string[] = ['user', 'access', 'read', 'write', 'admin'];
   dataSource = new MatTableDataSource<UserProductAuthorities>([]);
   selection = new SelectionModel<UserProductAuthorities>(true, []);
 
@@ -65,6 +65,27 @@ export class PermissionManagerComponent implements OnInit {
       LoggerUtils.throw(err);
     });
     this.fetch();
+  }
+
+  displayedColumns(): string[] {
+    if (screen.width < 768) {
+      return ['user'];
+    }
+    return ['user', 'access', 'read', 'write', 'admin'];
+  }
+
+  openSingleDialog(element: UserProductAuthorities) {
+    if (screen.width >= 768) {
+      return;
+    }
+    const dialogRef = this.dialog.open(SinglePermissionDialogComponent, {
+      width: '568px',
+      data: { products: this.products, user: element }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.fetch();
+    });
   }
 
   onPageChange(e) {
@@ -156,7 +177,6 @@ export class PermissionManagerComponent implements OnInit {
     this.pageInfo = null;
     this.pageIndex = 0;
     this.nextPage();
-    // this._fake();
   }
 
   nextPage() {
