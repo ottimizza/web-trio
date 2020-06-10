@@ -11,12 +11,12 @@
         <div *ngIf="organization.active === false"
           class="row m-0 alert alert-warning animated headShake align-items-center" role="alert">
           <div class="col-8">
-            <strong>Empresa Inativa!</strong> <br>
+            <strong>{{ organization.type === 1 ? 'Contabilidade' : 'Empresa' }} Inativa!</strong> <br>
             <small></small>
           </div>
           <div *ngIf="canSwitchStatus()" class="col-4">
             <button class="btn btn-warning float-right" (click)="patch(organization.id, {'active': true})">
-              Ativar Empresa
+              Ativar {{ organization.type === 1 ? 'Contabilidade' : 'Empresa' }}
             </button>
           </div>
         </div>
@@ -114,10 +114,10 @@
             </div>
           </div>
 
-          <hr *ngIf="canSwitchStatus() && organization.type != 1" class="mt-5 mb-4">
-          <div *ngIf="canSwitchStatus() && organization.type != 1" class="form-group row">
+          <hr *ngIf="canSwitchStatus()" class="mt-5 mb-4">
+          <div *ngIf="canSwitchStatus()" class="form-group row">
             <div class="col-md-3">
-              <h5 class="m-0"><i class="ft-user"></i> Situação da Empresa</h5>
+              <h5 class="m-0"><i class="ft-user"></i> Situação da {{ organization.type === 1 ? 'Contabilidade' : 'Empresa' }}</h5>
             </div>
             <label for="email" class="col-md-3 label-control text-right"></label>
             <div *ngIf="organization.active === false" class="m-0 alert alert-warning align-items-center"
@@ -125,26 +125,26 @@
 
               <div class="row m-0 p-0 align-items-center">
                 <div class="col-8 col-sm-6 col-xs-6">
-                  <strong>Empresa Inativada!</strong> <br><small class="d-none">Usuários inativos não tem acesso ao
+                  <strong>{{ organization.type === 1 ? 'Contabilidade' : 'Empresa' }} Inativada!</strong> <br><small class="d-none">Usuários inativos não tem acesso ao
                     sistema.</small>
                 </div>
                 <div *ngIf="canSwitchStatus()" class="col-4 col-sm-6 col-xs-6">
                   <button class="btn btn-warning float-right" (click)="patch(organization.id, {'active': true})">Ativar
-                    Empresa</button>
+                    {{ organization.type === 1 ? 'Contabilidade' : 'Empresa' }}</button>
                 </div>
               </div>
             </div>
             <div *ngIf="organization.active === true" class="m-0 alert" role="alert">
               <div class="row m-0 p-0 align-items-center">
                 <div class="col-8 col-sm-6 col-xs-6 text-success">
-                  <strong class="">Empresa Ativa! <i class="far fa-smile-wink"></i></strong> <br><small
+                  <strong class="">{{ organization.type === 1 ? 'Contabilidade' : 'Empresa' }} Ativa! <i class="far fa-smile-wink"></i></strong> <br><small
                     class="d-none">Acesso liberado ao
                     sistema. </small>
                 </div>
                 <div *ngIf="canSwitchStatus()" class="col-4 col-sm-6 col-xs-6">
                   <button class="btn btn-warning float-right"
                     (click)="patch(organization.id, {'active': false})">Inativar
-                    Empresa</button>
+                    {{ organization.type === 1 ? 'Contabilidade' : 'Empresa' }}</button>
                 </div>
               </div>
             </div>
