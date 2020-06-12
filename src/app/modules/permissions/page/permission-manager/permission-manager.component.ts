@@ -58,7 +58,7 @@ export class PermissionManagerComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = User.fromLocalStorage();
-    this.service.getProducts().subscribe((results: any[]) => {
+    this.service.getProducts(environment.applicationId).subscribe((results: any[]) => {
       this.products = results;
     }, err => {
       this.toastService.show('Falha ao obter lista de produtos', 'danger');
