@@ -7,6 +7,7 @@ import { LoggerUtils } from '@shared/utils/logger.utils';
 import { User } from '@shared/models/User';
 import { Authority } from '@shared/models/TokenInfo';
 import { ArrayUtils } from '@shared/utils/array.utils';
+import { environment } from '@env';
 
 class MockupObservable {
 
@@ -153,7 +154,7 @@ export class LotPermissionDialogComponent implements OnInit {
   }
 
   private _getProducts() {
-    this.service.getProducts().subscribe((results: any[]) => {
+    this.service.getProducts(environment.applicationId).subscribe((results: any[]) => {
       this.products = results.map(res => {
         return { name: res.name, id: res.id, add: false, remove: false };
       });

@@ -21,8 +21,8 @@ export class UserProductAuthoritiesService {
     return this.http.get<GenericPageableResponse<UserProductAuthorities>>(url, this._headers);
   }
 
-  getProducts() {
-    const url = `${BASE_URL}/api/v1/users/products`;
+  getProducts(group: string) {
+    const url = `${BASE_URL}/api/v1/users/products/${group}`;
     return this.http.get(url, this._headers);
   }
 
