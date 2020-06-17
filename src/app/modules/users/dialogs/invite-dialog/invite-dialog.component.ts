@@ -66,15 +66,6 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
       .pipe(finalize(() => this.isFetching = false))
       .subscribe((response: any) => {
         this.organizationsOptions = response.records;
-      }, err => {
-        LoggerUtils.throw(err);
-        if (err.error_description === this.REPEATED_EMAIL_INVITE_MESSAGE) {
-          this.toastService.show('Já há um convite com este e-mail', 'danger');
-        } else if (err.error_description === this.REPEATED_EMAIL_USER_MESSAGE) {
-          this.toastService.show('Já há um usuário com este e-mail', 'danger');
-        } else {
-          this.toastService.show('Falha ao criar convite!', 'danger');
-        }
       });
   }
 
@@ -115,6 +106,15 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
           // };
           this.toastService.show(`Convite enviado para ${email}!`, 'success');
           this.dialogRef.close();
+        }
+      }, err => {
+        if (err.error.error_description === this.REPEATED_EMAIL_INVITE_MESSAGE) {
+          this.toastService.show('Já há um convite com este e-mail', 'danger');
+        } else if (err.error.error_description === this.REPEATED_EMAIL_USER_MESSAGE) {
+          this.toastService.show('Já há um usuário com este e-mail', 'danger');
+        } else {
+          this.toastService.show('Falha ao criar convite!', 'danger');
+          LoggerUtils.throw(err);
         }
       });
     }
