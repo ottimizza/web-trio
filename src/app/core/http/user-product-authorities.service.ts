@@ -23,7 +23,7 @@ export class UserProductAuthoritiesService {
 
   getProducts(group: string) {
     const url = `${BASE_URL}/api/v1/users/products/${group}`;
-    return this.http.get(url, this._headers);
+    return this.http.get<{ id: number, name: string }[]>(url, this._headers);
   }
 
   getAllIds(filter: any) {

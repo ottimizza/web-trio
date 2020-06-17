@@ -38,6 +38,7 @@ import { DocPipe } from '@shared/pipes/doc.pipe';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { ComplexSearchInputComponent } from '@shared/components/search/complex-search.component';
 import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
+import { MatCheckboxModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,9 @@ import { ComplexSearchModule } from '@shared/components/search/complex-search.mo
     ModalModule,
     ImageCropperModule,
 
-    UsersRoutingModule
+    UsersRoutingModule,
+
+    MatCheckboxModule
   ],
   exports: [],
   entryComponents: [

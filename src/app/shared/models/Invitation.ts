@@ -15,6 +15,8 @@ export class Invitation implements IInvitation {
   type: number;
   email: string;
   token: string;
+  products: string;
+  authorities: string;
   organization?: Organization;
 
   constructor() {

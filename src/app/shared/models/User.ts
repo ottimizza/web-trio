@@ -55,7 +55,7 @@ export class User {
     return TypeConversorUtils.fromAny<User>(storedUser, new User());
   }
 
-  public static allInfoFromLocalStorage() {
+  public static allInfoFromLocalStorage(): User & TokenInfo {
     return Object.assign(this.fromLocalStorage(), TokenInfo.fromLocalStorage());
   }
 
