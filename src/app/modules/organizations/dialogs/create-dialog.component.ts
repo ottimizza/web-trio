@@ -53,6 +53,9 @@ export class CreateDialogComponent implements OnInit {
     //   this.toastService.show('Organização criada com sucesso!', 'success');
     //   this.dialogRef.close();
     // });
+    if (this.currentUser.type === User.Type.ACCOUNTANT) {
+      this.organization.organizationId = this.currentUser.organization.id;
+    }
     this.organizationService.create(this.organization).subscribe(response => {
       this.toastService.show('Organização criada com sucesso!', 'success');
       this.dialogRef.close();

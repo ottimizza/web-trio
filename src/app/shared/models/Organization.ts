@@ -16,5 +16,6 @@ export class Organization {
   codigoERP: string;
   avatar: string;
   email: string;
+  organizationId: number;
 
 }
