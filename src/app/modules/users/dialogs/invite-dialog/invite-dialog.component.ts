@@ -26,7 +26,7 @@ export interface AlertFeedback {
   selector: 'app-invite-dialog',
   templateUrl: './invite-dialog.component.html',
 })
-export class InviteDialogComponent implements OnInit, AfterViewInit {
+export class InviteDialogComponent implements OnInit {
 
   public currentUser: User;
 
@@ -84,40 +84,54 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
   public invite(): void {
     const type = this.invitationForm.get('type').value;
     const email = this.invitationForm.get('email').value;
-    const organization = this.organizations[0] || this.currentUser.organization;
+    const organization = (+type) !== User.Type.CUSTOMER ? this.currentUser.organization : this.organizations[0];
     const products = this.products.filter((prod, index) => this.productIsSelected[index]).map(prod => prod.id).join(';');
     let authorities = '';
     if (this.permissions[0]) { authorities += 'READ;'; }
     if (this.permissions[1]) { authorities += 'WRITE;'; }
     if (this.permissions[2]) { authorities += 'ADMIN'; }
 
-    const invitation = Invitation.builder()
-    .email(email)
-    .type(type)
-    .products(products)
-    .authorities(authorities)
-    .organization(organization).build();
-    if (email) {
-      this.invitationService.invite(invitation).subscribe((response) => {
-        if (response.record) {
-          // this.alertFeedback = {
-          //   visible: true, classes: 'alert alert-success',
-          //   message: `Convite enviado para ${email}!`
-          // };
-          this.toastService.show(`Convite enviado para ${email}!`, 'success');
-          this.dialogRef.close();
-        }
-      }, err => {
-        if (err.error.error_description === this.REPEATED_EMAIL_INVITE_MESSAGE) {
-          this.toastService.show('Já há um convite com este e-mail', 'danger');
-        } else if (err.error.error_description === this.REPEATED_EMAIL_USER_MESSAGE) {
-          this.toastService.show('Já há um usuário com este e-mail', 'danger');
-        } else {
-          this.toastService.show('Falha ao criar convite!', 'danger');
-          LoggerUtils.throw(err);
-        }
-      });
+    if (!organization || !organization.id) {
+      this.toastService.show('Empresa não encontrada, tente novamente', 'warning');
+      return;
     }
+
+    this.organizationService.fetchById(organization.id).subscribe(results => {
+
+      if (type === User.Type.CUSTOMER && (!results || !results.record || JSON.stringify(results.record) === '{}')) {
+        this.toastService.show('Empresa não encontrada, tente novamente', 'warning');
+        return;
+      }
+
+
+      const invitation = Invitation.builder()
+      .email(email)
+      .type(type)
+      .products(products)
+      .authorities(authorities)
+      .organization(organization).build();
+      if (email) {
+        this.invitationService.invite(invitation).subscribe((response) => {
+          if (response.record) {
+            this.toastService.show(`Convite enviado para ${email}!`, 'success');
+            this.dialogRef.close();
+          }
+        }, err => {
+          if (err.error.error_description === this.REPEATED_EMAIL_INVITE_MESSAGE) {
+            this.toastService.show('Já há um convite com este e-mail', 'danger');
+          } else if (err.error.error_description === this.REPEATED_EMAIL_USER_MESSAGE) {
+            this.toastService.show('Já há um usuário com este e-mail', 'danger');
+          } else {
+            this.toastService.show('Falha ao criar convite!', 'danger');
+            LoggerUtils.throw(err);
+          }
+        });
+      }
+
+    }, err => {
+      this.toastService.show('Falha ao obter informações da empresa selecionada', 'danger');
+      LoggerUtils.throw(err);
+    });
   }
 
   public close() {
@@ -152,7 +166,5 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
-  ngAfterViewInit() { }
 
 }
