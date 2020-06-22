@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Inject, Input, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ImageCropperComponent } from '@shared/components/image-cropper/component/image-cropper.component';
