@@ -1,28 +1,26 @@
 
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthenticationService } from '@app/authentication/authentication.service';
 import { Observable } from 'rxjs';
 import { GenericPageableResponse } from '@shared/models/GenericPageableResponse';
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { Organization } from '@shared/models/Organization';
 import { environment } from '@env';
+import { HttpHandlerService } from '@app/services/http-handler.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileStorageService {
 
-  constructor(private http: HttpClient, private authorizationService: AuthenticationService) { }
+  constructor(private http: HttpHandlerService) { }
 
   public store(file: any): Observable<GenericResponse<any>> {
     const applicationId = environment.storageApplicationId;
     const accountingId = environment.storageAccountingId;
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('file', file);
     const url = `${environment.storageBaseUrl}/storage/${applicationId}/accounting/${accountingId}/store`;
-    const headers = this.authorizationService.getNoBearerAuthorizationHeaders();
-    return this.http.post<GenericResponse<any>>(url, formData, { headers });
+    return this.http.post<GenericResponse<any>>(url, formData, 'Falha ao armazenar arquivo!');
   }
 
   getResourceURL(resourceId: string): string {

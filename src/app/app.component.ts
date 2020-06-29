@@ -3,11 +3,6 @@ import { RxEvent } from '@app/services/rx-event.service';
 import { DOCUMENT } from '@angular/common';
 import { UpdateService } from '@app/services/update.service';
 import { MessagingService } from '@app/services/messaging.service';
-import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
-import { TokenInfo } from '@shared/models/TokenInfo';
-import { User } from '@shared/models/User';
-import { HttpClient } from '@angular/common/http';
-import { AuthenticationService } from '@app/authentication/authentication.service';
 import { environment } from '@env';
 
 @Component({

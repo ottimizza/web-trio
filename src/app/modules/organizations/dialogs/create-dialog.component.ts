@@ -59,8 +59,6 @@ export class CreateDialogComponent implements OnInit {
     this.organizationService.create(this.organization).subscribe(response => {
       this.toastService.show('Organização criada com sucesso!', 'success');
       this.dialogRef.close();
-    }, err => {
-      this.toastService.show('Falha ao criar organização!', 'danger');
     });
   }
 

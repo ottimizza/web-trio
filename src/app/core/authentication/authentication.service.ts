@@ -22,7 +22,7 @@ export class AuthenticationService {
 
   public redirectURI = `${window.location.origin}/auth/callback`;
 
-  constructor(@Inject(DOCUMENT) private document: Document, private http: HttpClient, public storageService: StorageService, private router: Router) { }
+  constructor(@Inject(DOCUMENT) private document: Document, private http: HttpClient, public storageService: StorageService) { }
 
   public store(authSession: AuthSession): Promise<{}> {
     return new Promise<boolean>((resolve, reject) => {
@@ -66,7 +66,7 @@ export class AuthenticationService {
   public async storeTokenInfo(): Promise<void> {
     const headers = this.getAuthorizationHeaders();
     return new Promise<void>((resolve, reject) => {
-      return this.http.get(`${environment.oauthBaseUrl}/oauth/tokenino`, { headers })
+      return this.http.get(`${environment.oauthBaseUrl}/oauth/tokeninfo`, { headers })
         .pipe(
           finalize(() => {
             resolve();

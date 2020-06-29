@@ -20,31 +20,31 @@ export class HttpHandlerService {
     }).join('&');
   }
 
-  public get<T>(url: string | string[], errorMessage: string, headers = this._headers): Observable<T> {
+  public get<T>(url: string | string[], errorMessage: string, headers: any = this._headers): Observable<T> {
     url = this._urlHandle(url);
     const obs$ = this.http.get(url, headers);
     return this._errorHandle(obs$, errorMessage);
   }
 
-  public post<T>(url: string | string[], body: any, errorMessage: string, headers = this._headers): Observable<T> {
+  public post<T>(url: string | string[], body: any, errorMessage: string, headers: any = this._headers): Observable<T> {
     url = this._urlHandle(url);
     const obs$ = this.http.post(url, body, headers);
     return this._errorHandle(obs$, errorMessage);
   }
 
-  public put<T>(url: string | string[], body: string, errorMessage: string, headers = this._headers): Observable<T> {
+  public put<T>(url: string | string[], body: any, errorMessage: string, headers: any = this._headers): Observable<T> {
     url = this._urlHandle(url);
     const obs$ = this.http.put(url, body, headers);
     return this._errorHandle(obs$, errorMessage);
   }
 
-  public patch<T>(url: string | string[], body: string, errorMessage: string, headers = this._headers): Observable<T> {
+  public patch<T>(url: string | string[], body: any, errorMessage: string, headers: any = this._headers): Observable<T> {
     url = this._urlHandle(url);
     const obs$ = this.http.patch(url, body, headers);
     return this._errorHandle(obs$, errorMessage);
   }
 
-  public delete<T>(url: string | string[], errorMessage: string, headers = this._headers): Observable<T> {
+  public delete<T>(url: string | string[], errorMessage: string, headers: any = this._headers): Observable<T> {
     url = this._urlHandle(url);
     const obs$ = this.http.delete(url, headers);
     return this._errorHandle(obs$, errorMessage);

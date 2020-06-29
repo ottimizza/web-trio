@@ -127,9 +127,6 @@ export class InviteDialogComponent implements OnInit {
         });
       }
 
-    }, err => {
-      this.toastService.show('Falha ao obter informações da empresa selecionada', 'danger');
-      LoggerUtils.throw(err);
     });
   }
 
