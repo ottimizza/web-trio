@@ -73,11 +73,6 @@ export class AuthenticationService {
           })
         ).subscribe((response: any) => {
           this.storageService.store(AuthenticationService.STORAGE_KEY_TOKENINFO, JSON.stringify(response));
-        }, err => {
-          if (err.status === 403) {
-            alert('Seu usuário não possue acesso a esta aplicação. Se você acha que isso está errado, fale com seu administrador');
-          }
-          this.router.navigate(['auth', 'logout']);
         });
     }).then(() => { });
   }
