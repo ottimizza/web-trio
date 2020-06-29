@@ -45,9 +45,6 @@ export class SinglePermissionDialogComponent implements OnInit {
 
     observable$.subscribe(() => {
       this.toast.show(`Permissão ${event.checked ? 'concedida' : 'revogada'} com sucesso!`, 'primary');
-    }, err => {
-      this.toast.show(`Falha ao ${event.checked ? 'conceder' : 'revogar'} permissão!`, 'danger');
-      LoggerUtils.throw(err);
     });
   }
 
@@ -58,9 +55,6 @@ export class SinglePermissionDialogComponent implements OnInit {
 
     observable$.subscribe(() => {
       this.toast.show(`Acesso ${event.checked ? 'concedida' : 'revogada'} com sucesso!`, 'primary');
-    }, err => {
-      this.toast.show(`Falha ao ${event.checked ? 'conceder' : 'revogar'} acesso!`, 'danger');
-      LoggerUtils.throw(err);
     });
   }
 

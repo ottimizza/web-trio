@@ -1,21 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatCheckbox, MatCheckboxChange } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatCheckboxChange } from '@angular/material';
 import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
-import { Observable, PartialObserver } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ToastService } from '@app/services/toast.service';
 import { LoggerUtils } from '@shared/utils/logger.utils';
 import { User } from '@shared/models/User';
 import { Authority } from '@shared/models/TokenInfo';
 import { ArrayUtils } from '@shared/utils/array.utils';
 import { environment } from '@env';
-
-class MockupObservable {
-
-  subscribe(callbackFn: () => void) {
-    callbackFn();
-  }
-
-}
 
 @Component({
   templateUrl: './lot-permission-dialog.component.html'
@@ -66,7 +58,7 @@ export class LotPermissionDialogComponent implements OnInit {
       if (isProduct) {
         return this.service.deleteUserProduct(userId, +event.source.value);
       } else if (!isProduct && event.source.value === Authority.ADMIN && userId === this.currentId) {
-        return new MockupObservable();
+        return of({});
       }
       const authoritiesId: any = event.source.value;
       return this.service.deleteUserAuthorities(userId, authoritiesId);
@@ -115,11 +107,9 @@ export class LotPermissionDialogComponent implements OnInit {
           if (counter === packages[id].length && id < packages.length) {
             next(id + 1);
           }
-        }, err => {
+        }, () => {
           counter++;
           this.count++;
-          this.toast.show('Não foi possível realizar todas as alterações', 'danger');
-          LoggerUtils.throw(err);
           this._close(this.count - 1);
           if (counter === packages[id].length && id < packages.length) {
             next(id + 1);
@@ -147,9 +137,6 @@ export class LotPermissionDialogComponent implements OnInit {
     this.data.filters.forEach(f => Object.assign(filter, f.value));
     this.service.getAllIds(filter).subscribe((results: number[]) => {
       this.ids = results;
-    }, err => {
-      this.toast.show('Falha ao obter usuários afetados', 'danger');
-      LoggerUtils.throw(err);
     });
   }
 
@@ -158,9 +145,6 @@ export class LotPermissionDialogComponent implements OnInit {
       this.products = results.map(res => {
         return { name: res.name, id: res.id, add: false, remove: false };
       });
-    }, err => {
-      this.toast.show('Falha ao obter lista de produtos', 'danger');
-      LoggerUtils.throw(err);
     });
   }
 

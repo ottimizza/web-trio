@@ -60,9 +60,6 @@ export class PermissionManagerComponent implements OnInit {
     this.currentUser = User.fromLocalStorage();
     this.service.getProducts(environment.applicationId).subscribe((results: any[]) => {
       this.products = results;
-    }, err => {
-      this.toastService.show('Falha ao obter lista de produtos', 'danger');
-      LoggerUtils.throw(err);
     });
     this.fetch();
   }
@@ -198,9 +195,6 @@ export class PermissionManagerComponent implements OnInit {
       });
       this.dataSource = new MatTableDataSource<UserProductAuthorities>(results.records);
       LoggerUtils.log(results);
-    }, err => {
-      this.toastService.show('Falha ao obter usuários', 'danger');
-      LoggerUtils.throw(err);
     });
   }
 
@@ -219,9 +213,6 @@ export class PermissionManagerComponent implements OnInit {
 
     observable$.subscribe(() => {
       this.toastService.show('Acesso alterado com sucesso!', 'primary');
-    }, err => {
-      this.toastService.show('Falha ao alterar acesso', 'danger');
-      LoggerUtils.throw(err);
     });
   }
 
@@ -260,9 +251,6 @@ export class PermissionManagerComponent implements OnInit {
 
     observable$.subscribe(() => {
       this.toastService.show(`Permissão ${event.checked ? 'concedida' : 'negada'} com sucesso!`, 'primary');
-    }, err => {
-      this.toastService.show(`Falha ao ${event.checked ? 'conceder' : 'negar'} permissão`, 'danger');
-      LoggerUtils.throw(err);
     });
   }
 
