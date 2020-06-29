@@ -4,6 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { UpdateService } from '@app/services/update.service';
 import { MessagingService } from '@app/services/messaging.service';
 import { environment } from '@env';
+import { HttpHandlerService } from '@app/services/http-handler.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
     @Inject(DOCUMENT) public document: Document,
     private events: RxEvent,
     private updateService: UpdateService,
-    private messagingService: MessagingService
+    private messagingService: MessagingService,
   ) {
     this.updateService.checkForUpdates();
     this.events.subscribe('sw::update', () => {
