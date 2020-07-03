@@ -1,4 +1,3 @@
-
 import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -7,7 +6,6 @@ import { finalize } from 'rxjs/operators';
 import { StorageService } from '@app/services/storage.service';
 
 import { environment } from '@env';
-import { Router } from '@angular/router';
 import { SKIP_INTERCEPTOR } from '@app/interceptor/skip-interceptor';
 
 export const REFRESH_URL = '/auth/refresh';
@@ -84,6 +82,11 @@ export class AuthenticationService {
           })
         ).subscribe((response: any) => {
           this.storageService.store(AuthenticationService.STORAGE_KEY_TOKENINFO, JSON.stringify(response));
+        }, err => {
+          if (err.status === 403) {
+            // alert('Seu usuário não tem acesso a esta aplicação. Se você acha que isto é um erro, entre em contato com seu administrador');
+            this.authorize();
+          }
         });
     }).then(() => { });
   }
@@ -97,7 +100,6 @@ export class AuthenticationService {
 
 
   public authorize(responseType: string = 'code'): void {
-    const that = this;
     const baseUrl = `${environment.oauthBaseUrl}/oauth/authorize`;
     const clientId = `${environment.oauthClientId}`;
     const url = `${baseUrl}?response_type=${responseType}&prompt=login&client_id=${clientId}&redirect_uri=${this.redirectURI}`;
