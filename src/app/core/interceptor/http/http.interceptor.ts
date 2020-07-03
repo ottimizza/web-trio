@@ -5,21 +5,20 @@ import {
   HttpErrorResponse,
   HttpHandler,
   HttpEvent,
-  HttpResponse,
-  HTTP_INTERCEPTORS
 } from '@angular/common/http';
 
-import { Observable, EMPTY, throwError, of, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, switchMap, filter, take } from 'rxjs/operators';
-// import { MocksService, refreshtoken_resource } from '@app/http/mocks.service';
 import { AuthenticationService, REFRESH_URL, CALLBACK_URL } from '@app/authentication/authentication.service';
 import { AuthSession } from '@shared/models/AuthSession';
 import { SKIP_INTERCEPTOR } from '../skip-interceptor';
+import { Router } from '@angular/router';
 
 export const HttpStatus = {
   BAD_REQUEST: 400,
   UNAUTHORIZED: 401,
-  FORBIDDEN: 403
+  FORBIDDEN: 403,
+  NOT_FOUND: 404
 };
 
 @Injectable()
@@ -31,7 +30,7 @@ export class GlobalHttpInterceptor implements HttpInterceptor {
     null
   );
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
   }
 
 
@@ -47,11 +46,18 @@ export class GlobalHttpInterceptor implements HttpInterceptor {
 
         if (error.error instanceof Error) {
         } else {
+
+          if (error.status === HttpStatus.BAD_REQUEST) {
+            if (this.requestMatchesCallbackURL(request)) {
+              this.router.navigate(['/landpage']);
+              return throwError(error);
+            }
+          }
+
           if (error.status === HttpStatus.UNAUTHORIZED) {
 
             if (this.requestMatchesCallbackURL(request)) {
-              // TODO: Enviar para tela pré-login
-              this.logout();
+              this.router.navigate(['/landpage']);
               return throwError(error);
             }
 
@@ -138,8 +144,7 @@ export class GlobalHttpInterceptor implements HttpInterceptor {
 
   private id() {
     let state = '';
-    const possible =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for (let i = 0; i < 16; i++) {
       state += possible.charAt(Math.floor(Math.random() * possible.length));
     }
