@@ -15,7 +15,7 @@ export class LandPageComponent implements OnInit {
   defaultMessage = ['Estou', 'com', 'dificuldades', 'de', 'acesso', 'ao', 'Portal'];
 
   defaultColor = environment.backgroundTheme;
-  supportUrl = environment.supportUrl || 'https://suporte.ottimizza.com.br';
+  supportUrl = environment.supportUrl;
 
   constructor(private authenticationService: AuthenticationService) { }
 
