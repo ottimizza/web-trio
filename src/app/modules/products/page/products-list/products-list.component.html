@@ -28,6 +28,10 @@
         </div>
       </a>
     </div>
+    <div class="text-secondary text-center m-0 m-auto" *ngIf="(products && !products.length)">
+      <h1 class="mt-5">Você não tem acesso a nenhum aplicativo.</h1>
+      <h3>Se você acha que isto está errado, entre em contato com seu Administrador.</h3>
+    </div>
   </div>
   <footer class="footer d-none"> © 2017 Material Pro Admin by wrappixel.com </footer>
 </div>

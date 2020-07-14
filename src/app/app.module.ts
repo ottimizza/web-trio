@@ -22,7 +22,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BreadcrumbModule } from '@shared/components/breadcrumb/breadcrumb.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpErrorInterceptor, ErrorInterceptorProvider } from '@app/interceptor/http.interceptor';
 import { NavbarLayoutModule } from './layout/navbar-layout/navbar-layout.module';
 import { DragDropDirective } from '@shared/directives/drag-drop.directive';
 import { DocPipe } from '@shared/pipes/doc.pipe';
@@ -30,6 +29,7 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { SigninAsDialogModule } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.module';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.component';
+import { GlobalHttpInterceptorProvider } from '@app/interceptor/http/http-interceptor.provider';
 
 @NgModule({
   declarations: [
@@ -73,9 +73,7 @@ import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-a
 
 
   ],
-  providers: [
-    ErrorInterceptorProvider
-  ],
+  providers: [GlobalHttpInterceptorProvider],
   bootstrap: [AppComponent],
   entryComponents: [SigninAsDialogComponent]
 })

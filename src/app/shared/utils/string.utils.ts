@@ -6,7 +6,7 @@ import { ElementRef, Injectable } from '@angular/core';
 export class StringUtils {
 
     public static normalize(text: string): string {
-        return text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 
 }

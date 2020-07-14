@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Inject, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Organization } from '@shared/models/Organization';
@@ -10,6 +9,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Invitation } from '@shared/models/Invitation';
 import { ToastService } from '@app/services/toast.service';
+import { LoggerUtils } from '@shared/utils/logger.utils';
+import { UserProductAuthorities } from '@shared/models/UserProductAuthorities';
+import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
+import { environment } from '@env';
 
 export interface AlertFeedback {
   visible: boolean;
@@ -22,7 +25,7 @@ export interface AlertFeedback {
   selector: 'app-invite-dialog',
   templateUrl: './invite-dialog.component.html',
 })
-export class InviteDialogComponent implements OnInit, AfterViewInit {
+export class InviteDialogComponent implements OnInit {
 
   public currentUser: User;
 
@@ -33,16 +36,25 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
   public organizationsOptions: Array<Organization> = new Array<Organization>();
   public organizations: Array<Organization> = new Array<Organization>();
 
+  public products: Array<{ id: number, name: string }> = [];
+  public productIsSelected: boolean[] = [];
+
+  public permissions = [true, true, false];
+
   displayedColumns: string[] = ['name', 'cnpj'];
   dataSource: MatTableDataSource<Organization>;
 
   isFetching: boolean;
+
+  private REPEATED_EMAIL_INVITE_MESSAGE = 'Email nao valido convite';
+  private REPEATED_EMAIL_USER_MESSAGE = 'Email nao valido usuario';
 
   constructor(
     private elementRef: ElementRef,
     private formBuilder: FormBuilder,
     public invitationService: InvitationService,
     public organizationService: OrganizationService,
+    public userProductAuthoritiesService: UserProductAuthoritiesService,
     public toastService: ToastService,
     public dialogRef: MatDialogRef<InviteDialogComponent>
   ) { }
@@ -71,24 +83,51 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
   public invite(): void {
     const type = this.invitationForm.get('type').value;
     const email = this.invitationForm.get('email').value;
-    const organization = this.organizations[0] || this.currentUser.organization;
+    const organization = (+type) !== User.Type.CUSTOMER ? this.currentUser.organization : this.organizations[0];
+    const products = this.products.filter((prod, index) => this.productIsSelected[index]).map(prod => prod.id).join(';');
+    let authorities = '';
+    if (this.permissions[0]) { authorities += 'READ;'; }
+    if (this.permissions[1]) { authorities += 'WRITE;'; }
+    if (this.permissions[2]) { authorities += 'ADMIN'; }
 
-    const invitation = Invitation.builder()
-    .email(email)
-    .type(type)
-    .organization(organization).build();
-    if (email) {
-      this.invitationService.invite(invitation).subscribe((response) => {
-        if (response.record) {
-          // this.alertFeedback = {
-          //   visible: true, classes: 'alert alert-success',
-          //   message: `Convite enviado para ${email}!`
-          // };
-          this.toastService.show(`Convite enviado para ${email}!`, 'success');
-          this.dialogRef.close();
-        }
-      });
+    if (!organization || !organization.id) {
+      this.toastService.show('Empresa não encontrada, tente novamente', 'warning');
+      return;
     }
+
+    this.organizationService.fetchById(organization.id).subscribe(results => {
+
+      if (type === User.Type.CUSTOMER && (!results || !results.record || JSON.stringify(results.record) === '{}')) {
+        this.toastService.show('Empresa não encontrada, tente novamente', 'warning');
+        return;
+      }
+
+
+      const invitation = Invitation.builder()
+      .email(email)
+      .type(type)
+      .products(products)
+      .authorities(authorities)
+      .organization(organization).build();
+      if (email) {
+        this.invitationService.invite(invitation).subscribe((response) => {
+          if (response.record) {
+            this.toastService.show(`Convite enviado para ${email}!`, 'success');
+            this.dialogRef.close();
+          }
+        }, err => {
+          if (err.error.error_description === this.REPEATED_EMAIL_INVITE_MESSAGE) {
+            this.toastService.show('Já há um convite com este e-mail', 'danger');
+          } else if (err.error.error_description === this.REPEATED_EMAIL_USER_MESSAGE) {
+            this.toastService.show('Já há um usuário com este e-mail', 'danger');
+          } else {
+            this.toastService.show('Falha ao criar convite!', 'danger');
+            LoggerUtils.throw(err);
+          }
+        });
+      }
+
+    });
   }
 
   public close() {
@@ -106,6 +145,10 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.currentUser = User.fromLocalStorage();
+    this.userProductAuthoritiesService.getProducts(environment.applicationId).subscribe(result => {
+      this.products = result;
+      this.productIsSelected = this.products.map(() => false);
+    });
 
     this.invitationForm = this.formBuilder.group({
       type: [this.currentUser.type === User.Type.ADMINISTRATOR ? User.Type.ADMINISTRATOR : User.Type.ACCOUNTANT],
@@ -119,7 +162,5 @@ export class InviteDialogComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
-  ngAfterViewInit() { }
 
 }

@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   oauthBaseUrl: 'https://development-oauth-server.herokuapp.com',
   oauthClientId: '58a94562a7a7502d4c1b',
   imageCompressionBaseUrl: 'https://development-image-compression.herokuapp.com',
@@ -7,6 +7,8 @@ export const environment = {
   storageApplicationId: 'account-avatar',
   storageAccountingId: 'ottimizza',
   applicationId: 'ottimizza',
+  backgroundTheme: '#004ecb',
+  supportUrl: 'https://suporte.ottimizza.com.br',
   firebase: {
     apiKey: 'AIzaSyAPjrzkQyjYwq0eXRavaA9LS_rrt9p5XgE',
     authDomain: 'portal-4c1f7.firebaseapp.com',

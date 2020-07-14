@@ -3,8 +3,8 @@ import { RxEvent } from '@app/services/rx-event.service';
 import { DOCUMENT } from '@angular/common';
 import { UpdateService } from '@app/services/update.service';
 import { MessagingService } from '@app/services/messaging.service';
-import { LoggerUtils } from '@shared/utils/logger.utils';
-
+import { environment } from '@env';
+import { HttpHandlerService } from '@app/services/http-handler.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
     @Inject(DOCUMENT) public document: Document,
     private events: RxEvent,
     private updateService: UpdateService,
-    private messagingService: MessagingService
+    private messagingService: MessagingService,
+    private http: HttpHandlerService
   ) {
     this.updateService.checkForUpdates();
     this.events.subscribe('sw::update', () => {
@@ -43,6 +44,13 @@ export class AppComponent implements OnInit {
     // this.messagingService.requestPermission();
     // this.messagingService.receiveMessage();
     // this.messagingService.currentMessage.subscribe(msg => LoggerUtils.log(msg));
+    this._setVariables();
   }
+
+  private _setVariables() {
+    document.documentElement.style.setProperty('--default-color', environment.backgroundTheme);
+  }
+
+
 
 }

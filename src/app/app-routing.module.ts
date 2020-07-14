@@ -6,12 +6,22 @@ import { ContentLayoutComponent } from './layout/content-layout/content-layout.c
 
 import { AuthGuard } from '@app/guard/auth.guard';
 import { NoAuthGuard } from '@app/guard/no-auth.guard';
+import { ManageGuard } from '@app/guard/manage.guard';
+import { LandPageComponent } from '@modules/land-page/page/land-page.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full'
+  },
+  {
+    path: 'landpage',
+    data: {
+      breadcrumb: null
+    },
+    component: LandPageComponent,
+    canActivate: [NoAuthGuard]
   },
   {
     path: 'dashboard',
@@ -50,6 +60,14 @@ const routes: Routes = [
         loadChildren: () => import('@modules/organizations/organizations.module').then(m => m.OrganizationModule),
         canActivate: [AuthGuard]
       },
+      {
+        path: 'permissions',
+        data: {
+          breadcrumb: 'Permissões'
+        },
+        loadChildren: () => import('@modules/permissions/permissions.module').then(m => m.PermissionsModule),
+        canActivate: [AuthGuard, ManageGuard]
+      }
     ]
   },
   {

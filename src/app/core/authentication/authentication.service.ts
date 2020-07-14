@@ -1,4 +1,3 @@
-
 import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -7,6 +6,10 @@ import { finalize } from 'rxjs/operators';
 import { StorageService } from '@app/services/storage.service';
 
 import { environment } from '@env';
+import { SKIP_INTERCEPTOR } from '@app/interceptor/skip-interceptor';
+
+export const REFRESH_URL = '/auth/refresh';
+export const CALLBACK_URL = '/auth/callback';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +17,7 @@ import { environment } from '@env';
 export class AuthenticationService {
 
   static REFRESH_URL = '/auth/refresh';
+  static CALLBACK_URL = '/auth/callback';
 
   static STORAGE_KEY_USERINFO = 'user-info';
   static STORAGE_KEY_TOKENINFO = 'token-info';
@@ -48,8 +52,11 @@ export class AuthenticationService {
     });
   }
 
-  public async storeUserInfo(): Promise<void> {
+  public async storeUserInfo(skipInterceptor = false): Promise<void> {
     const headers = this.getAuthorizationHeaders();
+    if (skipInterceptor) {
+      headers.append(SKIP_INTERCEPTOR, '');
+    }
     return new Promise<void>((resolve, reject) => {
       return this.http.get(`${environment.oauthBaseUrl}/oauth/userinfo`, { headers })
         .pipe(
@@ -62,8 +69,11 @@ export class AuthenticationService {
     }).then(() => { });
   }
 
-  public async storeTokenInfo(): Promise<void> {
+  public async storeTokenInfo(skipInterceptor = false): Promise<void> {
     const headers = this.getAuthorizationHeaders();
+    if (skipInterceptor) {
+      headers.append(SKIP_INTERCEPTOR, '');
+    }
     return new Promise<void>((resolve, reject) => {
       return this.http.get(`${environment.oauthBaseUrl}/oauth/tokeninfo`, { headers })
         .pipe(
@@ -72,6 +82,11 @@ export class AuthenticationService {
           })
         ).subscribe((response: any) => {
           this.storageService.store(AuthenticationService.STORAGE_KEY_TOKENINFO, JSON.stringify(response));
+        }, err => {
+          if (err.status === 403) {
+         // alert('Seu usuário não tem acesso a esta aplicação. Se você acha que isto é um erro, entre em contato com seu administrador');
+            this.authorize();
+          }
         });
     }).then(() => { });
   }
@@ -85,7 +100,6 @@ export class AuthenticationService {
 
 
   public authorize(responseType: string = 'code'): void {
-    const that = this;
     const baseUrl = `${environment.oauthBaseUrl}/oauth/authorize`;
     const clientId = `${environment.oauthClientId}`;
     const url = `${baseUrl}?response_type=${responseType}&prompt=login&client_id=${clientId}&redirect_uri=${this.redirectURI}`;
@@ -98,9 +112,12 @@ export class AuthenticationService {
   }
 
   public refresh(refreshToken: string) {
+    const headers = new HttpHeaders({
+      'X-Skip-Interceptor': ''
+    });
     const clientId = `${environment.oauthClientId}`;
     const url = `${environment.oauthBaseUrl}/auth/refresh?refresh_token=${refreshToken}&client_id=${clientId}`;
-    return this.http.post(url, {}, {});
+    return this.http.post(url, {}, { headers });
   }
 
   public revokeToken() {

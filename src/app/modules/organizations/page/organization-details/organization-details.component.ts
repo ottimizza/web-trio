@@ -117,7 +117,7 @@ export class OrganizationDetaisComponent implements OnInit {
     const dialogRef = this.dialog.open(AvatarRemoveDialogComponent, {
       maxWidth: '568px'
     });
-    dialogRef.afterClosed().subscribe(result => {      
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.patch(this.organization.id, { avatar: '' }, true);
       }
@@ -126,7 +126,7 @@ export class OrganizationDetaisComponent implements OnInit {
 
   public canEditLogo(): boolean {
     return (
-      (this.currentUser.isAdministrator() && this.organization.type === 1) 
+      (this.currentUser.isAdministrator() && this.organization.type === 1)
       || (this.currentUser.isAccountant() && this.organization.type === 1
         && this.currentUser.organization.id === this.organization.id)
     );

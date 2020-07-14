@@ -45,17 +45,18 @@ export class CreateDialogComponent implements OnInit {
 
   public create() {
     this.organization.active = true;
-    new Promise<any>((resolve, reject) => {
-      // this.organizationService.create(org).subscribe((response: GenericResponse<Organization>) => {
-      this.organizationService.create(this.organization).subscribe((response: GenericResponse<Organization>) => {
-          resolve(response);
-      });
-    }).then((response: GenericResponse<Organization>) => {
-      // this.alertFeedback = {
-      //   visible: true,
-      //   classes: 'alert alert-success',
-      //   message: 'Organização criada com sucesso!'
-      // };
+    // new Promise<any>((resolve, reject) => {
+    //   this.organizationService.create(this.organization).subscribe((response: GenericResponse<Organization>) => {
+    //       resolve(response);
+    //   });
+    // }).then((response: GenericResponse<Organization>) => {
+    //   this.toastService.show('Organização criada com sucesso!', 'success');
+    //   this.dialogRef.close();
+    // });
+    if (this.currentUser.type === User.Type.ACCOUNTANT) {
+      this.organization.organizationId = this.currentUser.organization.id;
+    }
+    this.organizationService.create(this.organization).subscribe(response => {
       this.toastService.show('Organização criada com sucesso!', 'success');
       this.dialogRef.close();
     });

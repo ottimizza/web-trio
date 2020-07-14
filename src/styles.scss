@@ -245,8 +245,8 @@ $default-sidebar-width: 240px;
     display: none;
   }
   .compact-sidebar, .default-sidebar {
-    .left-sidebar { 
-      width: $compact-sidebar-width; 
+    .left-sidebar {
+      width: $compact-sidebar-width;
       transition: all 0.15s ease-out;
       &:hover {
         width: $default-sidebar-width;
@@ -254,8 +254,8 @@ $default-sidebar-width: 240px;
     }
     .page-wrapper, .footer { margin-left: $compact-sidebar-width; }
     &.show-sidebar {
-      .left-sidebar { 
-        width: $default-sidebar-width; 
+      .left-sidebar {
+        width: $default-sidebar-width;
         transition: all 0.15s ease-out;
       }
     }
