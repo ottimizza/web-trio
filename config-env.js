@@ -17,6 +17,7 @@ function createEnvironementFile() {
   applicationId: '${getEnvironmentVariable('APPLICATION_ID', 'ottimizza')}',
   backgroundTheme: '${getEnvironmentVariable('BACKGROUND_THEME')}',
   supportUrl: '${getEnvironmentVariable('SUPPORT_URL', 'https://suporte.ottimizza.com.br')}',
+  pdfViewer: '${getEnvironmentVariable('CUSTOM_PDF_URL', 'https://docs.google.com/viewer')}',
   firebase: {
     apiKey: '${getEnvironmentVariable('FIREBASE_API_KEY')}',
     authDomain: '${getEnvironmentVariable('FIREBASE_AUTH_DOMAIN')}',

@@ -1,45 +1,45 @@
-table {
-  width: 100%;
-}
+// table {
+//   width: 100%;
+// }
 
-.cursor-pointer {
-  &:hover {
-    cursor: pointer;
-  }
-}
+// .cursor-pointer {
+//   &:hover {
+//     cursor: pointer;
+//   }
+// }
 
-.accounting-container {
-  height: 50px;
-  .accounting-selector {
-    margin: 10px;
-    width: 32%;
-    float: right;
-  }
-}
+// .accounting-container {
+//   height: 50px;
+//   .accounting-selector {
+//     margin: 10px;
+//     width: 32%;
+//     float: right;
+//   }
+// }
 
-.product {
-  transition: all .2s;
-  &:hover {
-    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.5);
-  }
-}
-@media (max-width: 576px) {
-  .product {
-    width: 100%;
-  }
-}
-@media (min-width: 577px) {
-  .product {
-    width: 240px;
-  }
-}
-@media (min-width: 768px) {
-  .product {
-    width: 300px;
-  }
-}
-@media (min-width: 1170px) {
-  .product {
-    width: 31%;
-  }
-}
+// .product {
+//   transition: all .2s;
+//   &:hover {
+//     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.5);
+//   }
+// }
+// @media (max-width: 576px) {
+//   .product {
+//     width: 100%;
+//   }
+// }
+// @media (min-width: 577px) {
+//   .product {
+//     width: 240px;
+//   }
+// }
+// @media (min-width: 768px) {
+//   .product {
+//     width: 300px;
+//   }
+// }
+// @media (min-width: 1170px) {
+//   .product {
+//     width: 31%;
+//   }
+// }

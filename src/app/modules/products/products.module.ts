@@ -17,10 +17,16 @@ import { ProductsRoutingModule } from './products.routing';
 import { ProductListComponent } from './page/products-list/products-list.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { ProductCardComponent } from './support/product-card/product-card.component';
+import { PDFModule } from '@shared/components/pdf/pdf.module';
+import { MatDialogModule } from '@angular/material';
+import { AboutProductDialogComponent } from './dialogs/about-product/about-product-dialog.component';
 
 @NgModule({
   declarations: [
-    ProductListComponent
+    ProductListComponent,
+    ProductCardComponent,
+    AboutProductDialogComponent
   ],
   imports: [
     FormsModule,
@@ -34,16 +40,19 @@ import { MatOptionModule } from '@angular/material/core';
     MatAutocompleteModule,
     MatSelectModule,
     MatOptionModule,
+    MatDialogModule,
 
     AvatarModule,
     BreadcrumbModule,
     ModalModule,
+    PDFModule,
 
     ProductsRoutingModule
+
   ],
   exports: [],
   entryComponents: [
-    // Dialogs..
+    AboutProductDialogComponent
   ]
 })
 export class ProductsModule { }
