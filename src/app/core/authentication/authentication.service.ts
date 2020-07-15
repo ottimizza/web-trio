@@ -107,7 +107,7 @@ export class AuthenticationService {
   }
 
   public exchange(code: string) {
-    const url = `${environment.storageBaseUrl}/auth/callback?code=${code}&redirect_uri=${this.redirectURI}`;
+    const url = `${environment.oauthBaseUrl}/auth/callback?code=${code}&redirect_uri=${this.redirectURI}`;
     return this.http.post(url, {}, {});
   }
 
