@@ -18,16 +18,20 @@
         <h3>Aplicativos</h3>
       </div>
     </div>
-    <div class="d-block row w-100 m-0 mt-4 text-center justify-content-between">
-      <!-- <a *ngFor="let product of products" class="card product cursor-pointer mx-2" [href]="product.appUrl">
-        <div class="card-body text-center">
-          <img class="img-thumbnail my-4" width="50%" height="50%" [src]="product.imageUrl" alt="product.name">
-          <h4>{{product.name}}</h4>
-          <hr>
-          <small>{{product.description}}</small>
-        </div>
-      </a> -->
-      <app-product-card *ngFor="let product of products" [product]="product"></app-product-card>
+    <div class="row w-100 m-0 mt-4 text-center">
+      <div class="product p-0 card m-2" *ngFor="let product of products">
+          <div class="card-body border-bottom">
+            <h3>{{ product.name }}</h3>
+            <small>{{ product.description }}</small>
+          </div>
+          <div class="card-buttons">
+            <div class="container-fluid px-0 py-3 justify-content-between bg-white">
+              <button class="btn btn-light mx-1" (click)="openAboutDialog(product)"><i class="fad fa-question-circle"></i>&nbsp;&nbsp;&nbsp;Sobre</button>
+              <button class="btn btn-light mx-1" (click)="gotTo(product.appUrl)"><i class="fad fa-long-arrow-right"></i>&nbsp;&nbsp;&nbsp;Abrir</button>
+            </div>
+          </div>
+      </div>
+      <!-- <app-product-card *ngFor="let product of products" [product]="product"></app-product-card> -->
     </div>
     <div class="text-secondary text-center m-0 m-auto" *ngIf="(products && !products.length)">
       <h1 class="mt-5">Você não tem acesso a nenhum aplicativo.</h1>

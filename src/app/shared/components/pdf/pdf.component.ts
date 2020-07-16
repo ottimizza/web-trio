@@ -13,7 +13,7 @@ export class PDFComponent implements OnInit {
   @Input() width: string | number;
   @Input() height: string | number;
 
-  @Input() type: 'native' | 'google' = 'google';
+  @Input() type: 'native' | 'external' = 'external';
 
   public API_BASE_URL = environment.pdfViewer;
 
@@ -44,7 +44,7 @@ export class PDFComponent implements OnInit {
   }
 
   public getSecurityUrl() {
-    const url = this.type === 'google' ? `${this.API_BASE_URL}?url=${this.src}&embedded=true` : this.src;
+    const url = this.type === 'external' ? `${this.API_BASE_URL}?url=${this.src}` : this.src;
     return this.sanitazer.bypassSecurityTrustResourceUrl(url);
   }
 }

@@ -10,6 +10,7 @@ import { OrganizationService } from '@app/http/organizations.service';
 import { PageInfo } from '@shared/models/GenericPageableResponse';
 import { UserService } from '@app/http/users.service';
 import { MatSelectChange } from '@angular/material/select';
+import { AboutProductDialogComponent } from '@modules/products/dialogs/about-product/about-product-dialog.component';
 
 
 @Component({
@@ -39,23 +40,7 @@ export class ProductListComponent implements OnInit {
         this.products = response.records;
         //         this.dataSource = this.organizations;
       });
-    // this.products = [
-    //   {
-    //     id: null,
-    //     name: `Bússola Contábil`,
-    //     description: `Solução que gera de forma automática, gráficos e indicadores para os seus clientes, na palma da mão!`,
-    //     appUrl: ``,
-    //     imageUrl: `https://is4-ssl.mzstatic.com/image/thumb/Purple123/v4/8a/52/2f/8a522f2f-87f6-d692-3eb4-91dadda741e8/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-5.png/246x0w.png`,
-    //     group: `ottimizza`,
-    //   },{
-    //     id: null,
-    //     name: `Integrador Contábil`,
-    //     description: `Integre as informações contábeis do seu cliente e garanta a escala que sua contabilidade precisa para evoluir!`,
-    //     appUrl: ``,
-    //     imageUrl: `https://is4-ssl.mzstatic.com/image/thumb/Purple123/v4/8a/52/2f/8a522f2f-87f6-d692-3eb4-91dadda741e8/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-5.png/246x0w.png`,
-    //     group: `ottimizza`,
-    //   }
-    // ];
+
   }
 
   public ngOnInit() {
@@ -63,5 +48,18 @@ export class ProductListComponent implements OnInit {
     this.fetch();
   }
 
+  public gotTo(url: string) {
+    window.open(url, '_blank');
+  }
+
+  public openAboutDialog(data: Product) {
+    const dialogRef = this.dialog.open(AboutProductDialogComponent, {
+      width: '700px',
+      data
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
 
 }
