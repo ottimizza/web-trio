@@ -26,7 +26,7 @@
           </div>
           <div class="card-buttons">
             <div class="container-fluid px-0 py-3 justify-content-between bg-white">
-              <button class="btn btn-light mx-1" *ngIf="product.appUrl" (click)="openAboutDialog(product)"><i class="fad fa-question-circle"></i>&nbsp;&nbsp;&nbsp;Sobre</button>
+              <button class="btn btn-light mx-1" *ngIf="product.aboutPdfUrl" (click)="openAboutDialog(product)"><i class="fad fa-question-circle"></i>&nbsp;&nbsp;&nbsp;Sobre</button>
               <button class="btn btn-light mx-1" (click)="gotTo(product.appUrl)"><i class="fad fa-long-arrow-right"></i>&nbsp;&nbsp;&nbsp;Abrir</button>
             </div>
           </div>
