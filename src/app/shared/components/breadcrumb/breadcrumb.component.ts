@@ -49,7 +49,7 @@ export class BreadcrumbComponent implements OnInit {
       url += `/${routeURL}`;
       const breadcrumb: BreadCrumb = {
         label: child.snapshot.data[ROUTE_DATA_BREADCRUMB],
-        params: {}, //child.snapshot.params,
+        params: {}, // child.snapshot.params,
         url: child.snapshot.data[ROUTE_DATA_PATH] || url
       };
       breadcrumbs.push(breadcrumb);
@@ -69,7 +69,7 @@ export class BreadcrumbComponent implements OnInit {
   isDefault() {
     const bc = this.breadcrumbs;
     if (bc.length === 2) {
-      return (bc[0].label === 'Dashboard' && bc[1].label === 'Aplicativos');
+      return (bc[0].label === 'Portal' && bc[1].label === 'Aplicativos');
     }
     return false;
   }

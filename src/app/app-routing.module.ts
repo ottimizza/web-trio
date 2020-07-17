@@ -26,7 +26,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     data: {
-      breadcrumb: 'Dashboard'
+      breadcrumb: 'Portal'
     },
     component: ContentLayoutComponent,
     canActivate: [NoAuthGuard], // Should be replaced with actual auth guard
