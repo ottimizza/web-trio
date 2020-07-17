@@ -9,10 +9,12 @@ export class Product {
 
     name: string;
     description: string;
+    aboutPdfUrl: string;
 
     appUrl: string;
     imageUrl: string;
 
     group: string;
+
 
 }

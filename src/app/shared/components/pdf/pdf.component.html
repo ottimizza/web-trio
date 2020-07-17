@@ -1,0 +1,5 @@
+<embed *ngIf="type === 'native'; else ifr" [src]="getSecurityUrl()" type="application/pdf" [width]="getWidth()" [height]="getHeight()" />
+
+<ng-template #ifr>
+  <iframe [src]="getSecurityUrl()" [style]="getStyle()" frameborder="0" id="pdf-iframe"></iframe>
+</ng-template>

@@ -9,6 +9,7 @@ export const environment = {
   applicationId: 'ottimizza',
   backgroundTheme: '#004ecb',
   supportUrl: 'https://suporte.ottimizza.com.br',
+  pdfViewer: 'https://docs.google.com/viewer',
   firebase: {
     apiKey: 'AIzaSyAPjrzkQyjYwq0eXRavaA9LS_rrt9p5XgE',
     authDomain: 'portal-4c1f7.firebaseapp.com',
