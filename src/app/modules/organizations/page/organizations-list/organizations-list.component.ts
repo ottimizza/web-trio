@@ -97,23 +97,23 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
     return [
       HackingRule.builder()
         .id('nome').value({ name: '' })
-        .regex(/(nome)\:\s(?<value>.+)/g)
+        .regex(/(nome)\:\s(?<value>.+)/ig)
         .description('Nome: {0}').build(),
       HackingRule.builder()
         .id('cpf_cnpj').value({ cnpj: '' })
-        .regex(/(cpf)\:\s(?<value>.+)/g)
+        .regex(/(cpf)\:\s(?<value>.+)/ig)
         .description('CPF/CNPJ: {0}').build(),
       HackingRule.builder()
         .id('cpf_cnpj').value({ cnpj: '' })
-        .regex(/(cnpj)\:\s(?<value>.+)/g)
+        .regex(/(cnpj)\:\s(?<value>.+)/ig)
         .description('CPF/CNPJ: {0}').build(),
       HackingRule.builder()
         .id('codigo_erp').value({ codigoERP: '' })
-        .regex(/(codigo)\:\s(?<value>.+)/g)
+        .regex(/(codigo)\:\s(?<value>.+)/ig)
         .description('Código ERP: {0}').build(),
       HackingRule.builder()
         .id('codigo_erp').value({ codigoERP: '' })
-        .regex(/(erp)\:\s(?<value>.+)/g)
+        .regex(/(erp)\:\s(?<value>.+)/ig)
         .description('Código ERP: {0}').build(),
     ];
   }
