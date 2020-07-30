@@ -135,11 +135,11 @@ export class UserListComponent implements OnInit, AfterViewInit {
     return [
       HackingRule.builder()
         .id('email').value({ username: '' })
-        .regex(/(email)\:\s(?<value>.+)/g)
+        .regex(/(email)\:\s(?<value>.+)/ig)
         .description('E-mail: {0}').build(),
       HackingRule.builder()
         .id('regimeTibutario').value({ regimeTibutario: '' })
-        .regex(/(regime)\:\s(?<value>.+)/g)
+        .regex(/(regime)\:\s(?<value>.+)/ig)
         .description('Regime Tributário: {0}').build(),
     ];
   }
