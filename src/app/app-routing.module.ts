@@ -16,6 +16,21 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'signup',
+    data: {
+      breadcrumb: null
+    },
+    children: [
+      {
+        path: '',
+        data: {
+          breadcrumb: null
+        },
+        loadChildren: () => import('@modules/signup/signup.module').then(m => m.SignupModule)
+      },
+    ]
+  },
+  {
     path: 'landpage',
     data: {
       breadcrumb: null
