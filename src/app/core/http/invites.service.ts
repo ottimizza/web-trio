@@ -28,4 +28,9 @@ export class InvitationService {
     return this.http.get<GenericResponse<number>>(url, 'Falha ao obter total de pendentes!');
   }
 
+  public fetchInvitationByToken(token: string): Observable<GenericResponse<any>> {
+    const url = `${environment.oauthBaseUrl}/api/v2/invitations?token=${token}`;
+    return this.http.get<GenericResponse<any>>(url, 'Não foi possível encontrar os detalhes do cadastro', {});
+  }
+
 }

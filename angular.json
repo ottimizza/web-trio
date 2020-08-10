@@ -153,5 +153,8 @@
       }
     }
   },
-  "defaultProject": "ng-accounts"
+  "defaultProject": "ng-accounts",
+  "cli": {
+    "analytics": "043259b9-1c4a-4b39-a42f-9acc1680815d"
+  }
 }
