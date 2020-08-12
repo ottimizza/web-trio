@@ -9,7 +9,7 @@ export class Product {
 
     name: string;
     description: string;
-    aboutPdfUrl: string;
+    aboutUrl: string;
 
     appUrl: string;
     imageUrl: string;
@@ -17,4 +17,15 @@ export class Product {
     group: string;
 
 
+}
+
+export class ProductAndAccess {
+  public id: number;
+  public name: string;
+  public description: string;
+  public aboutUrl: string;
+  public appUrl: string;
+  public imageUrl: string;
+  public group: string;
+  public access: boolean;
 }

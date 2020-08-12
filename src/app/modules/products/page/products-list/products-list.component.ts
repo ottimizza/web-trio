@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@shared/models/User';
 import { MatDialog } from '@angular/material/dialog';
-import { Product } from '@shared/models/Product';
+import { Product, ProductAndAccess } from '@shared/models/Product';
 import { ProductService } from '@app/http/products.service';
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { environment } from '@env';
@@ -11,6 +11,8 @@ import { PageInfo } from '@shared/models/GenericPageableResponse';
 import { UserService } from '@app/http/users.service';
 import { MatSelectChange } from '@angular/material/select';
 import { AboutProductDialogComponent } from '@modules/products/dialogs/about-product/about-product-dialog.component';
+import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
+import { NavbarLayoutComponent } from 'app/layout/navbar-layout/navbar-layout.component';
 
 
 @Component({
@@ -20,25 +22,35 @@ import { AboutProductDialogComponent } from '@modules/products/dialogs/about-pro
 })
 export class ProductListComponent implements OnInit {
 
+  public readonly LOGO = 'https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png';
+
   public currentUser: User;
   public accountings: Organization[] = [];
   public selectedAccounting: string;
 
   public pageInfo: PageInfo;
 
-  public products: Array<Product>;
+  public products: Array<ProductAndAccess>;
 
   constructor(
-    public productService: ProductService,
+    public service: UserProductAuthoritiesService,
     public dialog: MatDialog
   ) { }
 
   public fetch() {
     const filter = { group: `${environment.applicationId}` };
-    this.productService.fetch(filter)
-      .subscribe((response: GenericResponse<Product>) => {
-        this.products = response.records;
-        //         this.dataSource = this.organizations;
+    this.service.fetchProductsAndPermissions(this.currentUser.id, filter)
+      .subscribe((response) => {
+        this.products = response.records.map(prod => {
+          // Apenas para testess
+          // if (!environment.production) {
+          //   prod.name = 'Ottimizza.integrador.contabil';
+          //   prod.description = '';
+          //   prod.aboutUrl = 'https://google.com';
+          // }
+          prod.name = prod.name.slice(10);
+          return prod;
+        });
       });
 
   }
@@ -52,14 +64,5 @@ export class ProductListComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-  public openAboutDialog(data: Product) {
-    const dialogRef = this.dialog.open(AboutProductDialogComponent, {
-      width: '700px',
-      data
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-    });
-  }
 
 }

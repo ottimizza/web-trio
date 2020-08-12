@@ -94,7 +94,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(InviteDialogComponent, { data: { name: '' } });
-    dialogRef.afterClosed().subscribe((result) => console.log('The dialog was closed'));
+    dialogRef.afterClosed().subscribe();
   }
 
   public canInvite = () => [User.Type.ACCOUNTANT].includes(this.currentUser.type);

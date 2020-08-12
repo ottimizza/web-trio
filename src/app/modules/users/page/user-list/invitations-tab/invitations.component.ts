@@ -50,7 +50,6 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
 
   public copyInvitationLink(invitation: IInvitation, event): void {
     if (event && event.target) {
-      console.log(event);
 
       this.htmlUtils.removeStyles(event.target, ['animated', 'jello']);
       this.htmlUtils.addStyles(event.target, ['animated', 'jello']);
@@ -70,7 +69,6 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -86,7 +84,6 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
 
   onPageChange(event): void {
     const pageEvent = event;
-    console.log(pageEvent);
     this.fetch(pageEvent.pageIndex, pageEvent.pageSize);
   }
 
@@ -101,7 +98,6 @@ export class InvitationsComponent implements OnInit, AfterViewInit {
       const order = sort.direction;
       const attribute = sort.active;
 
-      console.log(sort);
       this.fetch(this.pageInfo.pageIndex, this.pageInfo.pageSize, sort);
 
     });
