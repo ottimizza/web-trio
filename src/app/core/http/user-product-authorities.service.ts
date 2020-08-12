@@ -4,6 +4,11 @@ import { UserProducts, UserAuthorities, UserProductAuthorities } from '@shared/m
 import { GenericPageableResponse } from '@shared/models/GenericPageableResponse';
 import { Authority } from '@shared/models/TokenInfo';
 import { HttpHandlerService } from '@app/services/http-handler.service';
+import { ProductService } from './products.service';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { GenericResponse } from '@shared/models/GenericResponse';
+import { Product, ProductAndAccess } from '@shared/models/Product';
 
 const BASE_URL = environment.oauthBaseUrl;
 
@@ -12,7 +17,7 @@ const BASE_URL = environment.oauthBaseUrl;
 })
 export class UserProductAuthoritiesService {
 
-  constructor(private http: HttpHandlerService) {}
+  constructor(private http: HttpHandlerService, private productService: ProductService) {}
 
   get(searchCriteria: any) {
     const url = `${BASE_URL}/api/v1/users/getInfo`;
@@ -47,6 +52,21 @@ export class UserProductAuthoritiesService {
   deleteUserProduct(userId: number, productId: number) {
     const url = `${BASE_URL}/api/v1/users/products?usersId=${userId}&productsId=${productId}`;
     return this.http.delete(url, 'Falha ao negar acesso');
+  }
+
+  public fetchProductsAndPermissions(userId: number, productSearchCriteria: any) {
+    return combineLatest([
+      this.get({ id: userId }),
+      this.productService.fetch(productSearchCriteria)
+    ])
+    .pipe(map(rs => {
+      const records = rs[1].records.map(product => {
+        return Object.assign(product, { access: rs[0].records[0].products.includes(product.id) });
+      });
+      const response = new GenericResponse<ProductAndAccess>();
+      response.records = records;
+      return response;
+    }));
   }
 
 }

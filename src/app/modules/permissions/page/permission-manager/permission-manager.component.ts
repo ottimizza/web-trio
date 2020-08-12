@@ -181,9 +181,10 @@ export class PermissionManagerComponent implements OnInit {
       pageIndex: this.pageIndex,
       pageSize: this.pageSize
     };
+    const sortingCriteria = { 'sort.order': 'asc', 'sort.attribute': 'fullname' };
     const filter: any = {};
     this.filters.forEach(f => Object.assign(filter, f.value));
-    Object.assign(filter, pageCriteria);
+    Object.assign(filter, pageCriteria, sortingCriteria);
 
     this.toastService.showSnack('Obtendo informações');
     this.service.get(filter).subscribe(results => {
