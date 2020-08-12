@@ -27,8 +27,8 @@
           </div>
           <div class="card-buttons" *ngIf="product.aboutUrl || product.access">
             <div class="container-fluid px-0 py-3 justify-content-between bg-white">
-              <button class="btn btn-light mx-1" *ngIf="product.access" (click)="gotTo(product.appUrl)"><i class="fad fa-long-arrow-right"></i>&nbsp;&nbsp;&nbsp;Acessar</button>
               <button class="btn btn-light mx-1" *ngIf="product.aboutUrl" (click)="gotTo(product.aboutUrl)"><i class="fal fa-info-circle"></i>&nbsp;&nbsp;&nbsp;Conhecer</button>
+              <button class="btn btn-light mx-1" *ngIf="product.access" (click)="gotTo(product.appUrl)"><i class="fad fa-long-arrow-right"></i>&nbsp;&nbsp;&nbsp;Acessar</button>
             </div>
           </div>
       </div>
