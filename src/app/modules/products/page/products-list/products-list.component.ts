@@ -44,8 +44,8 @@ export class ProductListComponent implements OnInit {
         this.products = response.records.map(prod => {
           // Apenas para testess
           // if (!environment.production) {
-          //   prod.name = 'Ottimizza.integrador.contabil';
-          //   prod.description = '';
+          // prod.name = ('ottimizza.' + prod.name).replace(' ', '.').toLowerCase();
+          // prod.description = '';
           //   prod.aboutUrl = 'https://google.com';
           // }
           prod.name = prod.name.slice(10);
@@ -64,5 +64,19 @@ export class ProductListComponent implements OnInit {
     window.open(url, '_blank');
   }
 
+  public buttonDetails(product: ProductAndAccess) {
+    if (product.access) {
+      return {
+        url: product.appUrl,
+        icon: 'fad fa-long-arrow-right',
+        label: 'Acessar'
+      };
+    }
+    return {
+      url: product.aboutUrl,
+      icon: 'fal fa-info-circle',
+      label: 'Conhecer'
+    };
+  }
 
 }
