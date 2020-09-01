@@ -37,34 +37,28 @@ export class ProductListComponent implements OnInit {
     public dialog: MatDialog
   ) { }
 
-  public fetch() {
+  public fetch(): void {
     const filter = { group: `${environment.applicationId}` };
     this.service.fetchProductsAndPermissions(this.currentUser.id, filter)
       .subscribe((response) => {
-        this.products = response.records.map(prod => {
-          // Apenas para testess
-          // if (!environment.production) {
-          // prod.name = ('ottimizza.' + prod.name).replace(' ', '.').toLowerCase();
-          // prod.description = '';
-          //   prod.aboutUrl = 'https://google.com';
-          // }
-          prod.name = prod.name.slice(10);
-          return prod;
-        });
+        this.products = response.records;
       });
-
   }
 
-  public ngOnInit() {
-    this.currentUser = User.fromLocalStorage();
-    this.fetch();
-  }
-
-  public gotTo(url: string) {
+  public gotTo(url: string): void {
     window.open(url, '_blank');
   }
 
-  public buttonDetails(product: ProductAndAccess) {
+  /**
+   * Method used to check wheather the user has access to the product,
+   * if not the user s redirected to the product's about url.
+   *
+   * TODO: create a interface for the "link" passing an icon, url and label
+   *
+   * @param productAccess  | The object telling if the user has access to the product.
+   * @returns the button to be rendered (Access or About).
+   */
+  public getButtonToShow(product: ProductAndAccess): { url: string, icon: string, label: string } {
     if (product.access) {
       return {
         url: product.appUrl,
@@ -77,6 +71,11 @@ export class ProductListComponent implements OnInit {
       icon: 'fal fa-info-circle',
       label: 'Conhecer'
     };
+  }
+
+  public ngOnInit() {
+    this.currentUser = User.fromLocalStorage();
+    this.fetch();
   }
 
 }
