@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '@env';
+
+import { MatTableDataSource, MatOptionSelectionChange, MatCheckboxChange, MatDialog } from '@angular/material';
+
+import { SinglePermissionDialogComponent } from '@modules/permissions/dialogs/single-permission/single-permission-dialog.component';
+import { LotPermissionDialogComponent } from '@modules/permissions/dialogs/lot-permission-dialog.component';
+import { ActionButton, HexColor } from '@shared/components/action-buttons/action-buttons.component';
+import { UserProductAuthorities, UserProducts } from '@shared/models/UserProductAuthorities';
+import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
 import { SearchOption } from '@shared/components/search/models/SearchOption';
+import { HackingRule } from '@shared/components/search/models/HackingRule';
+import { SearchRule } from '@shared/components/search/models/SearchRule';
+import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
 import { PageInfo } from '@shared/models/GenericPageableResponse';
 import { ToastService } from '@app/services/toast.service';
-import { SearchRule } from '@shared/components/search/models/SearchRule';
-import { Authority } from '@shared/models/TokenInfo';
-import { HackingRule } from '@shared/components/search/models/HackingRule';
-import { MatTableDataSource, MatOptionSelectionChange, MatCheckboxChange, MatDialog, MatPaginator } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
-import { UserProductAuthorities, UserProducts } from '@shared/models/UserProductAuthorities';
 import { LoggerUtils } from '@shared/utils/logger.utils';
+import { Authority } from '@shared/models/TokenInfo';
 import { User } from '@shared/models/User';
-import { ActionButton, HexColor } from '@shared/components/action-buttons/action-buttons.component';
-import { LotPermissionDialogComponent } from '@modules/permissions/dialogs/lot-permission-dialog.component';
-import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
-import { environment } from '@env';
-import { SinglePermissionDialogComponent } from '@modules/permissions/dialogs/single-permission/single-permission-dialog.component';
 
 @Component({
   templateUrl: './permission-manager.component.html',
@@ -31,7 +33,13 @@ export class PermissionManagerComponent implements OnInit {
   write: any = {};
   admin: any = {};
 
-  filters: SearchOption[] = [];
+  filters: SearchOption[] = [
+    SearchOption.builder()
+    .description('Situação: Ativo')
+    .id('active')
+    .value({ active: true })
+    .build()
+  ];
 
   pageInfo = new PageInfo();
   pageIndex = 0;
@@ -134,6 +142,8 @@ export class PermissionManagerComponent implements OnInit {
       SRB('Possue permissão para editar', 'authority', { authority: Authority.WRITE }, ['editar', 'editor', 'write']),
       SRB('Possue permissão para visualizar', 'authority', { authority: Authority.READ }, ['ver', 'leitor', 'read']),
       SRB('Não possue nenhuma permissão', 'authority', { authority: 'NENHUM' }, ['não', 'nada', 'null', 'nenhum', 'nenhuma']),
+      SRB('Situação: Ativo', 'active', { active: true }, ['situacao', 'situação', 'situaçao', 'situacão', 'ativo']),
+      SRB('Situação: Inativo', 'active', { active: false }, ['situacao', 'situação', 'situaçao', 'situacão', 'inativo']),
       SearchRule.builder()
         .description('Tipo: Administrador')
         .id('type')
