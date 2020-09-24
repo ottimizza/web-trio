@@ -38,7 +38,7 @@ import { DocPipe } from '@shared/pipes/doc.pipe';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { ComplexSearchInputComponent } from '@shared/components/search/complex-search.component';
 import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
-import { MatCheckboxModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [

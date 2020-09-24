@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
 import { ToastService } from '@app/services/toast.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatCheckboxChange } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserProductAuthorities, UserProducts } from '@shared/models/UserProductAuthorities';
 import { Authority } from '@shared/models/TokenInfo';
 import { User } from '@shared/models/User';

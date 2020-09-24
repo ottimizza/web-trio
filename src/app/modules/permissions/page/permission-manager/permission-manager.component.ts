@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env';
 
-import { MatTableDataSource, MatOptionSelectionChange, MatCheckboxChange, MatDialog } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatOptionSelectionChange } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { SinglePermissionDialogComponent } from '@modules/permissions/dialogs/single-permission/single-permission-dialog.component';
 import { LotPermissionDialogComponent } from '@modules/permissions/dialogs/lot-permission-dialog.component';

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Product } from '@shared/models/Product';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AboutProductDialogComponent } from '@modules/products/dialogs/about-product/about-product-dialog.component';
 
 @Component({
