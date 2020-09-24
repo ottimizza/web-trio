@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '@env';
 
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -208,11 +207,10 @@ export class PermissionManagerComponent implements OnInit {
         this._setDefault(TypeConversorUtils.fromAny<UserProductAuthorities>(rec, new UserProductAuthorities()));
       });
       this.dataSource = new MatTableDataSource<UserProductAuthorities>(results.records);
-      LoggerUtils.log(results);
     });
   }
 
-  setProduct(e: MatOptionSelectionChange, userId: number) {
+  setProduct(e: any, userId: number) {
     if (!e.isUserInput) {
       return;
     }

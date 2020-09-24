@@ -6,7 +6,7 @@ import { AuthSession } from '@shared/models/AuthSession';
 import { switchMap, finalize } from 'rxjs/operators';
 import { StorageService } from '@app/services/storage.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate, CanActivateChild {
 
   private redirectTo: string;
