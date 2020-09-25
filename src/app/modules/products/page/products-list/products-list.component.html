@@ -20,19 +20,18 @@
     </div>
     <div class="row w-100 m-0 mt-4 text-center">
       <div class="product p-0 card m-2" *ngFor="let product of products">
-          <div class="card-body border-bottom">
-            <img class="bg-transparent p-3 border-0" [src]="LOGO" alt="Ottimizza." height="50px">
-            <h3>{{ product.name }}</h3>
-            <small *ngIf="product.description">{{ product.description }}</small>
+        <div class="card-body border-bottom">
+          <img class="bg-transparent w-100 px-3 py-4  border-0" [src]="product.imageUrl" [alt]="product.name">
+        </div>
+        <div class="card-buttons" *ngIf="product.aboutUrl || product.access">
+          <div class="container-fluid px-0 py-3 justify-content-between bg-white">
+            <button class="btn btn-light mx-1" (click)="gotTo(getButtonToShow(product).url)">
+              <i [class]="getButtonToShow(product).icon"></i>&nbsp;&nbsp;&nbsp;
+              {{ getButtonToShow(product).label }}
+            </button>
           </div>
-          <div class="card-buttons" *ngIf="product.aboutUrl || product.access">
-            <div class="container-fluid px-0 py-3 justify-content-between bg-white">
-              <button class="btn btn-light mx-1" *ngIf="product.aboutUrl" (click)="gotTo(product.aboutUrl)"><i class="fal fa-info-circle"></i>&nbsp;&nbsp;&nbsp;Conhecer</button>
-              <button class="btn btn-light mx-1" *ngIf="product.access" (click)="gotTo(product.appUrl)"><i class="fad fa-long-arrow-right"></i>&nbsp;&nbsp;&nbsp;Acessar</button>
-            </div>
-          </div>
+        </div>
       </div>
-      <!-- <app-product-card *ngFor="let product of products" [product]="product"></app-product-card> -->
     </div>
     <div class="text-secondary text-center m-0 m-auto" *ngIf="(products && !products.length)">
       <h1 class="mt-5">Você não tem acesso a nenhum aplicativo.</h1>

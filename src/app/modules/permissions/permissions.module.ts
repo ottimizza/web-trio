@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PermissionManagerComponent } from './page/permission-manager/permission-manager.component';
 import { CommonModule } from '@angular/common';
-import {
-  MatTableModule,
-  MatChipsModule,
-  MatIconModule,
-  MatCheckboxModule,
-  MatSelectModule,
-  MatFormFieldModule,
-  MatDialogModule,
-  MatPaginatorModule
-} from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
 import { BreadcrumbModule } from '@shared/components/breadcrumb/breadcrumb.module';
 import { PermissionsRoutingModule } from './permissions.routing';

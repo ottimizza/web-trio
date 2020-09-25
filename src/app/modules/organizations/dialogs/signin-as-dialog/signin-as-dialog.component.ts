@@ -12,7 +12,7 @@ import { StorageService } from '@app/services/storage.service';
 import { ToastService } from '@app/services/toast.service';
 import { Organization } from '@shared/models/Organization';
 import { UserService } from '@app/http/users.service';
-import { PageEvent } from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
 import { User } from '@shared/models/User';
 
 @Component({
