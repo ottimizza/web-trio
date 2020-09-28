@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, enableProdMode } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { RxEvent } from '@app/services/rx-event.service';
 import { DOCUMENT } from '@angular/common';
 import { UpdateService } from '@app/services/update.service';
