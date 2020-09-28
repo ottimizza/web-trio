@@ -24,6 +24,7 @@ export class TutorialBuilder {
 
   public setData(validators: { [key: string]: boolean }) {
     this._validators = validators;
+    return this;
   }
 
   public build(): GuidedTour {
