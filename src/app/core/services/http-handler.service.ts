@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '@app/authentication/authentication.service';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ExceptionHandler } from '@shared/models/ExceptionHandler';
 
 @Injectable({ providedIn: 'root' })
 export class HttpHandlerService {
@@ -48,6 +49,23 @@ export class HttpHandlerService {
     url = this._urlHandle(url);
     const obs$ = this.http.delete(url, headers);
     return this._errorHandle(obs$, errorMessage);
+  }
+
+  public onError<T>(observable$: Observable<T>, ...handlers: ExceptionHandler[]) {
+    return observable$.pipe(catchError(err => {
+      for (const handle of handlers) {
+        if (err.message === handle.message || `${err.status}` === handle.status.toString() || err.statusText === handle.statusText) {
+          if (handle.newMesage) {
+            this.toastService.show(handle.newMesage, handle.color || 'danger');
+          }
+          if (handle.do) {
+            handle.do(err);
+          }
+          break;
+        }
+      }
+      throw err;
+    }));
   }
 
   private _errorHandle(observable$: Observable<any>, errorMessage: string): Observable<any> {

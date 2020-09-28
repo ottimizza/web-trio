@@ -1,5 +1,5 @@
 <div class="page-wrapper bg-white">
-  <app-breadcrumb></app-breadcrumb>
+  <app-breadcrumb [tutorial]="tutorial"></app-breadcrumb>
   <div class="d-none content-wrapper full-width-nav-tabs py-2">
     <div class="container">
       <ul class="nav nav-pills flex-row-reverse">
@@ -19,13 +19,13 @@
       </div>
     </div>
     <div class="row w-100 m-0 mt-4 text-center">
-      <div class="product p-0 card m-2" *ngFor="let product of products">
+      <div class="product p-0 card m-2" *ngFor="let product of products; let i = index">
         <div class="card-body border-bottom">
           <img class="bg-transparent w-100 px-3 py-4  border-0" [src]="product.imageUrl" [alt]="product.name">
         </div>
         <div class="card-buttons" *ngIf="product.aboutUrl || product.access">
           <div class="container-fluid px-0 py-3 justify-content-between bg-white">
-            <button class="btn btn-light mx-1" (click)="gotTo(getButtonToShow(product).url)">
+            <button class="btn btn-light mx-1" (click)="gotTo(getButtonToShow(product).url)" [id]="'product-card-' + i">
               <i [class]="getButtonToShow(product).icon"></i>&nbsp;&nbsp;&nbsp;
               {{ getButtonToShow(product).label }}
             </button>

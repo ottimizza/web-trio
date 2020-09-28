@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { AuthenticationService } from '@app/authentication/authentication.service';
 import { UserService } from '@app/http/users.service';
 import { User } from '@shared/models/User';
@@ -12,6 +12,9 @@ import { HackingRule } from '@shared/components/search/models/HackingRule';
 import { SearchOption } from '@shared/components/search/models/SearchOption';
 import { Sort, MatSort } from '@angular/material/sort';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { getFakeOrganization, ORGANIZATIONS_LIST_TUTORIAL } from '@modules/organizations/tutorial/organizations-list.tutorial';
+import { Subscription } from 'rxjs';
+import { GuidedTourService } from '@gobsio/ngx-guided-tour';
 
 
 @Component({
@@ -19,7 +22,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
   templateUrl: './organizations-list.component.html',
   styleUrls: ['./organizations-list.component.scss']
 })
-export class OrganizationListComponent implements OnInit, AfterViewInit {
+export class OrganizationListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public currentUser: User;
 
@@ -28,7 +31,6 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatAutocompleteTrigger, { static: true }) autocomplete: MatAutocompleteTrigger;
   displayedColumns: string[] = ['name', 'cnpj'];
-  dataSource = this.organizations;
   public pageInfo: PageInfo = new PageInfo();
   public sortInfo: any = null;
 
@@ -45,8 +47,15 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
       .description('Situação: Ativas').build()
   );
 
-  constructor(public organizationService: OrganizationService, public dialog: MatDialog) {
-  }
+  public tutorial = ORGANIZATIONS_LIST_TUTORIAL;
+  public afterTutorialInit: Subscription;
+  public afterTutorialEnded: Subscription;
+
+  constructor(
+    public organizationService: OrganizationService,
+    public dialog: MatDialog,
+    public guidedTourService: GuidedTourService
+  ) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateDialogComponent, {
@@ -72,7 +81,6 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
       .subscribe((response: GenericPageableResponse<Organization>) => {
         this.organizations = response.records;
         this.pageInfo = response.pageInfo;
-        this.dataSource = this.organizations;
       });
   }
 
@@ -135,9 +143,19 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
     this.fetch();
   }
 
+  public setTutorial() {
+    this.afterTutorialInit = this.guidedTourService.afterTourInit.subscribe(() => {
+      this.organizations = [getFakeOrganization()].concat(this.organizations);
+    });
+    this.afterTutorialEnded = this.guidedTourService.afterTourEnded.subscribe(() => {
+      this.organizations = this.organizations.filter(org => org.id > 0);
+    });
+  }
+
   public ngOnInit() {
     this.currentUser = User.fromLocalStorage();
     this.fetch();
+    this.setTutorial();
   }
 
   public ngAfterViewInit() {
@@ -146,6 +164,12 @@ export class OrganizationListComponent implements OnInit, AfterViewInit {
       const attribute = sort.active;
       this.fetch(this.pageInfo.pageIndex, this.pageInfo.pageSize, sort);
     });
+  }
+
+
+  ngOnDestroy(): void {
+    this.afterTutorialEnded.unsubscribe();
+    this.afterTutorialInit.unsubscribe();
   }
 
 }

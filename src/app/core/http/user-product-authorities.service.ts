@@ -8,7 +8,7 @@ import { ProductService } from './products.service';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GenericResponse } from '@shared/models/GenericResponse';
-import { Product, ProductAndAccess } from '@shared/models/Product';
+import { ProductAndAccess } from '@shared/models/Product';
 
 const BASE_URL = environment.oauthBaseUrl;
 

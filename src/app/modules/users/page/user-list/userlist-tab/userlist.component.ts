@@ -1,21 +1,19 @@
-import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { Sort, MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+
+import { InviteDialogComponent } from '@modules/users/dialogs/invite-dialog/invite-dialog.component';
+import { GenericPageableResponse, PageInfo } from '@shared/models/GenericPageableResponse';
 import { AuthenticationService } from '@app/authentication/authentication.service';
+import { SearchOption } from '@shared/components/search/models/SearchOption';
+import { HackingRule } from '@shared/components/search/models/HackingRule';
+import { SearchRule } from '@shared/components/search/models/SearchRule';
+import { StorageService } from '@app/services/storage.service';
 import { UserService } from '@app/http/users.service';
 import { User } from '@shared/models/User';
-import { GenericPageableResponse, PageInfo } from '@shared/models/GenericPageableResponse';
-import { StorageService } from '@app/services/storage.service';
-import { ModalComponent } from '@shared/components/modals/modal.component';
-import { MatDialog } from '@angular/material/dialog';
-import { InviteDialogComponent } from '@modules/users/dialogs/invite-dialog/invite-dialog.component';
-import { Sort, MatSort } from '@angular/material/sort';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
-import { stringify } from 'querystring';
-import { StringUtils } from '@shared/utils/string.utils';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { SearchRule } from '@shared/components/search/models/SearchRule';
-import { HackingRule } from '@shared/components/search/models/HackingRule';
-import { SearchOption } from '@shared/components/search/models/SearchOption';
 
 @Component({
   selector: 'app-userlist',
@@ -48,7 +46,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
     { empty: 'true' },
     { empty: 'true' },
   ];
-  public pageInfo: PageInfo = new PageInfo();
+  public pageInfo = new PageInfo();
   public sortInfo: any = null;
 
   displayedColumns: string[] = ['avatar', 'fullname', 'username', 'type'];
@@ -131,6 +129,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
         .description('Situação: Inativos').keywords(['situacao', 'inativos', 'inativas']).build()
     );
   }
+
   public hackings() {
     return [
       HackingRule.builder()
@@ -145,7 +144,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   public apply(option: SearchOption): void {
-    let existingFilter = this.filters.filter(el => el.id === option.id);
+    const existingFilter = this.filters.filter(el => el.id === option.id);
     if (existingFilter.length > 0) {
       this.filters.splice(this.filters.indexOf(existingFilter[0]), 1);
     }
@@ -154,7 +153,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   public removeFilter(value: any): void {
-    let filter = this.filters.filter(el => el.id === value.id);
+    const filter = this.filters.filter(el => el.id === value.id);
     if (filter.length > 0) {
       this.filters.splice(this.filters.indexOf(filter[0]), 1);
     }

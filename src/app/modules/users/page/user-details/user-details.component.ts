@@ -1,17 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AuthenticationService } from '@app/authentication/authentication.service';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '@app/http/users.service';
 import { User } from '@shared/models/User';
-import { GenericPageableResponse } from '@shared/models/GenericPageableResponse';
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { AvatarDialogComponent } from '@modules/users/dialogs/avatar-dialog/avatar-dialog.component';
 import { FileStorageService } from '@app/http/file-storage.service';
-import { ImageUtils } from '@shared/utils/image.utils';
 import { ImageCompressorService } from '@app/services/image-compression.service';
-
 
 interface BreadCrumb {
   label: string;
@@ -34,7 +29,8 @@ export class UserDetailsComponent implements OnInit {
 
   public user: User = new User();
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(
+    private activatedRoute: ActivatedRoute,
     public router: Router,
     public userService: UserService,
     public fileStorageService: FileStorageService,
@@ -49,9 +45,6 @@ export class UserDetailsComponent implements OnInit {
   isCustomer(): boolean {
     return this.user.type === User.Type.CUSTOMER;
   }
-
-
-
 
   public fetchById(id: number): void {
     this.userService.fetchById(id).pipe(

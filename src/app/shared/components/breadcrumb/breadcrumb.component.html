@@ -1,42 +1,45 @@
-<nav aria-label="breadcrumb" class="breadcrumb">
-  <div class="content-wrapper m-0 w-100">
-    <div class="container">
-      <ol class="breadcrumb m-0 p-0 d-none d-md-flex">
-        <li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-item">
-          <a [routerLink]="[breadcrumb.url, breadcrumb.params]">
-            <span class="d-md-inline-block">
-              {{ breadcrumb.label }}
-            </span>
-          </a>
-        </li>
-        <li *ngIf="append" class="breadcrumb-item">
-          <a [routerLink]="append.params ? [append.url, append.params] : [append.url]" class="">
-            <span class="d-md-inline-block">
-              {{ append.label }}
-            </span>
-          </a>
-        </li>
-      </ol>
+<ngx-guided-tour></ngx-guided-tour>
+<nav aria-label="breadcrumb">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="content m-0 w-100 m-0">
+          <div class="container d-flex align-items-left p-0">
 
-      <ol class="breadcrumb m-0 p-0 d-flex d-md-none">
-        <li class="breadcrumb-item">
-          <a
-            *ngIf="!isDefault(); else inicio"
-            [routerLink]="route"
-          >
-            <span>
-              Voltar
-            </span>
-          </a>
-          <ng-template #inicio>
-            <a>
-              <span>
-                Início
-              </span>
-            </a>
-          </ng-template>
-        </li>
-      </ol>
+            <ol class="breadcrumb bc d-flex d-flex align-items-left row w-100 m-0 p-1">
+
+              <li *ngFor="let breadcrumb of breadcrumbs; let i = index" class="p-2 mt-1 d-none d-md-block breadcrumb-item">
+                <a [routerLink]="[breadcrumb.url, breadcrumb.params]" [ngClass]="{ 'ml-2': i > 0 }">
+                  <span class="d-md-inline-block">
+                    {{ breadcrumb.label }}
+                  </span>
+                </a>
+              </li>
+
+              <li *ngIf="append" class="p-2 mt-1 text-left d-none d-md-block">
+                <a [routerLink]="append?.url">
+                  <span class="d-md-inline-block">
+                    / {{ append.label }}
+                  </span>
+                </a>
+              </li>
+              <li class="p-2 mt-1 d-block d-md-none">
+                <a [routerLink]="[breadcrumbs[0].url, breadcrumbs[0].params]">
+                  <span class="d-md-inline-block">
+                    {{ isDefault() ? 'Início' : 'Voltar' }}
+                  </span>
+                </a>
+              </li>
+            </ol>
+
+
+            <button id="btn-tutorial-toggle" class="btn btn-link" *ngIf="tutorial?.tourId" (click)="startTour()">
+              <i class="far fa-question-circle"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </nav>

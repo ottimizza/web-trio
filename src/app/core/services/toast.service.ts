@@ -22,7 +22,7 @@ export class ToastService {
   ) {
     this.snackbar.open(message, '', {
       duration: 3000,
-      verticalPosition: 'top',
+      verticalPosition: screen.width < 768 ? 'bottom' : 'top',
       horizontalPosition: 'right',
       panelClass: this.selectColor(color)
     });

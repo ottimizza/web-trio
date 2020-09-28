@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
+import { GuidedTour, GuidedTourService } from '@gobsio/ngx-guided-tour';
 import { filter } from 'rxjs/operators';
 
-interface BreadCrumb {
+export interface BreadCrumb {
   label: string;
   params?: Params;
   url: string;
@@ -10,7 +11,8 @@ interface BreadCrumb {
 
 @Component({
   selector: 'app-breadcrumb',
-  templateUrl: './breadcrumb.component.html'
+  templateUrl: './breadcrumb.component.html',
+  styleUrls: ['./breadcrumb.component.scss']
 })
 export class BreadcrumbComponent implements OnInit {
 
@@ -19,8 +21,14 @@ export class BreadcrumbComponent implements OnInit {
   @Input()
   public append: BreadCrumb;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) {
-  }
+  @Input()
+  public tutorial: GuidedTour;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private guidedTour: GuidedTourService
+  ) {}
 
   private getBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: BreadCrumb[] = []): BreadCrumb[] {
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
@@ -74,24 +82,17 @@ export class BreadcrumbComponent implements OnInit {
     return false;
   }
 
-  private isParam(params: Params, segment: string) {
-    for (const key of Object.keys(params)) {
-      const value = params[key];
-      if (value === segment) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   ngOnInit() {
-    const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
     const root: ActivatedRoute = this.activatedRoute.root;
     this.breadcrumbs = this.getBreadcrumbs(root);
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(event => {
         this.breadcrumbs = this.getBreadcrumbs(this.activatedRoute.root);
       });
+  }
+
+  public startTour() {
+    this.guidedTour.startTour(this.tutorial);
   }
 
 }

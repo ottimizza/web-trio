@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { environment } from '@env';
 
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -20,12 +20,15 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { LoggerUtils } from '@shared/utils/logger.utils';
 import { Authority } from '@shared/models/TokenInfo';
 import { User } from '@shared/models/User';
+import { getFakeUserProductAuthority, PERMISSION_MANAGER_TUTORIAL } from '@modules/permissions/tutorial/permission-manager.tutorial';
+import { Subscription } from 'rxjs';
+import { GuidedTourService } from '@gobsio/ngx-guided-tour';
 
 @Component({
   templateUrl: './permission-manager.component.html',
   styleUrls: ['./permission-manager.component.scss'],
 })
-export class PermissionManagerComponent implements OnInit {
+export class PermissionManagerComponent implements OnInit, OnDestroy {
 
   dataSource = new MatTableDataSource<UserProductAuthorities>([]);
   selection = new SelectionModel<UserProductAuthorities>(true, []);
@@ -60,11 +63,21 @@ export class PermissionManagerComponent implements OnInit {
 
   USER_PLACEHOLDER = './assets/images/Portrait_Placeholder.png';
 
+  public tutorial = PERMISSION_MANAGER_TUTORIAL;
+  public afterTutorialInit: Subscription;
+  public afterTutorialEnded: Subscription;
+
   constructor(
     public toastService: ToastService,
     public service: UserProductAuthoritiesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private guidedTourService: GuidedTourService
   ) { }
+
+  ngOnDestroy(): void {
+    this.afterTutorialEnded.unsubscribe();
+    this.afterTutorialInit.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.currentUser = User.fromLocalStorage();
@@ -72,6 +85,7 @@ export class PermissionManagerComponent implements OnInit {
       this.products = results;
     });
     this.fetch();
+    this.setTutorial();
   }
 
   displayedColumns(): string[] {
@@ -278,6 +292,15 @@ export class PermissionManagerComponent implements OnInit {
     this.read[this.getAccessKey(user.id)] = user.canView();
     this.write[this.getAccessKey(user.id)] = user.canEdit();
     this.admin[this.getAccessKey(user.id)] = user.canManage();
+  }
+
+  public setTutorial() {
+    this.afterTutorialInit = this.guidedTourService.afterTourInit.subscribe(() => {
+      this.dataSource.data = [getFakeUserProductAuthority()].concat(this.dataSource.data);
+    });
+    this.afterTutorialEnded = this.guidedTourService.afterTourEnded.subscribe(() => {
+      this.dataSource.data = this.dataSource.data.filter(upa => upa.id > 0);
+    });
   }
 
 }
