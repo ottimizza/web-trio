@@ -17,6 +17,7 @@ import { ActionButtonsModule } from '@shared/components/action-buttons/action-bu
 import { LotPermissionDialogModule } from './dialogs/lot-permission-dialog.module';
 import { LotPermissionDialogComponent } from './dialogs/lot-permission-dialog.component';
 import { InfoModule } from '@shared/components/info/info.module';
+import { NormalizedLayoutModule } from 'app/layout/normalized-layout/normalized-layout.module';
 
 @NgModule({
   declarations: [PermissionManagerComponent],
@@ -37,7 +38,8 @@ import { InfoModule } from '@shared/components/info/info.module';
     MatDialogModule,
     LotPermissionDialogModule,
     MatPaginatorModule,
-    InfoModule
+    InfoModule,
+    NormalizedLayoutModule
   ],
   entryComponents: [LotPermissionDialogComponent]
 })

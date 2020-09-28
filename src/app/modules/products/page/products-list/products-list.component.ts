@@ -1,26 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from '@shared/models/User';
-import { MatDialog } from '@angular/material/dialog';
-import { Product, ProductAndAccess } from '@shared/models/Product';
-import { ProductService } from '@app/http/products.service';
-import { GenericResponse } from '@shared/models/GenericResponse';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { environment } from '@env';
-import { Organization } from '@shared/models/Organization';
-import { OrganizationService } from '@app/http/organizations.service';
-import { PageInfo } from '@shared/models/GenericPageableResponse';
-import { UserService } from '@app/http/users.service';
-import { MatSelectChange } from '@angular/material/select';
-import { AboutProductDialogComponent } from '@modules/products/dialogs/about-product/about-product-dialog.component';
-import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
-import { NavbarLayoutComponent } from 'app/layout/navbar-layout/navbar-layout.component';
 
+import { MatDialog } from '@angular/material/dialog';
+
+import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
+import { PageInfo } from '@shared/models/GenericPageableResponse';
+import { Organization } from '@shared/models/Organization';
+import { ProductAndAccess } from '@shared/models/Product';
+import { User } from '@shared/models/User';
+import { FAKE_PRODUCTS, productListTutorial } from '@modules/products/tutorial/product-list.tutorial';
+import { TokenInfo } from '@shared/models/TokenInfo';
+import { Subscription } from 'rxjs';
+import { GuidedTourService } from '@gobsio/ngx-guided-tour';
 
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.scss']
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
 
   public readonly LOGO = 'https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png';
 
@@ -32,10 +30,20 @@ export class ProductListComponent implements OnInit {
 
   public products: Array<ProductAndAccess>;
 
+  public tutorial = productListTutorial(TokenInfo.fromLocalStorage().canManage());
+  public afterTutorialInit: Subscription;
+  public afterTutorialEnded: Subscription;
+
   constructor(
     public service: UserProductAuthoritiesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private guidedTourService: GuidedTourService
   ) { }
+
+  ngOnDestroy(): void {
+    this.afterTutorialEnded.unsubscribe();
+    this.afterTutorialInit.unsubscribe();
+  }
 
   public fetch(): void {
     const filter = { group: `${environment.applicationId}` };
@@ -53,9 +61,7 @@ export class ProductListComponent implements OnInit {
    * Method used to check wheather the user has access to the product,
    * if not the user s redirected to the product's about url.
    *
-   * TODO: create a interface for the "link" passing an icon, url and label
-   *
-   * @param productAccess  | The object telling if the user has access to the product.
+   * @param product | The object telling if the user has access to the product.
    * @returns the button to be rendered (Access or About).
    */
   public getButtonToShow(product: ProductAndAccess): { url: string, icon: string, label: string } {
@@ -75,7 +81,15 @@ export class ProductListComponent implements OnInit {
 
   public ngOnInit() {
     this.currentUser = User.fromLocalStorage();
+    this.setTutorial();
     this.fetch();
+  }
+
+  public setTutorial() {
+    this.afterTutorialInit = this.guidedTourService.afterTourInit
+      .subscribe(() => this.products.unshift(...FAKE_PRODUCTS));
+    this.afterTutorialEnded = this.guidedTourService.afterTourEnded
+      .subscribe(() => this.products = this.products.filter(product => product.id > 0));
   }
 
 }

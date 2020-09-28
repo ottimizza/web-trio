@@ -53,7 +53,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
     AvatarDialogComponent,
     InviteDialogComponent,
-    DragDropDirective
+    DragDropDirective,
   ],
   imports: [
     PipesModule,

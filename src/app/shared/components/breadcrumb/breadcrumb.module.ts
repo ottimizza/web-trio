@@ -3,6 +3,7 @@ import { BreadcrumbComponent } from './breadcrumb.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { NgxGuidedTourModule } from '@gobsio/ngx-guided-tour';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    NgxGuidedTourModule.forRoot()
   ],
   exports: [
     BreadcrumbComponent

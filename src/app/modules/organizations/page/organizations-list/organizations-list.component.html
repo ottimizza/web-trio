@@ -1,5 +1,5 @@
 <div class="page-wrapper bg-white">
-  <app-breadcrumb></app-breadcrumb>
+  <app-breadcrumb [tutorial]="tutorial"></app-breadcrumb>
   <div class="content-wrapper full-width-nav-tabs py-2">
     <div class="container">
       <ul class="nav nav-pills flex-row-reverse">
@@ -32,7 +32,7 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <table mat-table matSort [dataSource]="dataSource" class="table-hover mat-elevation-z0">
+        <table mat-table matSort [dataSource]="organizations" class="table-hover mat-elevation-z0">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header="name"> <strong>Nome</strong> </th>
             <td mat-cell *matCellDef="let element">
