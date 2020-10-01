@@ -29,6 +29,10 @@ export const INVITATION_TUTORIAL: GuidedTour = {
       selector: '.external-link',
       orientation: Orientation.Left,
       highlightPadding: 5
+    },
+    {
+      title: 'Defina sua ação e ótimo trabalho!',
+      content: ''
     }
   ]
 };
