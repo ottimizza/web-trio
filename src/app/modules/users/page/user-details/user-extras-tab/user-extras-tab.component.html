@@ -1,0 +1,75 @@
+<div class="container">
+
+  <div class="row mb-2 mt-2">
+    <div class="col-12">
+
+      <app-better-info>
+        Caso seu cargo ou seu departamento não apareça na lista,
+        selecione a opção que mais se aproxima de seu cargo e de seu departamento.
+      </app-better-info>
+
+    </div>
+  </div>
+
+  <div class="row pt-4 mb-3">
+    <div class="col-md-3">
+      <h5>Informações Adicionais</h5>
+    </div>
+    <div class="col-3 text-rigtht">
+      <span class="float-right" [ngClass]="{ 'text-danger': !user.additionalInformation?.birthDate }">
+        Data de Nascimento:
+        <span *ngIf="!user.additionalInformation?.birthDate">
+          &nbsp;&nbsp;<i class="fad fa-exclamation"></i>
+        </span>
+      </span>
+    </div>
+    <div class="col-6">
+      <app-data-input
+      type="date"
+      [control]="birthDate"
+      (submit)="update({ birthDate: $event })"
+      [initialValue]="user?.additionalInformation?.birthDate || ''">
+    </app-data-input>
+    </div>
+  </div>
+
+
+  <div class="row pt-4 mb-3">
+    <div class="col-3 offset-md-3 text-rigtht">
+      <span class="float-right" [ngClass]="{ 'text-danger': !user.additionalInformation?.role }">
+        Cargo:
+        <span *ngIf="!user.additionalInformation?.role">
+          &nbsp;&nbsp;<i class="fad fa-exclamation"></i>
+        </span>
+      </span>
+    </div>
+    <div class="col-6">
+      <app-data-select
+      [options]="roleList"
+      [control]="role"
+      (submit)="update({ role: $event })"
+      [initialValue]="user?.additionalInformation?.role || ''">
+    </app-data-select>
+    </div>
+  </div>
+
+
+  <div class="row pt-4 mb-3">
+    <div class="col-3 offset-md-3 text-rigtht">
+      <span class="float-right" [ngClass]="{ 'text-danger': !user.additionalInformation?.accountingDepartment }">
+        Departamento:
+        <span *ngIf="!user.additionalInformation?.accountingDepartment">
+          &nbsp;&nbsp;<i class="fad fa-exclamation"></i>
+        </span>
+      </span>
+    </div>
+    <div class="col-6">
+      <app-data-select
+      [options]="departmentList"
+      [control]="accountingDepartment"
+      (submit)="update({ accountingDepartment: $event })"
+      [initialValue]="user?.additionalInformation?.accountingDepartment || ''">
+    </app-data-select>
+    </div>
+  </div>
+</div>

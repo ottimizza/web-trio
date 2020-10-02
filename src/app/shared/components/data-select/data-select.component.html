@@ -1,0 +1,19 @@
+<div class="input-group" [class]="classes">
+  <mat-select
+    [formControl]="control"
+    [style]="deep"
+    class="form-control"
+    (selectionChange)="selectOption($event)"
+    (closed)="control.disable()"
+    #select>
+    <mat-option *ngFor="let option of options" [value]="option.value">
+      {{ option.displayed }}
+    </mat-option>
+  </mat-select>
+  <div class=" input-group-append">
+    <button class="btn border" (click)="openSelect()">
+      <i class="fa fa-hand-point-up"></i>
+    </button>
+  </div>
+
+</div>

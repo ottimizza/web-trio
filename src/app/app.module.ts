@@ -36,7 +36,7 @@ import { GlobalHttpInterceptorProvider } from '@app/interceptor/http/http-interc
     AppComponent,
     AuthLayoutComponent,
     ContentLayoutComponent,
-    SidebarLayoutComponent
+    SidebarLayoutComponent,
     // NavbarLayoutComponent
   ],
   imports: [
