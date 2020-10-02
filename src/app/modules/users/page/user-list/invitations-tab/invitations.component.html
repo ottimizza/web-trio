@@ -1,7 +1,7 @@
 <div class="container pt-4">
   <div class="row">
     <div class="col">
-      <table mat-table matSort [dataSource]="dataSource" class="table-hover mat-elevation-z0">
+      <table mat-table matSort [dataSource]="users" class="table-hover mat-elevation-z0">
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="email"> <strong>Usuário</strong> </th>
           <td mat-cell *matCellDef="let element" class="py-2">
@@ -21,7 +21,7 @@
             <button class="btn text-primary jello" (click)="copyInvitationLink(element, $event)" title="Copiar link para cadastro.">
               <i class="fad fa-copy"></i>
             </button>
-            <button class="btn text-primary" (click)="openInvitationLink(element)" title="Abrir link para cadastro.">
+            <button class="btn text-primary external-link" (click)="openInvitationLink(element)" title="Abrir link para cadastro.">
               <i class="fad fa-external-link"></i>
             </button>
           </td>

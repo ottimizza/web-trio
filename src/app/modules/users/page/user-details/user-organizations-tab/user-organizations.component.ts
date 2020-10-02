@@ -44,7 +44,6 @@ export class UserOrganizationsComponent implements OnInit, AfterViewInit {
   public organizations: Array<Organization>;
 
   displayedColumns: string[] = ['name', 'cnpj'];
-  dataSource = this.organizations;
 
 
   constructor(
@@ -62,7 +61,6 @@ export class UserOrganizationsComponent implements OnInit, AfterViewInit {
     this.userService.fetchOrganizations(this.user.id, {})
       .subscribe((response: GenericPageableResponse<Organization>) => {
         this.organizations = response.records;
-        this.dataSource = this.organizations;
       });
   }
 
@@ -102,7 +100,7 @@ export class UserOrganizationsComponent implements OnInit, AfterViewInit {
     return formGroup.get(formControlName).valueChanges
       .pipe(debounceTime(delay));
   }
-  
+
   ngOnInit() {
     this.currentUser = User.fromLocalStorage();
     this.user = this.user === null ? User.fromLocalStorage() : this.user;

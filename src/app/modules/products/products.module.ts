@@ -19,7 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { ProductCardComponent } from './support/product-card/product-card.component';
 import { PDFModule } from '@shared/components/pdf/pdf.module';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AboutProductDialogComponent } from './dialogs/about-product/about-product-dialog.component';
 
 @NgModule({

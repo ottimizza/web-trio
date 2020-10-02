@@ -51,6 +51,4 @@ export class AppComponent implements OnInit {
     document.documentElement.style.setProperty('--default-color', environment.backgroundTheme);
   }
 
-
-
 }

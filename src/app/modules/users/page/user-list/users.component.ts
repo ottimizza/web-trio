@@ -2,13 +2,13 @@ import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/cor
 import { AuthenticationService } from '@app/authentication/authentication.service';
 import { UserService } from '@app/http/users.service';
 import { User } from '@shared/models/User';
-import { GenericPageableResponse, PageInfo } from '@shared/models/GenericPageableResponse';
+import { PageInfo } from '@shared/models/GenericPageableResponse';
 import { StorageService } from '@app/services/storage.service';
-import { ModalComponent } from '@shared/components/modals/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InviteDialogComponent } from '@modules/users/dialogs/invite-dialog/invite-dialog.component';
-import { Sort, MatSort } from '@angular/material/sort';
-
+import { MatSort } from '@angular/material/sort';
+import { USERLIST_TOUR } from '../../tutorial/userlist.tutorial';
+import { INVITATION_TUTORIAL } from '@modules/users/tutorial/invitations.tutorial';
 
 @Component({
   selector: 'app-users',
@@ -29,13 +29,16 @@ export class UsersComponent implements OnInit {
   public sortInfo: any = null;
 
   displayedColumns: string[] = ['avatar', 'fullname', 'username', 'type'];
-  dataSource = this.users;
 
   constructor(public storageService: StorageService, public userService: UserService, public dialog: MatDialog) {
   }
 
   public openInviteDialog() {
     const dialog = this.dialog.open(InviteDialogComponent, { data: { name: '' } });
+  }
+
+  public tutorial() {
+    return this.currentTab === 'userlist' ? USERLIST_TOUR : INVITATION_TUTORIAL;
   }
 
   openDialog(): void {

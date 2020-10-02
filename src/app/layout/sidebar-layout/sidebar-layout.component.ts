@@ -14,6 +14,7 @@ export interface SidebarItem {
   icon: string;
   label: string;
   url: string;
+  id: string;
 }
 
 @Component({
@@ -37,13 +38,13 @@ export class SidebarLayoutComponent implements OnInit {
   ngOnInit() {
     this.currentUser = User.fromLocalStorage();
     this.items = [
-      { icon: 'fad fa-box', label: 'Aplicativos', url: '/dashboard/products' },
-      { icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users' },
-      { icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations' }
+      { id: 'produtos', icon: 'fad fa-box', label: 'Aplicativos', url: '/dashboard/products' },
+      { id: 'usuarios', icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users' },
+      { id: 'empresas', icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations' }
     ];
 
     if (TokenInfo.fromLocalStorage().canManage()) {
-      this.items.push({ icon: 'fad fa-users-cog', label: 'Permissões', url: '/dashboard/permissions' });
+      this.items.push({ id: 'permissoes', icon: 'fad fa-users-cog', label: 'Permissões', url: '/dashboard/permissions' });
     }
   }
 

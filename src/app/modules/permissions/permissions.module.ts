@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PermissionManagerComponent } from './page/permission-manager/permission-manager.component';
 import { CommonModule } from '@angular/common';
-import {
-  MatTableModule,
-  MatChipsModule,
-  MatIconModule,
-  MatCheckboxModule,
-  MatSelectModule,
-  MatFormFieldModule,
-  MatDialogModule,
-  MatPaginatorModule
-} from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
 import { BreadcrumbModule } from '@shared/components/breadcrumb/breadcrumb.module';
 import { PermissionsRoutingModule } from './permissions.routing';
@@ -19,6 +17,7 @@ import { ActionButtonsModule } from '@shared/components/action-buttons/action-bu
 import { LotPermissionDialogModule } from './dialogs/lot-permission-dialog.module';
 import { LotPermissionDialogComponent } from './dialogs/lot-permission-dialog.component';
 import { InfoModule } from '@shared/components/info/info.module';
+import { NormalizedLayoutModule } from 'app/layout/normalized-layout/normalized-layout.module';
 
 @NgModule({
   declarations: [PermissionManagerComponent],
@@ -39,7 +38,8 @@ import { InfoModule } from '@shared/components/info/info.module';
     MatDialogModule,
     LotPermissionDialogModule,
     MatPaginatorModule,
-    InfoModule
+    InfoModule,
+    NormalizedLayoutModule
   ],
   entryComponents: [LotPermissionDialogComponent]
 })
