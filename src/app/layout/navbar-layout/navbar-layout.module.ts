@@ -21,6 +21,7 @@ import { RouterModule } from '@angular/router';
 import { SigninAsDialogModule } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.module';
 import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PulsatingSpinnerModule } from '@shared/components/pulsating-spinner/pulsating-spinner.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     BrandModule,
     SigninAsDialogModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
+
+    PulsatingSpinnerModule
   ],
   exports: [
     NavbarLayoutComponent

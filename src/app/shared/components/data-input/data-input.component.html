@@ -1,0 +1,22 @@
+<div class="input-group" [class]="classes" [ngClass]="{ 'border border-danger': isWrong && isEditing }">
+  <input
+    [type]="type"
+    [placeholder]="placeholder"
+    (keyup.enter)="save()"
+    class="form-control"
+    [formControl]="control"
+    [style]="deep"
+    (input)="onInput()">
+  <div *ngIf="editable" class=" input-group-append">
+    <button class="btn border" *ngIf="!isEditing" (click)="edit()">
+      <i class="fa fa-pencil"></i>
+    </button>
+    <button class="btn border text-success" *ngIf="isEditing"
+      (click)="save()">
+      <i class="fa fa-save"></i>
+    </button>
+    <button class="btn border text-danger" *ngIf="isEditing" (click)="close()">
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+</div>

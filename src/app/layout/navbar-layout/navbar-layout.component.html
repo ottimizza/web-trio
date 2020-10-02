@@ -43,14 +43,20 @@
       <ul class="navbar-nav my-lg-0">
         <li class="nav-item dropdown">
           <a [matMenuTriggerFor]="menu" class="cursor-pointer">
-            <img class="img-thumbnail rounded-circle"
-              [src]="currentUser.avatar || './assets/images/Portrait_Placeholder.png'" width="45" height="45"
-              onError="this.src='./assets/images/Portrait_Placeholder.png';">
+            <app-pulsating-spinner [pulse]="pulse()">
+              <img class="img-thumbnail rounded-circle"
+                [src]="currentUser.avatar || './assets/images/Portrait_Placeholder.png'" width="45" height="45"
+                onError="this.src='./assets/images/Portrait_Placeholder.png';">
+            </app-pulsating-spinner>
           </a>
           <mat-menu #menu="matMenu">
             <a [routerLink]="['/dashboard/users/', currentUser.id]"
-              class="dropdown-header dropdown-item text-center mt-0 py-3">
-              <h6 class="text-dark overflow-ellipsis m-0">{{ currentUser.firstName + ' ' + (currentUser.lastName || '') }}</h6>
+            class="dropdown-header dropdown-item text-center mt-0 py-3">
+              <h6 class="text-dark overflow-ellipsis m-0" [ngClass]="{ 'text-danger': pulse() }">{{ currentUser.firstName + ' ' + (currentUser.lastName || '') }}</h6>
+              <div class="text-danger mt-2 mb-2">
+                <strong class="d-block">Cadastro incompleto,</strong>
+                <strong>Clique para concluí-lo!</strong>
+              </div>
               <small class="text-muted text-lowercase">{{ currentUser.email }}</small>
             </a>
             <a mat-menu-item *ngIf="shouldShowAccountingDetailsPage()"

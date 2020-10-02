@@ -1,6 +1,12 @@
+import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
 import { Organization } from './Organization';
 import { TokenInfo } from './TokenInfo';
-import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
+
+export class UserAdditionalInformation {
+  public role: string;
+  public birthDate: string;
+  public accountingDepartment: string;
+}
 
 export class User {
 
@@ -25,6 +31,8 @@ export class User {
   phone: string;
 
   organization: Organization;
+
+  additionalInformation: UserAdditionalInformation;
 
   static fromLocalStorage(): User {
     const storedUser = JSON.parse(localStorage.getItem('user-info') || '{}');

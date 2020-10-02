@@ -1,0 +1,35 @@
+.gradient {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  animation: pulsating-spinner-pulse 700ms infinite;
+  border: solid #ff8a00 2px;
+  transition: 1s;
+
+  &:hover {
+    border: solid var(--success) 2px;
+  }
+}
+
+@keyframes pulsating-spinner-pulse {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  25% {
+    opacity: .25;
+  }
+  50% {
+    opacity: .5;
+  }
+  75% {
+    opacity: .75;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+}

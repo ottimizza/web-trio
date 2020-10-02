@@ -25,9 +25,11 @@ export class UserDetailsComponent implements OnInit {
 
   public breadcrumb: BreadCrumb;
 
-  public currentTab: 'general' | 'security' | 'organizations' = 'general';
+  public currentTab: 'general' | 'security' | 'organizations' | 'extra' = 'general';
 
   public user: User = new User();
+
+  public rolesAndDepartments: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -70,10 +72,26 @@ export class UserDetailsComponent implements OnInit {
     };
   }
 
+  public missingInformations() {
+    const ai = User.fromLocalStorage().additionalInformation;
+    if (ai && ai.accountingDepartment && ai.birthDate && ai.role) {
+      this.missingInformations = () => false;
+      return false;
+    }
+    return true;
+  }
+
   ngOnInit() {
     this.currentUser = User.fromLocalStorage();
     this.activatedRoute.params.subscribe((params: any) => {
       this.fetchById(params.id);
+    });
+
+    this.userService.fetchInformations().subscribe(result => {
+      this.rolesAndDepartments = result.record;
+      if (this.missingInformations()) {
+        this.currentTab = 'extra';
+      }
     });
   }
 

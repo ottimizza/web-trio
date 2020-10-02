@@ -33,16 +33,18 @@ export const INVITATION_TUTORIAL: GuidedTour = {
   ]
 };
 
-export const FAKE_INVITE = {
-  authorities: null,
-  email: 'email@provedor.com.br',
-  id: -10,
-  products: null,
-  token: 'token-falso',
-  type: 1,
-  userDetails: null,
-  organization: {
-    id: -5,
-    name: User.fromLocalStorage().organization.name
-  }
+export const fakeInvite = () => {
+  return {
+    authorities: null,
+    email: 'email@provedor.com.br',
+    id: -10,
+    products: null,
+    token: 'token-falso',
+    type: 1,
+    userDetails: null,
+    organization: {
+      id: -5,
+      name: User.fromLocalStorage().organization.name
+    }
+  };
 };
