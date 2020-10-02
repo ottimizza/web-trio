@@ -10,6 +10,7 @@ export const environment = {
   backgroundTheme: '#004ecb',
   supportUrl: 'https://suporte.ottimizza.com.br',
   pdfViewer: 'https://docs.google.com/viewer',
+  salasBaseUrl: 'https://development-api-salavirtual.herokuapp.com',
   firebase: {
     apiKey: 'AIzaSyAPjrzkQyjYwq0eXRavaA9LS_rrt9p5XgE',
     authDomain: 'portal-4c1f7.firebaseapp.com',

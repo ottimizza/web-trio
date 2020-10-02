@@ -20,6 +20,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     // Material - Chips
     MatChipsModule,
     MatIconModule,
+    MatSlideToggleModule,
 
     //
     BreadcrumbModule,
