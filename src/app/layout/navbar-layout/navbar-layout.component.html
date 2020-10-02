@@ -53,7 +53,7 @@
             <a [routerLink]="['/dashboard/users/', currentUser.id]"
             class="dropdown-header dropdown-item text-center mt-0 py-3">
               <h6 class="text-dark overflow-ellipsis m-0" [ngClass]="{ 'text-danger': pulse() }">{{ currentUser.firstName + ' ' + (currentUser.lastName || '') }}</h6>
-              <div class="text-danger mt-2 mb-2">
+              <div class="text-danger mt-2 mb-2" *ngIf="pulse()">
                 <strong class="d-block">Cadastro incompleto,</strong>
                 <strong>Clique para concluí-lo!</strong>
               </div>
