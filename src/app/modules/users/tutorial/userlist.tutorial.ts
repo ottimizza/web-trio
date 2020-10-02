@@ -39,6 +39,10 @@ export const USERLIST_TOUR: GuidedTour = {
       selector: '#invited-users-tab',
       orientation: Orientation.Bottom,
       highlightPadding: 5
+    },
+    {
+      title: 'Defina sua ação e ótimo trabalho!',
+      content: ''
     }
   ]
 };
