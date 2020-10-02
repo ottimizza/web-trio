@@ -60,7 +60,6 @@ import { BetterInfoModule } from '@shared/components/better-info/better-info.mod
     AvatarDialogComponent,
     InviteDialogComponent,
     DragDropDirective,
-    UserExtrasTabComponent,
   ],
   imports: [
     PipesModule,
