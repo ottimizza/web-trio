@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { RxEvent } from '@app/services/rx-event.service';
 import { DOCUMENT } from '@angular/common';
 import { UpdateService } from '@app/services/update.service';
@@ -9,7 +9,8 @@ import { HttpHandlerService } from '@app/services/http-handler.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
 

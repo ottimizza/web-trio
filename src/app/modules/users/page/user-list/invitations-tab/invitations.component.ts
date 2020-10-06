@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { InviteDialogComponent } from '@modules/users/dialogs/invite-dialog/invite-dialog.component';
 import { GenericPageableResponse, PageInfo } from '@shared/models/GenericPageableResponse';
 import { AuthenticationService } from '@app/authentication/authentication.service';
-import { FAKE_INVITE } from '@modules/users/tutorial/invitations.tutorial';
+import { fakeInvite } from '../../../tutorial/invitations.tutorial';
 import { ClipboardUtils } from '@shared/utils/clipboard.utiils';
 import { StorageService } from '@app/services/storage.service';
 import { InvitationService } from '@app/http/invites.service';
@@ -115,7 +115,7 @@ export class InvitationsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public setTutorial() {
     this.afterTourInitSub = this.guidedTourService.afterTourInit.subscribe(() => {
-      this.users = [FAKE_INVITE].concat(this.users);
+      this.users = [fakeInvite()].concat(this.users);
     });
     this.afterTourEndedSub = this.guidedTourService.afterTourEnded.subscribe(() => {
       this.users = this.users.filter(invite => invite.id > 0);

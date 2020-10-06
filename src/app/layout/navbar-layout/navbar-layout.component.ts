@@ -71,6 +71,15 @@ export class NavbarLayoutComponent implements OnInit {
     });
   }
 
+  public pulse() {
+    const ai = User.fromLocalStorage().additionalInformation;
+    if (ai && ai.accountingDepartment && ai.birthDate && ai.role) {
+      this.pulse = () => false;
+      return false;
+    }
+    return true;
+  }
+
   ngOnInit() {
     this.storageService.onStorage(AuthenticationService.STORAGE_KEY_USERINFO, (result: any) => {
       this.currentUser = User.fromLocalStorage();

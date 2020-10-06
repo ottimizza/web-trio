@@ -39,12 +39,18 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { ComplexSearchInputComponent } from '@shared/components/search/complex-search.component';
 import { ComplexSearchModule } from '@shared/components/search/complex-search.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { UserExtrasTabComponent } from './page/user-details/user-extras-tab/user-extras-tab.component';
+import { DataInputModule } from '@shared/components/data-input/data-input.module';
+import { DataSelectModule } from '@shared/components/data-select/data-select.module';
+import { PulsatingSpinnerModule } from '@shared/components/pulsating-spinner/pulsating-spinner.module';
+import { BetterInfoModule } from '@shared/components/better-info/better-info.module';
 
 @NgModule({
   declarations: [
     UserGeneralComponent,
     UserSecurityComponent,
     UserOrganizationsComponent,
+    UserExtrasTabComponent,
 
     UserListComponent,
     UserDetailsComponent,
@@ -80,6 +86,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     BreadcrumbModule,
     ModalModule,
     ImageCropperModule,
+    DataInputModule,
+    DataSelectModule,
+    PulsatingSpinnerModule,
+    BetterInfoModule,
 
     UsersRoutingModule,
 

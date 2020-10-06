@@ -12,7 +12,6 @@
           class="row m-0 alert alert-warning animated headShake align-items-center" role="alert">
           <div class="col-8">
             <strong>{{ organization.type === 1 ? 'Contabilidade' : 'Empresa' }} Inativa!</strong> <br>
-            <small></small>
           </div>
           <div *ngIf="canSwitchStatus()" class="col-4">
             <button class="btn btn-warning float-right" (click)="patch(organization.id, {'active': true})">
@@ -114,6 +113,20 @@
             </div>
           </div>
 
+
+          <hr class="mt-5 mb-4" *ngIf="currentUser.type === 0">
+          <div class="form-group row" *ngIf="currentUser.type === 0">
+
+            <div class="col-md-3">
+              <h5>Sala Virtual Pró</h5>
+            </div>
+
+            <div class="offset-md-3 col-6">
+              <mat-slide-toggle [(ngModel)]="roomsPro" (change)="onToggleChange()">{{ roomsPro ? 'Ativo' : 'Inativo' }}</mat-slide-toggle>
+            </div>
+
+          </div>
+
           <hr *ngIf="canSwitchStatus()" class="mt-5 mb-4">
           <div *ngIf="canSwitchStatus()" class="form-group row">
             <div class="col-md-3">
@@ -149,6 +162,8 @@
               </div>
             </div>
           </div>
+
+
         </div>
       </div>
     </div>

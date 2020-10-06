@@ -11,8 +11,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BreadcrumbModule } from '@shared/components/breadcrumb/breadcrumb.module';
 import { AvatarModule } from '@shared/components/avatar/avatar.module';
 import { ModalModule } from '@shared/components/modals/modal.module';
-import { DragDropDirective } from '@shared/directives/drag-drop.directive';
-import { DocPipe } from '@shared/pipes/doc.pipe';
 import { ProductsRoutingModule } from './products.routing';
 import { ProductListComponent } from './page/products-list/products-list.component';
 import { MatSelectModule } from '@angular/material/select';
@@ -47,8 +45,7 @@ import { AboutProductDialogComponent } from './dialogs/about-product/about-produ
     ModalModule,
     PDFModule,
 
-    ProductsRoutingModule
-
+    ProductsRoutingModule,
   ],
   exports: [],
   entryComponents: [

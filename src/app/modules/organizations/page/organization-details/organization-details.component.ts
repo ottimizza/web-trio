@@ -11,6 +11,7 @@ import { FileStorageService } from '@app/http/file-storage.service';
 import { ImageUtils } from '@shared/utils/image.utils';
 import { ImageCompressionService } from '@app/http/image-compression.service';
 import { AvatarRemoveDialogComponent } from '@modules/organizations/dialogs/avatar-remove-dialog/avatar-remove-dialog.component';
+import { RoomsAccountingService } from '@app/http/rooms-accounting/rooms-accounting.service';
 
 
 interface BreadCrumb {
@@ -34,14 +35,17 @@ export class OrganizationDetaisComponent implements OnInit {
 
   public breadcrumb: BreadCrumb;
 
+  public roomsPro: boolean;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     public router: Router,
     public fileStorageService: FileStorageService,
     public imageCompressionService: ImageCompressionService,
     public organizationService: OrganizationService,
-    public dialog: MatDialog) {
-  }
+    public roomsAccountingService: RoomsAccountingService,
+    public dialog: MatDialog
+  ) {}
 
   public edit = (id: string = null) => this.editingId = id;
   public isEditing = (id: string) => this.editingId === id;
@@ -132,8 +136,22 @@ export class OrganizationDetaisComponent implements OnInit {
     );
   }
 
+  public onToggleChange() {
+    this.roomsAccountingService.patch({ pro: this.roomsPro }).subscribe();
+  }
+
+  public roomsAccountingDetails() {
+    this.roomsAccountingService.fetch()
+    .subscribe(result => {
+      this.roomsPro = result.record.pro;
+    });
+  }
+
   public ngOnInit() {
     this.currentUser = User.fromLocalStorage();
+    if (this.currentUser.type === User.Type.ADMINISTRATOR) {
+      this.roomsAccountingDetails();
+    }
     this.activatedRoute.params.subscribe((params: any) => {
       this.fetchById(params.id);
     });
