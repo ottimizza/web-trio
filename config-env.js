@@ -18,6 +18,7 @@ function createEnvironementFile() {
   backgroundTheme: '${getEnvironmentVariable('BACKGROUND_THEME')}',
   supportUrl: '${getEnvironmentVariable('SUPPORT_URL', 'https://suporte.ottimizza.com.br')}',
   pdfViewer: '${getEnvironmentVariable('CUSTOM_PDF_URL', 'https://docs.google.com/viewer')}',
+  salasBaseUrl: '${getEnvironmentVariable('SALAS_BASE_URL')}',
   firebase: {
     apiKey: '${getEnvironmentVariable('FIREBASE_API_KEY')}',
     authDomain: '${getEnvironmentVariable('FIREBASE_AUTH_DOMAIN')}',
