@@ -68,7 +68,7 @@ export class InvitationsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public openInvitationLink(invitation: IInvitation): void {
-    const registerUrl = `${environment.oauthBaseUrl}/register?token=${invitation.token}`;
+    const registerUrl = `${window.location.origin}/signup?invitation_token=${invitation.token}`;
     window.open(registerUrl, '_blank');
   }
 
