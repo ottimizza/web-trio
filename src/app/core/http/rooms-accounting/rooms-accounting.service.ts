@@ -17,8 +17,7 @@ export class RoomsAccountingService {
   constructor(private http: HttpHandlerService) { }
 
   public fetch() {
-    const url = `${BASE_URL}/${this.accountingId}`;
-    return this.http.get<GenericResponse<RoomsAccounting>>(url, 'Falha ao verificar tipo de licensa da contabilidade!');
+    return this.http.get<GenericResponse<RoomsAccounting>>(BASE_URL, 'Falha ao verificar tipo de licensa da contabilidade!');
   }
 
   public patch(roomsAccounting: any) {

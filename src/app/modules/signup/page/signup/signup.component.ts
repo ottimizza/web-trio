@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 //
 // models
@@ -7,6 +7,8 @@ import { User } from '@shared/models/User';
 import { environment } from '@env';
 import { InvitationService } from '@app/http/invites.service';
 import { SignUpService } from '@app/http/signup.service';
+import { ToastService } from '@app/services/toast.service';
+import { AuthenticationService } from '@app/authentication/authentication.service';
 
 export class InvitationDetails {
 
@@ -54,7 +56,9 @@ export class SignupComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private invitationService: InvitationService,
-    private signupService: SignUpService
+    private signupService: SignUpService,
+    private toast: ToastService,
+    private auth: AuthenticationService
   ) { }
 
   signup(): void {
@@ -71,14 +75,14 @@ export class SignupComponent implements OnInit {
    */
   fetchInvitationInfo(invitationToken: string): Promise<InvitationDetails> {
     return new Promise<InvitationDetails>((resolve, reject) => {
-      return this.invitationService.fetchInvitationByToken(invitationToken).subscribe((response) => {
+      this.invitationService.fetchInvitationByToken(invitationToken).subscribe((response) => {
         this.invitationDetails = response.record;
 
         this.user = new User();
         this.user.email = this.invitationDetails.email;
-        this.user.firstName = this.invitationDetails.userDetails.firstName;
-        this.user.lastName = this.invitationDetails.userDetails.lastName;
-        this.user.phone = this.invitationDetails.userDetails.phone;
+        this.user.firstName = this.invitationDetails?.userDetails?.firstName || '';
+        this.user.lastName = this.invitationDetails?.userDetails?.lastName || '';
+        this.user.phone = this.invitationDetails?.userDetails?.phone || '';
 
         this.organization = new Organization();
         this.organization = this.invitationDetails.organization;
@@ -87,13 +91,17 @@ export class SignupComponent implements OnInit {
     });
   }
 
+  @HostListener('keyup.enter')
   register(invitationToken: string = this.invitationToken) {
     this.validateRegister(this.user, this.organization, invitationToken)
       .then((validRegister: boolean) => {
         if (validRegister) {
           this.signupService.register(this.user, this.organization, invitationToken)
-            .subscribe((response) => {
-              console.log(response);
+            .subscribe(async (response) => {
+              this.toast.show('Cadastro realizado com sucesso, você será redirecionado para o login em 10 segundos', 'success');
+              await new Promise(resolve => setTimeout(resolve, 10000));
+              this.auth.clearStorage();
+              this.auth.authorize();
             });
         }
       });
