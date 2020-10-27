@@ -80,18 +80,16 @@ export class NavbarLayoutComponent implements OnInit {
     return true;
   }
 
-  ngOnInit() {
-    this.storageService.onStorage(AuthenticationService.STORAGE_KEY_USERINFO, (result: any) => {
-      this.currentUser = User.fromLocalStorage();
-      if (this.currentUser.organization) {
-        const avatar = this.currentUser.organization.avatar;
-        this.logo = (avatar) ? avatar : this.DEFAULT_LOGO;
-      }
-    });
+  public refreshAvatar() {
     this.currentUser = User.fromLocalStorage();
     if (this.currentUser.organization) {
       const avatar = this.currentUser.organization.avatar;
-      this.logo = (avatar) ? avatar : this.DEFAULT_LOGO;
+      this.logo = avatar || this.DEFAULT_LOGO;
     }
+  }
+
+  ngOnInit() {
+    this.storageService.onStorage(AuthenticationService.STORAGE_KEY_USERINFO, this.refreshAvatar);
+    this.refreshAvatar();
   }
 }
