@@ -75,7 +75,7 @@ export class UserDetailsComponent implements OnInit {
   public missingInformations() {
     const currentUser = User.fromLocalStorage();
     const ai = currentUser.additionalInformation;
-    if (ai && ai.accountingDepartment && ai.birthDate && ai.role && this.activatedRoute.snapshot.params.id === currentUser.id) {
+    if ((ai && ai.accountingDepartment && ai.birthDate && ai.role) || this.activatedRoute.snapshot.params.id !== currentUser.id) {
       this.missingInformations = () => false;
       return false;
     }
