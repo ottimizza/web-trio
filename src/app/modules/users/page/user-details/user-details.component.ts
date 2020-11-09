@@ -73,8 +73,9 @@ export class UserDetailsComponent implements OnInit {
   }
 
   public missingInformations() {
-    const ai = User.fromLocalStorage().additionalInformation;
-    if (ai && ai.accountingDepartment && ai.birthDate && ai.role) {
+    const currentUser = User.fromLocalStorage();
+    const ai = currentUser.additionalInformation;
+    if ((ai && ai.accountingDepartment && ai.birthDate && ai.role) || this.activatedRoute.snapshot.params.id !== currentUser.id) {
       this.missingInformations = () => false;
       return false;
     }
