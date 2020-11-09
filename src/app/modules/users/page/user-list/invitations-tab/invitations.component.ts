@@ -63,7 +63,7 @@ export class InvitationsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.htmlUtils.removeStyles(event.target, ['animated', 'jello']);
       this.htmlUtils.addStyles(event.target, ['animated', 'jello']);
     }
-    const registerUrl = `${environment.oauthBaseUrl}/register?token=${invitation.token}`;
+    const registerUrl = `${window.location.origin}/signup?invitation_token=${invitation.token}`;
     ClipboardUtils.copyTextToClipboard(registerUrl);
   }
 
