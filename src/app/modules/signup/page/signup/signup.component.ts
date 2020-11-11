@@ -98,7 +98,6 @@ export class SignupComponent implements OnInit {
           const organization = this.organization;
           delete organization.createdAt;
           delete organization.updatedAt;
-          console.log(this.user, organization, invitationToken);
           this.signupService.register(this.user, this.organization, invitationToken)
             .subscribe(async (response) => {
               this.toast.show('Cadastro realizado com sucesso, você será redirecionado para o login em 10 segundos', 'success');
