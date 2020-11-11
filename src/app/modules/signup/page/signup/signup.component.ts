@@ -86,8 +86,6 @@ export class SignupComponent implements OnInit {
 
         this.organization = new Organization();
         this.organization = this.invitationDetails.organization;
-        console.log(this.invitationDetails);
-
       });
     });
   }
