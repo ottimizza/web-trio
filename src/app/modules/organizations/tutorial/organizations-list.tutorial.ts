@@ -51,7 +51,7 @@ export const ORGANIZATIONS_LIST_TUTORIAL: GuidedTour = {
 
 export const getFakeOrganization = () => {
   const currentUser = User.fromLocalStorage();
-  const organization: Organization = {
+  const organization: any = {
     active: true,
     avatar: null,
     cnpj: currentUser.organization.cnpj,

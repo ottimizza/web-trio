@@ -86,7 +86,6 @@ export class SignupComponent implements OnInit {
 
         this.organization = new Organization();
         this.organization = this.invitationDetails.organization;
-
       });
     });
   }
@@ -96,6 +95,9 @@ export class SignupComponent implements OnInit {
     this.validateRegister(this.user, this.organization, invitationToken)
       .then((validRegister: boolean) => {
         if (validRegister) {
+          const organization = this.organization;
+          delete organization.createdAt;
+          delete organization.updatedAt;
           this.signupService.register(this.user, this.organization, invitationToken)
             .subscribe(async (response) => {
               this.toast.show('Cadastro realizado com sucesso, você será redirecionado para o login em 10 segundos', 'success');
