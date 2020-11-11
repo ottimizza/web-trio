@@ -57,7 +57,12 @@ export class NavbarLayoutComponent implements OnInit {
   }
 
   public openSiginAsModal() {
-    this.dialog.open(SigninAsDialogComponent, { width: '568px' });
+    this.dialog.open(SigninAsDialogComponent, { width: '568px' })
+    .afterClosed().subscribe(result => {
+      if (result) {
+        window.location.reload();
+      }
+    });
   }
 
   public pulse() {

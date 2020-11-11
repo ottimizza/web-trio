@@ -18,4 +18,7 @@ export class Organization {
   email: string;
   organizationId: number;
 
+  createdAt: string;
+  updatedAt: string;
+
 }
