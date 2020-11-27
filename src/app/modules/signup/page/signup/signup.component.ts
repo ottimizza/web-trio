@@ -1,7 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-//
-// models
 import { Organization } from '@shared/models/Organization';
 import { User } from '@shared/models/User';
 import { environment } from '@env';
