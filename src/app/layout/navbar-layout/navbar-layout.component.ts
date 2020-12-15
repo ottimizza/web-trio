@@ -54,20 +54,14 @@ export class NavbarLayoutComponent implements OnInit {
 
   public logout() {
     this.router.navigate(['auth', 'logout']);
-    // this.authorizationService.revokeToken().subscribe((r1: any) => {
-    //   this.authorizationService.clearStorage();
-    //   return this.authorizationService.logout().subscribe((r2: any) => {
-    //     this.authorizationService.authorize();
-    //   });
-    // });
   }
 
   public openSiginAsModal() {
-    const dialogRef = this.dialog.open(SigninAsDialogComponent, {
-      width: '568px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialog.open(SigninAsDialogComponent, { width: '568px' })
+    .afterClosed().subscribe(result => {
+      if (result) {
+        window.location.reload();
+      }
     });
   }
 

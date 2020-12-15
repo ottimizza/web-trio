@@ -15,6 +15,7 @@ export interface SidebarItem {
   label: string;
   url: string;
   id: string;
+  mustShow: boolean;
 }
 
 @Component({
@@ -37,15 +38,14 @@ export class SidebarLayoutComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = User.fromLocalStorage();
+    const canManage = TokenInfo.fromLocalStorage().canManage();
+    const isOttimizza = environment.applicationId === 'ottimizza';
     this.items = [
-      { id: 'produtos', icon: 'fad fa-box', label: 'Aplicativos', url: '/dashboard/products' },
-      { id: 'usuarios', icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users' },
-      { id: 'empresas', icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations' }
+      { id: 'produtos', icon: 'fad fa-box', label: 'Aplicativos', url: '/dashboard/products', mustShow: true },
+      { id: 'usuarios', icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users', mustShow: isOttimizza },
+      { id: 'empresas', icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations', mustShow: isOttimizza },
+      { id: 'permissoes', icon: 'fad fa-users-cog', label: 'Permissões', url: '/dashboard/permissions', mustShow: canManage }
     ];
-
-    if (TokenInfo.fromLocalStorage().canManage()) {
-      this.items.push({ id: 'permissoes', icon: 'fad fa-users-cog', label: 'Permissões', url: '/dashboard/permissions' });
-    }
   }
 
   public openSiginAsModal() {

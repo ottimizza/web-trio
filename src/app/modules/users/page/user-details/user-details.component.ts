@@ -1,12 +1,14 @@
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { finalize } from 'rxjs/operators';
+
+import { MatDialog } from '@angular/material/dialog';
+
+import { ImageCompressorService } from '@app/services/image-compression.service';
+import { FileStorageService } from '@app/http/file-storage.service';
+import { GenericResponse } from '@shared/models/GenericResponse';
 import { UserService } from '@app/http/users.service';
 import { User } from '@shared/models/User';
-import { GenericResponse } from '@shared/models/GenericResponse';
-import { ActivatedRoute, Router, Params } from '@angular/router';
-import { finalize } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
-import { FileStorageService } from '@app/http/file-storage.service';
-import { ImageCompressorService } from '@app/services/image-compression.service';
 
 interface BreadCrumb {
   label: string;
@@ -37,8 +39,7 @@ export class UserDetailsComponent implements OnInit {
     public userService: UserService,
     public fileStorageService: FileStorageService,
     public imageCompressorService: ImageCompressorService,
-    public dialog: MatDialog) {
-  }
+    public dialog: MatDialog) {}
 
   canSeeTabs(): boolean {
     return (this.currentUser && this.user) ? this.currentUser.id === this.user.id : false;
@@ -73,8 +74,9 @@ export class UserDetailsComponent implements OnInit {
   }
 
   public missingInformations() {
-    const ai = User.fromLocalStorage().additionalInformation;
-    if (ai && ai.accountingDepartment && ai.birthDate && ai.role) {
+    const currentUser = User.fromLocalStorage();
+    const ai = currentUser.additionalInformation;
+    if ((ai && ai.accountingDepartment && ai.birthDate && ai.role) || this.activatedRoute.snapshot.params.id !== currentUser.id) {
       this.missingInformations = () => false;
       return false;
     }
