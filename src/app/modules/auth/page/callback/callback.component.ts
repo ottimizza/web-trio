@@ -31,9 +31,6 @@ export class AuthCallbackComponent implements OnInit {
     public authenticationService: AuthenticationService
   ) { }
 
-  public onLoad() {
-    const that = this;
-  }
 
   public ngOnInit() {
     const that = this;
@@ -60,7 +57,7 @@ export class AuthCallbackComponent implements OnInit {
               //   storeUserInfo,
               //   storeTokenInfo
               // ]).then((values) => {
-              
+
 
 
               // that.router.navigate(['dashboard']);
