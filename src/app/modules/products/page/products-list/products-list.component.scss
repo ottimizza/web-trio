@@ -1,7 +1,8 @@
 .product {
   transition: all .2s;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.5);
   &:hover {
-    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
   }
 }
 @media (max-width: 576px) {

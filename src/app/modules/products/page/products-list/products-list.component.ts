@@ -12,6 +12,8 @@ import { FAKE_PRODUCTS, productListTutorial } from '@modules/products/tutorial/p
 import { TokenInfo } from '@shared/models/TokenInfo';
 import { Subscription } from 'rxjs';
 import { GuidedTourService } from '@gobsio/ngx-guided-tour';
+import { HomeMessageService } from '@app/http/home-message.service';
+import { HomeMessage } from '@shared/models/HomeMessage';
 
 @Component({
   selector: 'app-products-list',
@@ -34,10 +36,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
   public afterTutorialInit: Subscription;
   public afterTutorialEnded: Subscription;
 
+  public message: HomeMessage;
+
   constructor(
     public service: UserProductAuthoritiesService,
     public dialog: MatDialog,
-    private guidedTourService: GuidedTourService
+    private guidedTourService: GuidedTourService,
+    private messageService: HomeMessageService
   ) { }
 
   ngOnDestroy(): void {
@@ -83,6 +88,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.currentUser = User.fromLocalStorage();
     this.setTutorial();
     this.fetch();
+    this.messageService.getMessage().subscribe(result => this.message = result.record);
   }
 
   public setTutorial() {
