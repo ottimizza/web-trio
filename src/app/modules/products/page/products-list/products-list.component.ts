@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
 import { PageInfo } from '@shared/models/GenericPageableResponse';
 import { Organization } from '@shared/models/Organization';
-import { ProductAndAccess } from '@shared/models/Product';
+import { ProductAndAccess, ProductClassification } from '@shared/models/Product';
 import { User } from '@shared/models/User';
 import { FAKE_PRODUCTS, productListTutorial } from '@modules/products/tutorial/product-list.tutorial';
 import { TokenInfo } from '@shared/models/TokenInfo';
@@ -30,7 +30,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   public pageInfo: PageInfo;
 
-  public products: Array<ProductAndAccess>;
+  public ottProducts: Array<ProductAndAccess>;
+  public partnerProducts: Array<ProductAndAccess>;
 
   public tutorial = productListTutorial(TokenInfo.fromLocalStorage().canManage());
   public afterTutorialInit: Subscription;
@@ -54,7 +55,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     const filter = { group: `${environment.applicationId}` };
     this.service.fetchProductsAndPermissions(this.currentUser.id, filter)
       .subscribe((response) => {
-        this.products = response.records;
+        this.ottProducts = response.records.filter(prod => prod.classification === ProductClassification.OTTIMIZZA);
+        this.partnerProducts = response.records.filter(prod => prod.classification === ProductClassification.PARCEIROS);
       });
   }
 
@@ -93,9 +95,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   public setTutorial() {
     this.afterTutorialInit = this.guidedTourService.afterTourInit
-      .subscribe(() => this.products.unshift(...FAKE_PRODUCTS));
+      .subscribe(() => this.ottProducts.unshift(...FAKE_PRODUCTS as any));
     this.afterTutorialEnded = this.guidedTourService.afterTourEnded
-      .subscribe(() => this.products = this.products.filter(product => product.id > 0));
+      .subscribe(() => this.ottProducts = this.ottProducts.filter(product => product.id > 0));
   }
 
 }

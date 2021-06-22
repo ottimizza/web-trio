@@ -18,19 +18,35 @@
     </app-better-info>
     <div class="row">
       <div class="col">
-        <h3>Aplicativos</h3>
+        <h3>Nossos Aplicativos</h3>
       </div>
     </div>
     <div class="row w-100 m-0 mt-4 text-center">
-      <div class="product p-0 card m-2" *ngFor="let product of products; let i = index">
-        <div class="card-body" (click)="gotTo(getButtonToShow(product).url)">
-          <img class="bg-transparent w-100 px-3 py-4  border-0" [src]="product.imageUrl" [alt]="product.name">
+      <div *ngFor="let product of ottProducts; let i = index" class="col-md-3 col-sm-6">
+        <div class="product card p-0">
+          <div class="card-body" (click)="gotTo(getButtonToShow(product).url)">
+            <img class="bg-transparent w-100 px-3 py-4  border-0" [src]="product.imageUrl" [alt]="product.name">
+          </div>
         </div>
       </div>
     </div>
-    <div class="text-secondary text-center m-0 m-auto" *ngIf="(products && !products.length)">
+    <div class="text-secondary text-center m-0 m-auto" *ngIf="(ottProducts && !ottProducts.length)">
       <h1 class="mt-5">Você não tem acesso a nenhum aplicativo.</h1>
       <h3>Se você acha que isto está errado, entre em contato com seu Administrador.</h3>
+    </div>
+    <div class="row" *ngIf="partnerProducts?.length">
+      <div class="col">
+        <h3>Nossos Parceiros</h3>
+      </div>
+    </div>
+    <div class="row w-100 m-0 mt-4 text-center" *ngIf="partnerProducts?.length">
+      <div *ngFor="let product of partnerProducts; let i = index" class="col-md-3 col-sm-6">
+        <div class="product card p-0">
+          <div class="card-body" (click)="gotTo(getButtonToShow(product).url)">
+            <img class="bg-transparent w-100 px-3 py-4  border-0" [src]="product.imageUrl" [alt]="product.name">
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <footer class="footer d-none"> © 2017 Material Pro Admin by wrappixel.com </footer>
