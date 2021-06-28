@@ -17,6 +17,10 @@ export class LandPageComponent implements OnInit {
   defaultColor = environment.backgroundTheme;
   supportUrl = environment.supportUrl;
 
+  public DEFAULT_LOGO = environment.applicationId === 'tareffa'
+  ? 'assets/logo/tareffa-logo.png'
+  : 'https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png';
+
   constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {

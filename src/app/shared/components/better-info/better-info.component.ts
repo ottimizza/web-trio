@@ -14,6 +14,8 @@ export class BetterInfoComponent implements OnInit {
   | 'info' = 'info';
   @Input() align: 'left' | 'right' | 'center' | 'justify' = 'left';
 
+  @Input() color = 'red';
+
   public icon = '';
 
   ngOnInit(): void {

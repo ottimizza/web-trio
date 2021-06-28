@@ -1,3 +1,8 @@
+export enum ProductClassification {
+  OTTIMIZZA,
+  PARCEIROS
+}
+
 export class Product {
 
     static Group = class {
@@ -15,17 +20,11 @@ export class Product {
     imageUrl: string;
 
     group: string;
+    public classification: ProductClassification;
 
 
 }
 
-export class ProductAndAccess {
-  public id: number;
-  public name: string;
-  public description: string;
-  public aboutUrl: string;
-  public appUrl: string;
-  public imageUrl: string;
-  public group: string;
+export class ProductAndAccess extends Product {
   public access: boolean;
 }
