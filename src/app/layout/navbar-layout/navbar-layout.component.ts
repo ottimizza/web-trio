@@ -6,6 +6,7 @@ import { StorageService } from '@app/services/storage.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.component';
+import { environment } from '@env';
 // import { OverlayContainer } from '@angular/cdk/overlay';
 
 // import { ThemeService } from '@app/service/theme.service';
@@ -16,7 +17,9 @@ import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-a
   styleUrls: ['./navbar-layout.component.scss']
 })
 export class NavbarLayoutComponent implements OnInit {
-  public DEFAULT_LOGO = 'https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png';
+  public DEFAULT_LOGO = environment.applicationId === 'tareffa'
+  ? 'assets/logo/tareffa-logo.png'
+  : 'https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png';
 
   currentUser: User;
 

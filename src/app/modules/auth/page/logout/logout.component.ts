@@ -38,7 +38,9 @@ export class AuthLogoutComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.logout();
+  }
 
   pause(value = '') {
     prompt('App Pause', value);

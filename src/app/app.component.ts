@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
   public subscribeToSidebarToggleEvents() {
     this.events.subscribe('sidebar::toggle', () => {
       const body = this.document.getElementsByTagName('body')[0];
-
       body.classList.toggle('show-sidebar');
     });
   }
