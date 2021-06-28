@@ -19,6 +19,7 @@ import { ProductCardComponent } from './support/product-card/product-card.compon
 import { PDFModule } from '@shared/components/pdf/pdf.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AboutProductDialogComponent } from './dialogs/about-product/about-product-dialog.component';
+import { BetterInfoModule } from '@shared/components/better-info/better-info.module';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { AboutProductDialogComponent } from './dialogs/about-product/about-produ
     BreadcrumbModule,
     ModalModule,
     PDFModule,
+    BetterInfoModule,
 
     ProductsRoutingModule,
   ],

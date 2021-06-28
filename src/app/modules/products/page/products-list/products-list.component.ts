@@ -6,12 +6,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserProductAuthoritiesService } from '@app/http/user-product-authorities.service';
 import { PageInfo } from '@shared/models/GenericPageableResponse';
 import { Organization } from '@shared/models/Organization';
-import { ProductAndAccess } from '@shared/models/Product';
+import { ProductAndAccess, ProductClassification } from '@shared/models/Product';
 import { User } from '@shared/models/User';
 import { FAKE_PRODUCTS, productListTutorial } from '@modules/products/tutorial/product-list.tutorial';
 import { TokenInfo } from '@shared/models/TokenInfo';
 import { Subscription } from 'rxjs';
 import { GuidedTourService } from '@gobsio/ngx-guided-tour';
+import { HomeMessageService } from '@app/http/home-message.service';
+import { HomeMessage } from '@shared/models/HomeMessage';
 
 @Component({
   selector: 'app-products-list',
@@ -28,16 +30,20 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   public pageInfo: PageInfo;
 
-  public products: Array<ProductAndAccess>;
+  public ottProducts: Array<ProductAndAccess>;
+  public partnerProducts: Array<ProductAndAccess>;
 
   public tutorial = productListTutorial(TokenInfo.fromLocalStorage().canManage());
   public afterTutorialInit: Subscription;
   public afterTutorialEnded: Subscription;
 
+  public message: HomeMessage;
+
   constructor(
     public service: UserProductAuthoritiesService,
     public dialog: MatDialog,
-    private guidedTourService: GuidedTourService
+    private guidedTourService: GuidedTourService,
+    private messageService: HomeMessageService
   ) { }
 
   ngOnDestroy(): void {
@@ -49,7 +55,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     const filter = { group: `${environment.applicationId}` };
     this.service.fetchProductsAndPermissions(this.currentUser.id, filter)
       .subscribe((response) => {
-        this.products = response.records;
+        this.ottProducts = response.records.filter(prod => prod.classification === ProductClassification.OTTIMIZZA);
+        this.partnerProducts = response.records.filter(prod => prod.classification === ProductClassification.PARCEIROS);
       });
   }
 
@@ -83,13 +90,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.currentUser = User.fromLocalStorage();
     this.setTutorial();
     this.fetch();
+    this.messageService.getMessage().subscribe(result => this.message = result.record);
   }
 
   public setTutorial() {
     this.afterTutorialInit = this.guidedTourService.afterTourInit
-      .subscribe(() => this.products.unshift(...FAKE_PRODUCTS));
+      .subscribe(() => this.ottProducts.unshift(...FAKE_PRODUCTS as any));
     this.afterTutorialEnded = this.guidedTourService.afterTourEnded
-      .subscribe(() => this.products = this.products.filter(product => product.id > 0));
+      .subscribe(() => this.ottProducts = this.ottProducts.filter(product => product.id > 0));
   }
 
 }
