@@ -39,11 +39,11 @@ export class SidebarLayoutComponent implements OnInit {
   ngOnInit() {
     this.currentUser = User.fromLocalStorage();
     const canManage = TokenInfo.fromLocalStorage().canManage();
-    const isOttimizza = environment.applicationId === 'ottimizza';
+    const isNotTareffa = environment.applicationId !== 'tareffa';
     this.items = [
       { id: 'produtos', icon: 'fad fa-box', label: 'Aplicativos', url: '/dashboard/products', mustShow: true },
-      { id: 'usuarios', icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users', mustShow: isOttimizza },
-      { id: 'empresas', icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations', mustShow: isOttimizza },
+      { id: 'usuarios', icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users', mustShow: isNotTareffa },
+      { id: 'empresas', icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations', mustShow: isNotTareffa },
       { id: 'permissoes', icon: 'fad fa-users-cog', label: 'Permissões', url: '/dashboard/permissions', mustShow: canManage }
     ];
   }
