@@ -7,6 +7,7 @@ import { InvitationService } from '@app/http/invites.service';
 import { SignUpService } from '@app/http/signup.service';
 import { ToastService } from '@app/services/toast.service';
 import { AuthenticationService } from '@app/authentication/authentication.service';
+import { finalize } from 'rxjs/operators';
 
 export class InvitationDetails {
 
@@ -51,6 +52,9 @@ export class SignupComponent implements OnInit {
   public password: string;
   public passwordCheck: string;
 
+  public isConfirming = false;
+  public isCompleted = false;
+
   constructor(
     private route: ActivatedRoute,
     private invitationService: InvitationService,
@@ -90,6 +94,11 @@ export class SignupComponent implements OnInit {
 
   @HostListener('keyup.enter')
   register(invitationToken: string = this.invitationToken) {
+    if (this.isConfirming) {
+      return;
+    }
+    this.isConfirming = true;
+
     this.validateRegister(this.user, this.organization, invitationToken)
       .then((validRegister: boolean) => {
         if (validRegister) {
@@ -97,11 +106,13 @@ export class SignupComponent implements OnInit {
           delete organization.createdAt;
           delete organization.updatedAt;
           this.signupService.register(this.user, this.organization, invitationToken)
-            .subscribe(async (response) => {
-              this.toast.show('Cadastro realizado com sucesso, você será redirecionado para o login em 10 segundos', 'success');
-              await new Promise(resolve => setTimeout(resolve, 10000));
-              this.auth.clearStorage();
-              this.auth.authorize();
+            .pipe(finalize(() => this.isConfirming = false))
+            .subscribe(() => {
+              this.isCompleted = true;
+              // this.toast.show('Cadastro realizado com sucesso, você será redirecionado para o login em 10 segundos', 'success');
+              // await new Promise(resolve => setTimeout(resolve, 10000));
+              // this.auth.clearStorage();
+              // this.auth.authorize();
             });
         }
       });
