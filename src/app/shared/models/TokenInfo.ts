@@ -29,7 +29,7 @@ export class TokenInfo {
   canView = () => this._can(Authority.READ);
 
   private _can(aut: Authority) {
-    const userInfo: TokenInfo = User.fromLocalStorage() as any;
+    const userInfo: TokenInfo = User.allInfoFromLocalStorage() as any;
     return userInfo.authorities.map(au => au.authority).includes(aut);
   }
 
