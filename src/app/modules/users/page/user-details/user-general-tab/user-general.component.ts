@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { AuthenticationService } from '@app/authentication/authentication.service';
 import { UserService } from '@app/http/users.service';
 import { User } from '@shared/models/User';
@@ -19,7 +19,7 @@ import { ImageCompressionService } from '@app/http/image-compression.service';
   templateUrl: './user-general.component.html',
   styleUrls: ['./user-general.component.scss']
 })
-export class UserGeneralComponent implements OnInit {
+export class UserGeneralComponent implements OnInit, OnChanges {
 
   private currentUser: User;
 
@@ -30,22 +30,35 @@ export class UserGeneralComponent implements OnInit {
   public userUpdate: EventEmitter<any> = new EventEmitter();
 
   public editingId: string;
+  public allowInfos = false;
 
   constructor(
     public userService: UserService,
     public fileStorageService: FileStorageService,
     public imageCompressionService: ImageCompressionService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) { }
 
-  public canEdit() {
-    if (this.currentUser != null && this.user != null) {
-      return this.currentUser.id === this.user.id;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.user?.id && this.currentUser.organization.id !== this.user.organization.id) {
+      this.router.navigate(['']);
+    } else if (this.user?.id) {
+      this.allowInfos = true;
     }
-    return false;
+  }
+
+  public canEdit() {
+    const usersExist = this.currentUser?.id && this.user?.id;
+    const isSameAccounting = this.currentUser.organization.id === this.user?.organization?.id;
+    const canChange = this.currentUser.id === this.user?.id || this.currentUser.additionalInformation.role.toUpperCase().includes('ADMIN');
+    return usersExist && isSameAccounting && canChange;
   }
 
   openDialog(): void {
+    if (!this.canEdit()) {
+      return;
+    }
     const dialogRef = this.dialog.open(AvatarDialogComponent, {
       maxWidth: '568px',
       data: { name: '' }
@@ -71,10 +84,13 @@ export class UserGeneralComponent implements OnInit {
   public isEditing = (id: string) => this.editingId === id;
 
   public async patch(id: number, data: any, reload: boolean = false): Promise<any> {
+    if (!this.canEdit()) {
+      return;
+    }
     return new Promise<any>((resolve, reject) => {
       this.userService.patch(id, data).pipe(
         finalize(() => {
-          resolve();
+          resolve(null);
         })
       )
         .pipe(finalize(() => { if (reload) { document.location.reload(); } }))
@@ -90,6 +106,7 @@ export class UserGeneralComponent implements OnInit {
   /**
    * Método para verificar se usuário logado tem permissão para alterar o
    * status do usuário. Apenas usuários do tipo Administrador (0) e Contador (1).
+   * @deprecated
    */
   canSwitchStatus(): boolean {
     return this.currentUser.id !== this.user.id
