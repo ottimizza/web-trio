@@ -2,6 +2,8 @@ import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
 import { Organization } from './Organization';
 import { TokenInfo } from './TokenInfo';
 
+export type UserAuthorities = Array<{ authority: 'READ' | 'WRITE' | 'ADMIN' }>;
+
 export class UserAdditionalInformation {
   public role: string;
   public birthDate: string;
@@ -33,6 +35,7 @@ export class User {
   organization: Organization;
 
   additionalInformation: UserAdditionalInformation;
+  authorities: UserAuthorities;
 
   static fromLocalStorage(): User {
     const storedUser = JSON.parse(localStorage.getItem('user-info') || '{}');
@@ -48,5 +51,9 @@ export class User {
   isAccountant = () => this.type === User.Type.ACCOUNTANT;
 
   isAdministrator = () => this.type === User.Type.ADMINISTRATOR;
+
+  canRead = () => this.authorities.map(a => a.authority).includes('READ');
+  canWrite = () => this.authorities.map(a => a.authority).includes('WRITE');
+  canManage = () => this.authorities.map(a => a.authority).includes('ADMIN');
 
 }

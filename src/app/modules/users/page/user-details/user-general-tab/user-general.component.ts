@@ -51,7 +51,7 @@ export class UserGeneralComponent implements OnInit, OnChanges {
   public canEdit() {
     const usersExist = this.currentUser?.id && this.user?.id;
     const isSameAccounting = this.currentUser.organization.id === this.user?.organization?.id;
-    const canChange = this.currentUser.id === this.user?.id || this.currentUser.additionalInformation.role.toUpperCase().includes('ADMIN');
+    const canChange = this.currentUser.id === this.user?.id || this.currentUser.canManage();
     return usersExist && isSameAccounting && canChange;
   }
 
