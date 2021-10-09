@@ -1,7 +1,5 @@
-
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GenericPageableResponse } from '@shared/models/GenericPageableResponse';
 import { GenericResponse } from '@shared/models/GenericResponse';
 import { environment } from '@env';
 import { HttpHandlerService } from '@app/services/http-handler.service';
@@ -23,7 +21,7 @@ export class SignUpService {
   public register(user: User, organization: Organization, token: string = null) {
     const url = `${environment.oauthBaseUrl}/api/v2/invitations/register?token=${token}`;
     const body = { user, organization };
-    return this.http.post<GenericResponse<any>>(url, body, 'Não foi possível resistrar o usuário!', {});
+    return this.http.post<GenericResponse<any>>(url, body, 'Não foi possível registrar o usuário!', {});
   }
 
 }
