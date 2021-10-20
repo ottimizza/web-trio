@@ -24,12 +24,12 @@ export class TokenInfo {
     return TypeConversorUtils.fromAny<TokenInfo>(storedToken, new TokenInfo());
   }
 
-  canManage = () => this._can(Authority.ADMIN);
-  canEdit = () => this._can(Authority.WRITE);
-  canView = () => this._can(Authority.READ);
+  canManage = () => this.__can(Authority.ADMIN);
+  canEdit = () => this.__can(Authority.WRITE);
+  canView = () => this.__can(Authority.READ);
 
-  private _can(aut: Authority) {
-    const userInfo: TokenInfo = User.allInfoFromLocalStorage() as any;
+  private __can(aut: Authority) {
+    const userInfo: TokenInfo = User.fromLocalStorage() as any;
     return userInfo.authorities.map(au => au.authority).includes(aut);
   }
 

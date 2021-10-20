@@ -1,8 +1,6 @@
 import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
 import { Organization } from './Organization';
-import { TokenInfo } from './TokenInfo';
-
-export type UserAuthorities = Array<{ authority: 'READ' | 'WRITE' | 'ADMIN' }>;
+import { TokenInfo, Authority } from './TokenInfo';
 
 export class UserAdditionalInformation {
   public role: string;
@@ -35,7 +33,8 @@ export class User {
   organization: Organization;
 
   additionalInformation: UserAdditionalInformation;
-  authorities: UserAuthorities;
+
+  authorities: { authority: Authority }[];
 
   static fromLocalStorage(): User {
     const storedUser = JSON.parse(localStorage.getItem('user-info') || '{}');
@@ -46,14 +45,23 @@ export class User {
     return Object.assign(this.fromLocalStorage(), TokenInfo.fromLocalStorage());
   }
 
+  public get fullName() {
+    return `${this.firstName || this.lastName || ''}`.trim();
+  }
+
   isCustomer = () => this.type === User.Type.CUSTOMER;
 
   isAccountant = () => this.type === User.Type.ACCOUNTANT;
 
   isAdministrator = () => this.type === User.Type.ADMINISTRATOR;
 
-  canRead = () => this.authorities.map(a => a.authority).includes('READ');
-  canWrite = () => this.authorities.map(a => a.authority).includes('WRITE');
-  canManage = () => this.authorities.map(a => a.authority).includes('ADMIN');
+  canManage = () => this._can(Authority.ADMIN);
+  canEdit = () => this._can(Authority.WRITE);
+  canView = () => this._can(Authority.READ);
+
+  private _can(aut: Authority) {
+    // const userInfo: TokenInfo = User.fromLocalStorage() as any;
+    return this.authorities.map(au => au.authority).includes(aut);
+  }
 
 }
