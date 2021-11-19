@@ -67,14 +67,14 @@ const routes: Routes = [
         loadChildren: () => import('@modules/users/users.module').then(m => m.UsersModule),
         canActivate: [AuthGuard]
       },
-      {
-        path: 'organizations',
-        data: {
-          breadcrumb: 'Empresas'
-        },
-        loadChildren: () => import('@modules/organizations/organizations.module').then(m => m.OrganizationModule),
-        canActivate: [AuthGuard]
-      },
+      // {
+      //   path: 'organizations',
+      //   data: {
+      //     breadcrumb: 'Empresas'
+      //   },
+      //   loadChildren: () => import('@modules/organizations/organizations.module').then(m => m.OrganizationModule),
+      //   canActivate: [AuthGuard]
+      // },
       {
         path: 'permissions',
         data: {

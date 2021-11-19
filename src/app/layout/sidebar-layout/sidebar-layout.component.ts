@@ -43,7 +43,7 @@ export class SidebarLayoutComponent implements OnInit {
     this.items = [
       { id: 'produtos', icon: 'fad fa-box', label: 'Aplicativos', url: '/dashboard/products', mustShow: true },
       { id: 'usuarios', icon: 'fad fa-users', label: 'Usuários', url: '/dashboard/users', mustShow: isNotTareffa },
-      { id: 'empresas', icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations', mustShow: isNotTareffa },
+      // { id: 'empresas', icon: 'fad fa-industry-alt', label: 'Empresas', url: '/dashboard/organizations', mustShow: isNotTareffa },
       { id: 'permissoes', icon: 'fad fa-users-cog', label: 'Permissões', url: '/dashboard/permissions', mustShow: canManage }
     ];
   }
