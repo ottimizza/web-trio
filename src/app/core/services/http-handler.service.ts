@@ -86,8 +86,10 @@ export class HttpHandlerService {
     }
   }
 
+  // ! ESTE HEADER É ESPECÍFICO PARA ESTA APLICAÇÃO,
+  // ! NÃO FUNCIONARÁ EM OUTRAS APLICAÇÕES
   private get _headers() {
-    const headers = this.authenticationService.getAuthorizationHeaders();
+    const headers = { 'Content-Type': 'application/json' };
     return { headers };
   }
 

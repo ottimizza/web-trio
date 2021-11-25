@@ -18,8 +18,6 @@ import { NavbarLayoutComponent } from './navbar-layout.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { SigninAsDialogModule } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.module';
-import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PulsatingSpinnerModule } from '@shared/components/pulsating-spinner/pulsating-spinner.module';
 
@@ -33,7 +31,6 @@ import { PulsatingSpinnerModule } from '@shared/components/pulsating-spinner/pul
     RouterModule,
     AvatarModule,
     BrandModule,
-    SigninAsDialogModule,
     MatMenuModule,
     MatDialogModule,
 
@@ -43,6 +40,5 @@ import { PulsatingSpinnerModule } from '@shared/components/pulsating-spinner/pul
     NavbarLayoutComponent
   ],
   providers: [],
-  entryComponents: [SigninAsDialogComponent]
 })
 export class NavbarLayoutModule { }

@@ -5,7 +5,6 @@ import { AuthenticationService } from '@app/authentication/authentication.servic
 import { StorageService } from '@app/services/storage.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { SigninAsDialogComponent } from '@modules/organizations/dialogs/signin-as-dialog/signin-as-dialog.component';
 import { environment } from '@env';
 // import { OverlayContainer } from '@angular/cdk/overlay';
 
@@ -17,13 +16,13 @@ import { environment } from '@env';
   styleUrls: ['./navbar-layout.component.scss']
 })
 export class NavbarLayoutComponent implements OnInit {
-  public DEFAULT_LOGO = environment.applicationId === 'tareffa'
-  ? 'assets/logo/tareffa-logo.png'
-  : 'https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png';
+  // public DEFAULT_LOGO = environment.applicationId === 'tareffa'
+  // ? 'assets/logo/tareffa-logo.png'
+  // : 'https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png';
 
   currentUser: User;
 
-  logo: string = this.DEFAULT_LOGO;
+  // logo: string = this.DEFAULT_LOGO;
 
   constructor(
     @Inject(DOCUMENT) public document: Document,
@@ -60,12 +59,12 @@ export class NavbarLayoutComponent implements OnInit {
   }
 
   public openSiginAsModal() {
-    this.dialog.open(SigninAsDialogComponent, { width: '568px' })
-    .afterClosed().subscribe(result => {
-      if (result) {
-        window.location.reload();
-      }
-    });
+    // this.dialog.open(SigninAsDialogComponent, { width: '568px' })
+    // .afterClosed().subscribe(result => {
+    //   if (result) {
+    //     window.location.reload();
+    //   }
+    // });
   }
 
   public pulse() {
@@ -81,7 +80,7 @@ export class NavbarLayoutComponent implements OnInit {
     this.currentUser = User.fromLocalStorage();
     if (this.currentUser.organization) {
       const avatar = this.currentUser.organization.avatar;
-      this.logo = avatar || this.DEFAULT_LOGO;
+      // this.logo = avatar || this.DEFAULT_LOGO;
     }
   }
 

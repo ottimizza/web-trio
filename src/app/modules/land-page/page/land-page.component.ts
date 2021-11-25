@@ -14,12 +14,12 @@ export class LandPageComponent implements OnInit {
   supportNumber = '+5547999455447';
   defaultMessage = ['Estou', 'com', 'dificuldades', 'de', 'acesso', 'ao', 'Portal'];
 
-  defaultColor = environment.backgroundTheme;
-  supportUrl = environment.supportUrl;
+  // defaultColor = environment.backgroundTheme;
+  // supportUrl = environment.supportUrl;
 
-  public DEFAULT_LOGO = environment.applicationId === 'tareffa'
-  ? 'assets/logo/tareffa-logo.png'
-  : 'https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png';
+  // public DEFAULT_LOGO = environment.applicationId === 'tareffa'
+  // ? 'assets/logo/tareffa-logo.png'
+  // : 'https://ottimizza.com.br/wp-content/themes/ottimizza/images/logo.png';
 
   constructor(private authenticationService: AuthenticationService) { }
 

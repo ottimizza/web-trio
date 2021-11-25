@@ -30,14 +30,14 @@ export class AuthenticationService {
   public store(authSession: AuthSession): Promise<{}> {
     return new Promise<boolean>((resolve, reject) => {
       localStorage.setItem(AuthenticationService.STORAGE_KEY_USERINFO, authSession.toString());
-      resolve();
+      resolve(null);
     });
   }
 
   public destroy(): Promise<{}> {
     return new Promise<boolean>((resolve, reject) => {
       localStorage.removeItemsetItem(AuthenticationService.STORAGE_KEY_USERINFO);
-      resolve();
+      resolve(null);
     });
   }
 

@@ -16,10 +16,11 @@ export class ImageCompressionService {
   constructor(private http: HttpHandlerService) { }
 
   public compress(file: File): Observable<Blob> {
-    const formData = new FormData();
-    formData.append('file', file);
-    const url = `${environment.imageCompressionBaseUrl}/api/v1/image_compressor?size=400`;
-    return this.http.post(url, formData, 'Falha ao comprimir imagem!', { responseType: 'blob' });
+    // const formData = new FormData();
+    // formData.append('file', file);
+    // const url = `${environment.imageCompressionBaseUrl}/api/v1/image_compressor?size=400`;
+    // return this.http.post(url, formData, 'Falha ao comprimir imagem!', { responseType: 'blob' });
+    return;
   }
 
 }
