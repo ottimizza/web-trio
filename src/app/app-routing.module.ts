@@ -9,8 +9,14 @@ import { NoAuthGuard } from '@app/guard/no-auth.guard';
 import { ManageGuard } from '@app/guard/manage.guard';
 import { LandPageComponent } from '@modules/land-page/page/land-page.component';
 import { BelvoConnectionComponent } from '@modules/belvo-connection/belvo-connection.component';
+import { SuccessCallbackComponent } from '@modules/success-callback/success-callback.component';
 
 const routes: Routes = [
+  {
+    path: 'success',
+    component: SuccessCallbackComponent,
+    pathMatch: 'full',
+  },
   {
     path: ':username',
     component: BelvoConnectionComponent,

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BelvoService } from '@app/http/belvo.service';
+import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BelvoWidgetService {
@@ -8,14 +9,17 @@ export class BelvoWidgetService {
     private belvo: BelvoService
   ) {}
 
-  public async create(sdk: any, username: string): Promise<any> {
+  public create(sdk: any) {
+    const success$ = new Subject<string>();
+
     console.log(`[widget] creating belvo widget...`);
 
     console.log(`[widget] [callback] defining success callback`);
     const successCallbackFunction = ((link: any, institution: any) => {
       console.log(`[widget] [callback] [success] - link=[${link}] institution=[${institution}]`);
-      this.belvo.widgetSuccessCalback(link, institution, username).subscribe(response => {
+      this.belvo.widgetSuccessCalback(link, institution).subscribe(response => {
         console.log('success callback', response);
+        success$.next('Widget created successfully');
       });
     });
 
@@ -23,6 +27,7 @@ export class BelvoWidgetService {
     console.log(`[widget] [callback] defining exit callback`);
     const onExitCallbackFunction = ((data: any) => {
       console.log('[widget] [callback] [exit]', data);
+      success$.error(data);
     });
 
     // TODO: better understand the usage of event callbacks.
@@ -51,7 +56,9 @@ export class BelvoWidgetService {
         console.log(`[widget] [token] finished - access_token=[${response.access}]`);
         sdk.createWidget(response.access, config).build();
         console.log(`[widget] widget created successfully`);
-    });
+    }, err => success$.error(err));
+
+    return success$;
   }
 
 }
