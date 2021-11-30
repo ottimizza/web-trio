@@ -12,15 +12,17 @@ export class SuccessCallbackComponent implements OnInit {
     private service: BelvoService
   ) { }
 
-  public hasUsername = false;
+  public username: string;
 
   ngOnInit(): void {
-    this.hasUsername = !!this.service.username;
+    this.username = this.service.username;
   }
 
   public new() {
-    const url = `${window.location.origin}/${this.service.username}`;
-    window.location.href = url;
+    if (this.username) {
+      const url = `${window.location.origin}/${this.username}`;
+      window.location.href = url;
+    }
   }
 
 }

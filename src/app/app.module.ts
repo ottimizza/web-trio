@@ -23,6 +23,7 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from '@app/core.module';
+import { SuccessCallbackModule } from '@modules/success-callback/success-callback.module';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { CoreModule } from '@app/core.module';
     BrandModule,
     BreadcrumbModule,
 
-    MatDialogModule
+    MatDialogModule,
+    SuccessCallbackModule
 
 
   ],

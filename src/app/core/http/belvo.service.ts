@@ -19,9 +19,7 @@ export class BelvoService {
   }
 
   public set username(username: string) {
-    if (!this.externalId && username && typeof username === 'string') {
-      this.externalId = username;
-    }
+    this.externalId = username;
   }
 
   // Note: this method in the future may receive the branding options

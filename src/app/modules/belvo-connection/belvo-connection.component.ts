@@ -12,7 +12,6 @@ import { catchError, switchMap } from 'rxjs/operators';
 })
 export class BelvoConnectionComponent implements OnInit, AfterViewInit {
 
-
   constructor(
     private winRef: WindowRef,
     private service: BelvoService,
