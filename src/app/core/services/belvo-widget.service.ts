@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BelvoService } from '@app/http/belvo.service';
+import { environment } from '@env';
 import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -27,13 +28,15 @@ export class BelvoWidgetService {
     console.log(`[widget] [callback] defining exit callback`);
     const onExitCallbackFunction = ((data: any) => {
       console.log('[widget] [callback] [exit]', data);
-      success$.error(data);
     });
 
     // TODO: better understand the usage of event callbacks.
     console.log(`[widget] [callback] defining event callback`);
     const onEventCallbackFunction = ((data: any) => {
       console.log('[widget] [callback] [event]', data);
+      if (data.eventName === 'ERROR') {
+        success$.error(data);
+      }
     });
 
     const config: any = {
@@ -43,6 +46,8 @@ export class BelvoWidgetService {
       show_intro: true,
       locale: 'pt',
       country_codes: ['BR'],
+      institution_types: ['business'],
+      institutions: environment.allowedInstitutions
     };
 
     console.log('[widget] [token] requesting access_token');

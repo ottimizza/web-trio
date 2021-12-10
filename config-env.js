@@ -11,6 +11,7 @@ function createEnvironementFile() {
   oauthBaseUrl: '${getEnvironmentVariable('OAUTH2_BASE_URL')}',
   oauthClientId: '${getEnvironmentVariable('OAUTH2_CLIENT_ID')}',
   serviceUrl: '${getEnvironmentVariable('SERVICE_URL')}',
+  allowedInstitutions: ${getEnvironmentVariable('ALLOWED_INSTITUTIONS', ['itau_br_business', 'bradesco_br_business', 'santander_br_business', 'caixa_br_business'])},
 };
 `;
 }
