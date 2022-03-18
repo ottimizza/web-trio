@@ -33,7 +33,7 @@ export class BelvoConnectionComponent implements OnInit {
     this.widget.requestWidget(this.winRef).subscribe(() => {
       this.router.navigate(['/success']);
     }, err => {
-      if (err.meta_data.error_code === '' && err.meta_data.institution_name.toLowerCase().includes('bradesco')) {
+      if (err.meta_data.error_code === 'token_required' && err.meta_data.institution_name.toLowerCase().includes('bradesco')) {
         alert('A autorização pelo Bradesco deve ser realizada através de usuário de consulta com permissão de acesso a extratos. Credenciamento com usuário master não será permitido');
         window.location.reload();
       }
