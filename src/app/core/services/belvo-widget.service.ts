@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BelvoService } from '@app/http/belvo.service';
 import { environment } from '@env';
-import { Subject } from 'rxjs';
+import { interval, Subject, throwError } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class BelvoWidgetService {
@@ -58,6 +59,23 @@ export class BelvoWidgetService {
     }, err => success$.error(err));
 
     return success$;
+  }
+
+  public getSdk(winRef: any) {
+    if (!winRef?.nativeWindow) {
+      return throwError('Could not load BelvoSDK');
+    }
+    return interval(200)
+    .pipe(
+      map(() => winRef?.nativeWindow?.belvoSDK),
+      filter(result => !!result?.createWidget),
+      take(1)
+    );
+  }
+
+  public requestWidget(winRef: any) {
+    return this.getSdk(winRef)
+    .pipe(switchMap(sdk => this.create(sdk)));
   }
 
 }
