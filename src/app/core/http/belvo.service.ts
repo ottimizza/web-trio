@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpHandlerService } from '@app/services/http-handler.service';
 import { environment } from '@env';
-import { of, throwError } from 'rxjs';
+import { interval, throwError } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 
 const BASE_URL = `${environment.serviceUrl}/api/v1/belvo`;
 
@@ -32,11 +33,6 @@ export class BelvoService {
     const url = `${BASE_URL}/widget/callback/success`;
     const body = { link, institution, externalId: this.externalId };
     return this.http.post(url, body, 'Falha ao preparar ambiente de callback!');
-  }
-
-  public getSdk(winRef: any) {
-    const sdk = winRef?.nativeWindow?.belvoSDK;
-    return sdk ? of(sdk) : throwError(`Could'nt load Belvo SDK`);
   }
 
 }
