@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TrioService } from '@app/http/trio.service';
-// import { BelvoService } from '@app/http/trio.service';
 
 @Component({
-  selector: 'app-success-callback',
-  templateUrl: './success-callback.component.html',
-  styleUrls: ['./success-callback.component.scss']
+  selector: 'app-cancelled-callback',
+  templateUrl: './cancelled-callback.component.html',
+  styleUrls: ['./cancelled-callback.component.scss']
 })
-export class SuccessCallbackComponent implements OnInit {
+export class CancelledCallbackComponent implements OnInit {
 
   constructor(
     private service: TrioService

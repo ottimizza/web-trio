@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BelvoConnectionComponent } from './belvo-connection.component';
+import { CancelledCallbackComponent } from './cancelled-callback.component';
 
-describe('BelvoConnectionComponent', () => {
-  let component: BelvoConnectionComponent;
-  let fixture: ComponentFixture<BelvoConnectionComponent>;
+describe('CancelledCallbackComponent', () => {
+  let component: CancelledCallbackComponent;
+  let fixture: ComponentFixture<CancelledCallbackComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BelvoConnectionComponent ]
+      declarations: [ CancelledCallbackComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BelvoConnectionComponent);
+    fixture = TestBed.createComponent(CancelledCallbackComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

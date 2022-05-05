@@ -19,6 +19,7 @@ export class AppComponent {
     this.updateService.checkForUpdates();
     this.events.subscribe('sw::update', () => {
       this.updateAvailable = true;
+      this.refresh();
     });
   }
 

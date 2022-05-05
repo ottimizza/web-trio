@@ -1,5 +1,5 @@
 import { TypeConversorUtils } from '@shared/utils/type-conversor.utils';
-import { User } from '@shared/models/User';
+// import { User } from '@shared/models/User';
 
 export enum Authority {
   ADMIN = 'ADMIN',
@@ -24,13 +24,13 @@ export class TokenInfo {
     return TypeConversorUtils.fromAny<TokenInfo>(storedToken, new TokenInfo());
   }
 
-  canManage = () => this.__can(Authority.ADMIN);
-  canEdit = () => this.__can(Authority.WRITE);
-  canView = () => this.__can(Authority.READ);
+  // canManage = () => this.__can(Authority.ADMIN);
+  // canEdit = () => this.__can(Authority.WRITE);
+  // canView = () => this.__can(Authority.READ);
 
-  private __can(aut: Authority) {
-    const userInfo: TokenInfo = User.fromLocalStorage() as any;
-    return userInfo.authorities.map(au => au.authority).includes(aut);
-  }
+  // // private __can(aut: Authority) {
+  // //   const userInfo: TokenInfo = User.fromLocalStorage() as any;
+  // //   return userInfo.authorities.map(au => au.authority).includes(aut);
+  // // }
 
 }

@@ -4,10 +4,10 @@ import { environment } from '@env';
 import { interval, throwError } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 
-const BASE_URL = `${environment.serviceUrl}/api/v1/belvo`;
+const BASE_URL = `${environment.serviceUrl}/api/v1/trio`;
 
 @Injectable({ providedIn: 'root' })
-export class BelvoService {
+export class TrioService {
 
   private externalId: string;
 
@@ -25,8 +25,8 @@ export class BelvoService {
 
   // Note: this method in the future may receive the branding options
   public requestAccessToken() {
-    const url = `${BASE_URL}/token`;
-    return this.http.get<{ access: string }>(url, 'Falha ao obter permissões de acesso!');
+    const url = `${BASE_URL}/bridge_token`;
+    return this.http.get<{ bridge_token: string }>(url, 'Falha ao obter permissões de acesso!');
   }
 
   public widgetSuccessCalback(link: string, institution: string) {

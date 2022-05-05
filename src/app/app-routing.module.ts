@@ -8,18 +8,24 @@ import { AuthGuard } from '@app/guard/auth.guard';
 import { NoAuthGuard } from '@app/guard/no-auth.guard';
 import { ManageGuard } from '@app/guard/manage.guard';
 import { LandPageComponent } from '@modules/land-page/page/land-page.component';
-import { BelvoConnectionComponent } from '@modules/belvo-connection/belvo-connection.component';
 import { SuccessCallbackComponent } from '@modules/success-callback/success-callback.component';
+import { TrioConnectionComponent } from '@modules/trio-connection/trio-connection.component';
+import { CancelledCallbackComponent } from '@modules/cancelled-callback/cancelled-callback.component';
 
 const routes: Routes = [
   {
-    path: 'success',
+    path: 'sucesso',
     component: SuccessCallbackComponent,
     pathMatch: 'full',
   },
   {
-    path: ':username',
-    component: BelvoConnectionComponent,
+    path: 'cancelar',
+    component: CancelledCallbackComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: ':uuid',
+    component: TrioConnectionComponent,
     pathMatch: 'full'
   }
   // {

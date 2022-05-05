@@ -24,6 +24,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from '@app/core.module';
 import { SuccessCallbackModule } from '@modules/success-callback/success-callback.module';
+import { TrioConnectionComponent } from '@modules/trio-connection/trio-connection.component';
+import { CancelledCallbackComponent } from './modules/cancelled-callback/cancelled-callback.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { SuccessCallbackModule } from '@modules/success-callback/success-callbac
     AuthLayoutComponent,
     ContentLayoutComponent,
     SidebarLayoutComponent,
+    TrioConnectionComponent,
+    CancelledCallbackComponent,
     // NavbarLayoutComponent
   ],
   imports: [
