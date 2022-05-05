@@ -29,9 +29,11 @@ export class TrioConnectionComponent implements AfterViewInit {
     });
   }
 
+
   navigate(route: string) {
     this.zone.run(() => {
       this.router.navigate(['' + route]);
     });
   }
 }
+
