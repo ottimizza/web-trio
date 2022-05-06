@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHandlerService } from '@app/services/http-handler.service';
 import { environment } from '@env';
-import { interval, throwError } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
 
 const BASE_URL = `${environment.serviceUrl}/api/v1/trio`;
 
