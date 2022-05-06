@@ -45,7 +45,7 @@ export class TrioWidgetService {
       this.api.create({
         bridgeToken,
         clientId: environment.trioClientId,
-        environment: environment.production ? 'production' : 'sandbox',
+        environment: environment.trioProduction ? 'production' : 'sandbox',
         onLoad: () => sub.next({ event: 'load', data: null }),
         onEvent: (eventType: any, data: any) => sub.next({ event: 'event', data: { eventType, data } }),
         onSuccess: (data: any) => {
