@@ -1,4 +1,3 @@
-import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
 import { AfterViewInit, Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { TrioService } from '@app/http/trio.service';
@@ -36,4 +35,3 @@ export class TrioConnectionComponent implements AfterViewInit {
     });
   }
 }
-
