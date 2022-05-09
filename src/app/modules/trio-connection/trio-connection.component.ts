@@ -19,19 +19,26 @@ export class TrioConnectionComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     const params = window.location.href.split('/');
     this.trioService.username = params[params.length - 1];
-    console.log(this.trioService.username);
     this.trioService.requestAccessToken()
     .pipe(switchMap(bridgeToken => this.widgetService.createWidget(bridgeToken.bridge_token)))
     .subscribe({
-      complete: () => this.navigate('sucesso'),
+      next: data => this.next(data),
+      // complete: () => this.navigate('sucesso'),
       error: () => this.navigate('cancelar')
     });
   }
 
-
   navigate(route: string) {
     this.zone.run(() => {
       this.router.navigate(['' + route]);
+    });
+  }
+
+  public next(data: any) {
+    this.zone.run(() => {
+      if (data?.event === 'success') {
+        this.trioService.widgetSuccessCalback(data.data).subscribe(() => this.navigate('success'));
+      }
     });
   }
 }

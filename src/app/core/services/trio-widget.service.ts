@@ -40,19 +40,19 @@ export class TrioWidgetService {
   }
 
   private _createWidget(bridgeToken: string) {
-    return new Observable<{ event: string, data: any }>(sub => {
+    return new Observable<any>(sub => {
 
       this.api.create({
         bridgeToken,
         clientId: environment.trioClientId,
         environment: environment.trioProduction ? 'production' : 'sandbox',
-        onLoad: () => sub.next({ event: 'load', data: null }),
-        onEvent: (eventType: any, data: any) => sub.next({ event: 'event', data: { eventType, data } }),
+        onLoad: () => sub.next(null),
+        onEvent: (event: any, data: any) => sub.next({ event, data }),
         onSuccess: (data: any) => {
           sub.next({ event: 'success', data });
           sub.complete();
         },
-        onExit: () => sub.error({ event: 'exit', data: null })
+        onExit: () => sub.error(null)
       });
       this.api.open();
 

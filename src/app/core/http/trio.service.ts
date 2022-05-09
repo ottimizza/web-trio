@@ -21,16 +21,14 @@ export class TrioService {
     this.externalId = username;
   }
 
-  // Note: this method in the future may receive the branding options
   public requestAccessToken() {
     const url = `${BASE_URL}/bridge_token`;
     return this.http.get<{ bridge_token: string }>(url, 'Falha ao obter permissões de acesso!');
   }
 
-  public widgetSuccessCalback(link: string, institution: string) {
-    const url = `${BASE_URL}/widget/callback/success`;
-    const body = { link, institution, externalId: this.externalId };
-    return this.http.post(url, body, 'Falha ao preparar ambiente de callback!');
+  public widgetSuccessCalback(body: any) {
+    const url = `${BASE_URL}/callback/${this.externalId}`;
+    return this.http.post(url, body, 'Falha ao registrar credenciais!');
   }
 
 }
